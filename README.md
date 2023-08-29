@@ -1,2 +1,3 @@
-# azure-bicep
-Collection of Azure bicep templates
+# Azure Resource Manager Templates
+
+This repo contains Azure Resource Manager templates cerated by Stas Sultanov.
