@@ -6,9 +6,6 @@ metadata author_profile = 'https://www.linkedin.com/in/stas-sultanov'
 @description('Name of the resource.')
 param name string
 
-@description('Location to deploy the resource.')
-param location string = resourceGroup().location
-
 @description('Tags to put on the resource.')
 param tags object
 
@@ -20,23 +17,17 @@ var extraTags = {
 
 /* resources */
 
-resource Storage_StorageAccount 'Microsoft.Storage/storageAccounts@2023-01-01' = {
+resource Network_DnsZone 'Microsoft.Network/dnsZones@2023-07-01-preview' = {
   name: name
-  sku: {
-    name: 'Standard_LRS'
-  }
-  kind: 'StorageV2'
-  location: location
+  location: 'global'
   tags: union(tags, extraTags)
   properties: {
-    accessTier: 'Hot'
-    allowBlobPublicAccess: false
-    supportsHttpsTrafficOnly: true
+    zoneType: 'Public'
   }
 }
 
 /* outputs */
 
-output id string = Storage_StorageAccount.id
+output id string = Network_DnsZone.id
 
-output primaryEndpointBlob string = Storage_StorageAccount.properties.primaryEndpoints.blob 
+output nameServers array = Network_DnsZone.properties.nameServers

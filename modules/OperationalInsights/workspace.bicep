@@ -39,7 +39,7 @@ var storageAccountId_split = split(storageAccountId, '/')
 /* existing resources */
 
 resource Storage_StorageAccount 'Microsoft.Storage/storageAccounts@2023-01-01' existing = {
-  name: split(storageAccountId, '/')[8]
+  name: storageAccountId_split[8]
   scope: resourceGroup(storageAccountId_split[4])
 }
 
