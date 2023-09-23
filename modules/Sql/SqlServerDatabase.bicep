@@ -1,5 +1,8 @@
-﻿metadata author = 'Stas Sultanov'
-metadata author_profile = 'https://www.linkedin.com/in/stas-sultanov'
+﻿metadata author = {
+  githubUrl: 'https://github.com/stas-sultanov'
+  name: 'Stas Sultanov'
+  profileUrl: 'https://www.linkedin.com/in/stas-sultanov'
+}
 
 /* parameters */
 
@@ -59,21 +62,27 @@ var databaseProperties = {
   }
 }
 
-var operationalInsightsWorkspaceId_split = split(operationalInsightsWorkspaceId, '/')
+var operationalInsights_workspaces__id_split = split(operationalInsightsWorkspaceId, '/')
 
 /* existing resources */
 
+// resource info:
+//
 resource OperationalInsights_Workspace 'Microsoft.OperationalInsights/workspaces@2022-10-01' existing = {
-  name: operationalInsightsWorkspaceId_split[8]
-  scope: resourceGroup(operationalInsightsWorkspaceId_split[4])
+  name: operationalInsights_workspaces__id_split[8]
+  scope: resourceGroup(operationalInsights_workspaces__id_split[4])
 }
 
+// resource info:
+// 
 resource Sql_Server 'Microsoft.Sql/servers@2022-11-01-preview' existing = {
   name: split(sqlServerId, '/')[8]
 }
 
 /* resources */
 
+// resource info:
+// 
 resource Sql_Server_Database 'Microsoft.Sql/servers/databases@2022-11-01-preview' = {
   parent: Sql_Server
   name: name
@@ -85,6 +94,8 @@ resource Sql_Server_Database 'Microsoft.Sql/servers/databases@2022-11-01-preview
   properties: databaseProperties[createMode]
 }
 
+// resource info:
+// 
 resource Sql_Server_Database_AuditingSetting_Default 'Microsoft.Sql/servers/databases/auditingSettings@2022-08-01-preview' = {
   parent: Sql_Server_Database
   name: 'default'
@@ -94,6 +105,8 @@ resource Sql_Server_Database_AuditingSetting_Default 'Microsoft.Sql/servers/data
   }
 }
 
+// resource info:
+// 
 resource Insights_DiagnosticSetting 'Microsoft.Insights/diagnosticSettings@2021-05-01-preview' = {
   scope: Sql_Server_Database
   name: 'Log Analytics'

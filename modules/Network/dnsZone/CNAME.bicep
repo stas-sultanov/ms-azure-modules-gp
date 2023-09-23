@@ -1,5 +1,8 @@
-metadata author = 'Stas Sultanov'
-metadata author_profile = 'https://www.linkedin.com/in/stas-sultanov'
+metadata author = {
+  name: 'Stas Sultanov'
+  profile: 'https://www.linkedin.com/in/stas-sultanov'
+}
+
 
 /* parameters */
 
