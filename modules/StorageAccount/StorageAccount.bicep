@@ -15,21 +15,6 @@ param location string = resourceGroup().location
 @description('Name of the resource.')
 param name string
 
-@description('The SKU capability.')
-@allowed(
-	[
-		'B1' // Basic
-		'D1' // Shared
-		'EP1' // ElasticPremium
-		'F1' // Free
-		'P1V3' // PremiumV3
-		'S1' // Standard
-		'U1' // Compute
-		'Y1' // Dynamic
-	]
-)
-param sku string = 'Y1'
-
 @description('Tags to put on the resource.')
 param tags object
 
@@ -52,7 +37,7 @@ resource OperationalInsights_workspaces_ 'Microsoft.OperationalInsights/workspac
 // resource info:
 // https://learn.microsoft.com/azure/templates/microsoft.insights/diagnosticsettings
 resource Insighs_diagnosticSettings_ 'Microsoft.Insights/diagnosticSettings@2021-05-01-preview' = {
-	scope: Web_serverfarms_
+	scope: Storage_storageAccounts_
 	name: 'Log Analytics'
 	properties: {
 		logAnalyticsDestinationType: 'Dedicated'
@@ -67,16 +52,27 @@ resource Insighs_diagnosticSettings_ 'Microsoft.Insights/diagnosticSettings@2021
 }
 
 // resource info:
-// https://learn.microsoft.com/azure/templates/microsoft.web/serverfarms
-resource Web_serverfarms_ 'Microsoft.Web/serverfarms@2022-09-01' = {
+// https://learn.microsoft.com/azure/templates/microsoft.storage/storageaccounts
+resource Storage_storageAccounts_ 'Microsoft.Storage/storageAccounts@2023-01-01' = {
 	name: name
+	sku: {
+		name: 'Standard_LRS'
+	}
+	kind: 'StorageV2'
 	location: location
 	tags: tags
-	sku: {
-		name: sku
+	properties: {
+		accessTier: 'Hot'
+		allowBlobPublicAccess: false
+		allowSharedKeyAccess: false
+		supportsHttpsTrafficOnly: true
+		minimumTlsVersion: 'TLS1_2'
+		defaultToOAuthAuthentication: true
 	}
 }
 
 /* outputs */
 
-output resourceId string = Web_serverfarms_.id
+output primaryEndpoints object = Storage_storageAccounts_.properties.primaryEndpoints
+
+output resourceId string = Storage_storageAccounts_.id

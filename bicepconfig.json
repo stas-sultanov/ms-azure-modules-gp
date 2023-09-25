@@ -1,0 +1,28 @@
+{
+	"analyzers":
+	{
+		"core":
+		{
+			"rules":
+			{
+				"no-unused-params":
+				{
+					"level": "error"
+				}
+			}
+		}
+	},
+	"experimentalFeaturesEnabled":
+	{
+		"compileTimeImports": true,
+		"prettyPrinting": false,
+		"sourceMapping": true
+	},
+	"formatting":
+	{
+		"indentKind": "Tab",
+		"insertFinalNewline": true,
+		"newlineKind": "CRLF",
+		"width": -1
+	}
+}
