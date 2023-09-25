@@ -58,11 +58,6 @@ var capabilities = {
 	]
 }
 
-var extraTags = {
-	displayName: 'Cosmos Account'
-	capacityMode: capacityMode
-}
-
 var ipRules = {
 	Enabled: []
 	Disabled: [
@@ -87,10 +82,7 @@ var ipRules = {
 	]
 }
 
-var operationalInsights_workspaces__id_split = split(
-	OperationalInsights_workspaces__id,
-	'/'
-)
+var operationalInsights_workspaces__id_split = split(OperationalInsights_workspaces__id, '/')
 
 var restoreParameters = {
 	Default: {}
@@ -115,7 +107,7 @@ resource OperationalInsights_workspaces_ 'Microsoft.OperationalInsights/workspac
 resource DocumentDB_databaseAccounts_ 'Microsoft.DocumentDB/databaseAccounts@2023-04-15' = {
 	name: name
 	location: location
-	tags: union(tags, extraTags)
+	tags: union(tags, { capacityMode: capacityMode })
 	kind: 'GlobalDocumentDB'
 	properties: {
 		locations: [

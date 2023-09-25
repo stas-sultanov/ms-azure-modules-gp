@@ -1,5 +1,16 @@
 /* parameters */
 
+@description('Id of the Microsoft.DocumentDB/databaseAccountss resource.')
+param DocumentDB_databaseAccounts__id string
+
+@description('The capacity mode for database operations.')
+@allowed([
+	'Static'
+	'Autoscale'
+	'Serverless'
+])
+param capacityMode string = 'Serverless'
+
 @description('Name of the resource.')
 param name string
 
@@ -8,14 +19,6 @@ param location string = resourceGroup().location
 
 @description('Tags to put on the resource.')
 param tags object
-
-@description('The capacity mode for database operations.')
-@allowed([
-  'Static'
-  'Autoscale'
-  'Serverless'
-])
-param capacityMode string = 'Serverless'
 
 @minValue(400)
 @maxValue(5000)
@@ -27,47 +30,42 @@ param throughput int = 400
 @description('Maximal Request Units per second.')
 param throughputMax int = 4000
 
-@description('Id of the parent Cosmos account.')
-param cosmosAccountId string
-
 /* variables */
 
-var extraTags = {
-  displayName: 'Cosmos Database / ${name}'
-  capacityMode: capacityMode
-}
+var documentDB_databaseAccounts__id_split = split(DocumentDB_databaseAccounts__id, '/')
 
 var options = {
-  Static: {
-    throughput: throughput
-  }
-  Autoscale: {
-    autoscaleSettings: {
-      maxThroughput: throughputMax
-    }
-  }
-  Serverless: {}
+	Static: {
+		throughput: throughput
+	}
+	Autoscale: {
+		autoscaleSettings: {
+			maxThroughput: throughputMax
+		}
+	}
+	Serverless: {}
 }
 
 /* existing resources */
 
-resource CosmosAccount 'Microsoft.DocumentDB/databaseAccounts@2021-10-15' existing = {
-  name: split(cosmosAccountId, '/')[8]
+resource DocumentDB_databaseAccounts_ 'Microsoft.DocumentDB/databaseAccounts@2023-04-15' existing = {
+	name: documentDB_databaseAccounts__id_split[8]
+	// scope: resourceGroup(documentDB_databaseAccounts__id_split[4])
 }
 
-/* resources */ 
+/* resources */
 
-resource CosmosAccount_SqlDatabase 'Microsoft.DocumentDB/databaseAccounts/sqlDatabases@2021-10-15' = {
-  parent: CosmosAccount
-  name: name
-  location: location
-  tags: union(tags, extraTags)
-  properties: {
-    resource: {
-      id: name
-    }
-    options: options[capacityMode]
-  }
+resource DocumentDB_databaseAccounts_sqlDatabases_ 'Microsoft.DocumentDB/databaseAccounts/sqlDatabases@2023-04-15' = {
+	parent: DocumentDB_databaseAccounts_
+	name: name
+	location: location
+	tags: union(tags, { capacityMode: capacityMode })
+	properties: {
+		resource: {
+			id: name
+		}
+		options: options[capacityMode]
+	}
 }
 
 /* outputs */

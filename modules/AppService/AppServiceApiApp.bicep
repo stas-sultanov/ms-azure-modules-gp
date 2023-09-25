@@ -69,10 +69,7 @@ var commonAppSettings = {
 
 var insights_components__id_split = split(Insights_components__id, '/')
 
-var operationalInsights_workspaces__id_split = split(
-	OperationalInsights_workspaces__id,
-	'/'
-)
+var operationalInsights_workspaces__id_split = split(OperationalInsights_workspaces__id, '/')
 
 var platformStack = {
 	dotNet: 'dotnet'

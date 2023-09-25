@@ -14,7 +14,7 @@ resource CosmosAccount 'Microsoft.DocumentDB/databaseAccounts@2021-10-15' existi
   name: split(cosmosAccountId, '/')[8]
 }
 
-/* resources */ 
+/* resources */
 
 resource CosmosAccount_SqlRoleDefinition 'Microsoft.DocumentDB/databaseAccounts/sqlRoleDefinitions@2021-10-15' = {
   parent: CosmosAccount

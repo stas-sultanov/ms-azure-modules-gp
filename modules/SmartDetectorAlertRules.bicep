@@ -4,8 +4,6 @@ metadata author = {
 	profileUrl: 'https://www.linkedin.com/in/stas-sultanov'
 }
 
-metadata resource_info = 'https://learn.microsoft.com/en-us/azure/templates/microsoft.alertsmanagement/smartdetectoralertrules'
-
 /* parameters */
 
 @description('Id of the Insights/actionGroups resource.')
@@ -24,6 +22,11 @@ param customWebhookPayload string = ''
 param tags object = {}
 
 /* variables */
+
+var actionGroupInformation = {
+	customWebhookPayload: empty(customWebhookPayload) ? null : customWebhookPayload
+	groupIds: [ Insights_actionGroup_.id ]
+}
 
 var insights_actionGroups__id_split = split(Insights_actionGroups__id, '/')
 
@@ -50,17 +53,12 @@ resource alertsManagement_smartDetectorAlertRules_AnomaliesAlert 'microsoft.aler
 	location: 'global'
 	tags: tags
 	properties: {
-		actionGroups: {
-			customWebhookPayload: empty(customWebhookPayload) 
-			 ? null 
-			 : customWebhookPayload
-			groupIds: [ Insights_actionGroup_.id ]
-		}
-		frequency: 'PT1M'
+		actionGroups: actionGroupInformation
 		description: 'Detects an unusual rise in the rate in failed HTTP requests or dependency calls.'
 		detector: {
 			id: 'FailureAnomaliesDetector'
 		}
+		frequency: 'PT1M'
 		scope: [ Insights_components_.id ]
 		severity: 'Sev3'
 		state: 'Enabled'
@@ -74,20 +72,15 @@ resource alertsManagement_smartDetectorAlertRules_RequestPerformanceDegradation 
 	location: 'global'
 	tags: tags
 	properties: {
+		actionGroups: actionGroupInformation
 		description: 'Detects an unusual increase in requests processing time.'
-		state: 'Enabled'
-		severity: 'Sev3'
-		frequency: 'PT24H'
 		detector: {
 			id: 'RequestPerformanceDegradationDetector'
 		}
+		frequency: 'PT24H'
 		scope: [ Insights_components_.id ]
-		actionGroups: {
-			customWebhookPayload: empty(customWebhookPayload) 
-			 ? null 
-			 : customWebhookPayload
-			groupIds: [ Insights_actionGroup_.id ]
-		}
+		severity: 'Sev3'
+		state: 'Enabled'
 	}
 }
 
@@ -98,20 +91,15 @@ resource alertsManagement_smartDetectorAlertRules_DependencyPerformanceDegradati
 	location: 'global'
 	tags: tags
 	properties: {
+		actionGroups: actionGroupInformation
 		description: 'Detects an unusual increase in dependencies requests processing time.'
-		state: 'Enabled'
-		severity: 'Sev3'
-		frequency: 'PT24H'
 		detector: {
 			id: 'DependencyPerformanceDegradationDetector'
 		}
+		frequency: 'PT24H'
 		scope: [ Insights_components_.id ]
-		actionGroups: {
-			customWebhookPayload: empty(customWebhookPayload) 
-			 ? null 
-			 : customWebhookPayload
-			groupIds: [ Insights_actionGroup_.id ]
-		}
+		severity: 'Sev3'
+		state: 'Enabled'
 	}
 }
 
@@ -122,20 +110,15 @@ resource alertsManagement_smartDetectorAlertRules_TraceSeverityDetector 'microso
 	location: 'global'
 	tags: tags
 	properties: {
+		actionGroups: actionGroupInformation
 		description: 'Detects an unusual increase in the severity of the traces.'
-		state: 'Enabled'
-		severity: 'Sev3'
-		frequency: 'PT24H'
 		detector: {
 			id: 'TraceSeverityDetector'
 		}
+		frequency: 'PT24H'
 		scope: [ Insights_components_.id ]
-		actionGroups: {
-			customWebhookPayload: empty(customWebhookPayload) 
-			 ? null 
-			 : customWebhookPayload
-			groupIds: [ Insights_actionGroup_.id ]
-		}
+		severity: 'Sev3'
+		state: 'Enabled'
 	}
 }
 
@@ -146,17 +129,15 @@ resource alertsManagement_smartDetectorAlertRules_ExceptionVolumeChangedDetector
 	location: 'global'
 	tags: tags
 	properties: {
+		actionGroups: actionGroupInformation
 		description: 'Detects an unusual increase in the rate of exceptions.'
-		state: 'Enabled'
-		severity: 'Sev3'
-		frequency: 'PT24H'
 		detector: {
 			id: 'ExceptionVolumeChangedDetector'
 		}
+		frequency: 'PT24H'
 		scope: [ Insights_components_.id ]
-		actionGroups: {
-			groupIds: [ Insights_actionGroup_.id ]
-		}
+		severity: 'Sev3'
+		state: 'Enabled'
 	}
 }
 
@@ -167,19 +148,14 @@ resource alertsManagement_smartDetectorAlertRules_MemoryLeakDetector 'microsoft.
 	location: 'global'
 	tags: tags
 	properties: {
+		actionGroups: actionGroupInformation
 		description: 'Detects an unusual increase in memory consumption pattern.'
-		state: 'Enabled'
-		severity: 'Sev3'
-		frequency: 'PT24H'
 		detector: {
 			id: 'MemoryLeakDetector'
 		}
+		frequency: 'PT24H'
 		scope: [ Insights_components_.id ]
-		actionGroups: {
-			customWebhookPayload: empty(customWebhookPayload) 
-			 ? null 
-			 : customWebhookPayload
-			groupIds: [ Insights_actionGroup_.id ]
-		}
+		severity: 'Sev3'
+		state: 'Enabled'
 	}
 }

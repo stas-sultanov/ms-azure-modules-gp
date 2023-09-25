@@ -20,10 +20,7 @@ param tags object = {}
 
 /* variables */
 
-var operationalInsights_workspaces__id_split = split(
-	OperationalInsights_workspaces__id,
-	'/'
-)
+var operationalInsights_workspaces__id_split = split(OperationalInsights_workspaces__id, '/')
 
 /* existing resources */
 
