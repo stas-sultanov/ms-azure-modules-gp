@@ -46,12 +46,7 @@ resource AppConfiguration_configurationStores_ 'Microsoft.AppConfiguration/confi
 resource Authorization_roleAssignments_ 'Microsoft.Authorization/roleAssignments@2022-04-01' = [
 for authorization in authorizationList: {
 	scope: AppConfiguration_configurationStores_
-	name: guid(
-		subscription().id,
-		AppConfiguration_configurationStores_.id,
-		roleId[authorization.role],
-		authorization.principal.id
-	)
+	name: guid(AppConfiguration_configurationStores_.id, roleId[authorization.role], authorization.principal.id)
 	properties: {
 		roleDefinitionId: subscriptionResourceId('Microsoft.Authorization/roleDefinitions', roleId[authorization.role])
 		principalId: authorization.principal.id

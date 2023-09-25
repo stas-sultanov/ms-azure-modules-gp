@@ -24,14 +24,11 @@ param tags object
 
 /* variables */
 
-var operationalInsights_workspaces__id_split = split(
-	OperationalInsights_workspaces__id,
-	'/'
-)
+var operationalInsights_workspaces__id_split = split(OperationalInsights_workspaces__id, '/')
 
 /* existing resources */
 
-resource OperationalInsights_Workspace 'Microsoft.OperationalInsights/workspaces@2022-10-01' existing = {
+resource OperationalInsights_workspaces_ 'Microsoft.OperationalInsights/workspaces@2022-10-01' existing = {
 	name: operationalInsights_workspaces__id_split[8]
 	scope: resourceGroup(operationalInsights_workspaces__id_split[4])
 }
@@ -71,7 +68,7 @@ resource Insights_diagnosticSettings_ 'Microsoft.Insights/diagnosticSettings@202
 				enabled: true
 			}
 		]
-		workspaceId: OperationalInsights_Workspace.id
+		workspaceId: OperationalInsights_workspaces_.id
 	}
 }
 
@@ -79,4 +76,4 @@ resource Insights_diagnosticSettings_ 'Microsoft.Insights/diagnosticSettings@202
 
 output endpoint string = AppConfiguration_configurationStores_.properties.endpoint
 
-output resourceId string = OperationalInsights_Workspace.id
+output resourceId string = OperationalInsights_workspaces_.id

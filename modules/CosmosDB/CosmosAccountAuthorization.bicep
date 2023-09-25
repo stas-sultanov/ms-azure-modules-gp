@@ -3,6 +3,7 @@ metadata author = {
 	name: 'Stas Sultanov'
 	profileUrl: 'https://www.linkedin.com/in/stas-sultanov'
 }
+
 /* imports */
 
 import{AuthorizationPrincipalInfo}from'./../types.bicep'
@@ -15,12 +16,12 @@ type Authorization = {
 	role: AuthorizationRoleName
 }
 
-type AuthorizationRoleName = 'BlobDataContributor' | 'BlobDataReader' | 'QueueDataContributor' | 'QueueDataMessageProcessor' | 'QueueDataMessageSender' | 'QueueDataReader' | 'TableDataReader'
+type AuthorizationRoleName = 'CosmosDBAccountReaderRole' | 'CosmosDBOperator' | 'CosmosRestoreOperator' | 'DocumentDBAccountContributor'
 
 /* parameters */
 
-@description('Id of the Storage/storageAccounts resource.')
-param Storage_storageAccounts__id string
+@description('Id of the Microsoft.DocumentDB/databaseAccountss resource.')
+param DocumentDB_databaseAccounts__id string
 
 @description('Collection of authorizations.')
 param authorizationList Authorization[]
@@ -28,22 +29,16 @@ param authorizationList Authorization[]
 /* variables */
 
 var roleId = {
-	BlobDataContributor: 'ba92f5b4-2d11-453d-a403-e96b0029c9fe'
-	BlobDataReader: '2a2b9908-6ea1-4ae2-8e65-a410df84e7d1'
-	QueueDataContributor: '974c5e8b-45b9-4653-ba55-5f855dd0fb88'
-	QueueDataMessageProcessor: '8a0f0c08-91a1-4084-bc3d-661d67233fed'
-	QueueDataMessageSender: 'c6a89b2d-59bc-44d0-9896-0f6e12d7b80a'
-	QueueDataReader: '19e7f393-937e-4f77-808e-94535e297925'
-	TableDataContributor: '0a9a7e1f-b9d0-4cc4-a60d-0319b160aaa3'
-	TableDataReader: '76199698-9eea-4c19-bc75-cec21354c6b6'
+	CosmosDBAccountReaderRole: 'fbdf93bf-df7d-467e-a4d2-9458aa1360c8'
+	CosmosDBOperator: '230815da-be43-4aae-9cb4-875f7bd000aa'
+	CosmosRestoreOperator: '5432c526-bc82-444a-b7ba-57c5b0b5b34f'
+	DocumentDBAccountContributor: '5bd9cd88-fe45-4216-938b-f97437e15450'
 }
-
-var storage_StorageAccounts__id_split = split(Storage_storageAccounts__id, '/')
 
 /* existing resources */
 
-resource Storage_storageAccounts_ 'Microsoft.Storage/storageAccounts@2023-01-01' existing = {
-	name: storage_StorageAccounts__id_split[8]
+resource DocumentDB_databaseAccounts_ 'Microsoft.DocumentDB/databaseAccounts@2023-04-15' existing = {
+	name: split(DocumentDB_databaseAccounts__id, '/')[8]
 }
 
 /* resources */
@@ -52,8 +47,8 @@ resource Storage_storageAccounts_ 'Microsoft.Storage/storageAccounts@2023-01-01'
 // https://learn.microsoft.com/azure/templates/microsoft.authorization/roleassignments
 resource Authorization_roleAssignments_ 'Microsoft.Authorization/roleAssignments@2022-04-01' = [
 for authorization in authorizationList: {
-	scope: Storage_storageAccounts_
-	name: guid(Storage_storageAccounts_.id, roleId[authorization.role], authorization.principal.id)
+	scope: DocumentDB_databaseAccounts_
+	name: guid(DocumentDB_databaseAccounts_.id, roleId[authorization.role], authorization.principal.id)
 	properties: {
 		roleDefinitionId: subscriptionResourceId('Microsoft.Authorization/roleDefinitions', roleId[authorization.role])
 		principalId: authorization.principal.id
