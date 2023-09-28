@@ -6,7 +6,7 @@ metadata author = {
 
 /* imports */
 
-import{ResourceIdentity}from'./../types.bicep'
+import{ManagedServiceIdentity}from'./../types.bicep'
 
 /* types */
 
@@ -40,8 +40,8 @@ param Web_serverFarms__id string
 @description('Application settings.')
 param appSettings object = {}
 
-@description('EntraID Identity of the resource.')
-param identity ResourceIdentity
+@description('Managed Service Identity.')
+param identity ManagedServiceIdentity
 
 @description('List of allowed IP addresses.')
 param ipSecurityRestrictions IpSecurityRestriction[] = []

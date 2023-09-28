@@ -6,7 +6,7 @@ metadata author = {
 
 /* imports */
 
-import{ResourceIdentity}from'./../types.bicep'
+import{ManagedServiceIdentity}from'./../types.bicep'
 
 /* types */
 
@@ -29,8 +29,8 @@ type AzureDevOpsRepoConfiguration = {
 @description('Id of the OperationalInsights/workspaces resource.')
 param OperationalInsights_workspaces__id string
 
-@description('EntraID Identity of the resource.')
-param identity ResourceIdentity
+@description('Managed Service Identity.')
+param identity ManagedServiceIdentity
 
 @description('Location to deploy the resource.')
 param location string = resourceGroup().location

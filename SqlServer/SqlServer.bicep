@@ -6,7 +6,7 @@
 
 /* imports */
 
-import{ResourceIdentity}from'./../types.bicep'
+import{ManagedServiceIdentity}from'./../types.bicep'
 
 /* types */
 
@@ -37,8 +37,8 @@ param adminPrincipal EntraIDPrinicpal
 @description('Location to deploy the resource.')
 param location string = resourceGroup().location
 
-@description('EntraID Identity of the resource.')
-param identity ResourceIdentity
+@description('Managed Service Identity.')
+param identity ManagedServiceIdentity
 
 @description('Name of the resource.')
 param name string

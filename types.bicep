@@ -18,14 +18,14 @@ type AuthorizationPrincipalType = 'Device' | 'ForeignGroup' | 'Group' | 'Service
 
 @description('Type of Azure Resource Identity.')
 @export()
-type ResourceIdentityType = 'None' | 'SystemAssigned' | 'SystemAssigned,UserAssigned' | 'UserAssigned'
+type ManagedServiceIdentityType = 'None' | 'SystemAssigned' | 'SystemAssigned,UserAssigned' | 'UserAssigned'
 
-@description('Configuration of Azure Resource Identity in EntraID.')
+@description('Managed Service Identity via EntraID.')
 @export()
-type ResourceIdentity = {
+type ManagedServiceIdentity = {
 	@description('The identity type.')
-	type: ResourceIdentityType
+	type: ManagedServiceIdentityType
 
 	@description('Identifiers of the user assigned identities to use.')
-	userAssignedIdentities: object
+	userAssignedIdentities: object?
 }
