@@ -20,7 +20,7 @@ type AuthorizationPrincipalType = 'Device' | 'ForeignGroup' | 'Group' | 'Service
 @export()
 type ManagedServiceIdentityType = 'None' | 'SystemAssigned' | 'SystemAssigned,UserAssigned' | 'UserAssigned'
 
-@description('Managed Service Identity via EntraID.')
+@description('Managed Service Identity via Entra.')
 @export()
 type ManagedServiceIdentity = {
 	@description('The identity type.')

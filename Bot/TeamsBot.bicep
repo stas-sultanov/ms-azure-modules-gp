@@ -12,7 +12,7 @@ type Application = {
 	@description('Application client id.')
 	clientId: string
 
-	@description('Identifier of the application EntraID tenant.')
+	@description('Identifier of the application Entra tenant.')
 	tenantId: string?
 
 	@description('Type of the application.')

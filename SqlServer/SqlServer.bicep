@@ -10,20 +10,20 @@ import{ManagedServiceIdentity}from'./../types.bicep'
 
 /* types */
 
-type EntraIDPrincipalType = 'Application' | 'Group' | 'User'
+type EntraPrincipalType = 'Application' | 'Group' | 'User'
 
-type EntraIDPrinicpal = {
-	@description('Name of the principal within the EntraID tenant.')
+type EntraPrinicpal = {
+	@description('Name of the principal within the Entra tenant.')
 	name: string
 
-	@description('ObjectId of the principal within the EntraID tenant.')
+	@description('ObjectId of the principal within the Entra tenant.')
 	objecId: string
 
-	@description('Id of the EntraID tenant.')
+	@description('Id of the Entra tenant.')
 	tenantId: string
 
-	@description('Type of the principal within the EntraID tenant.')
-	type: EntraIDPrincipalType
+	@description('Type of the principal within the Entra tenant.')
+	type: EntraPrincipalType
 }
 
 /* parameters */
@@ -32,7 +32,7 @@ type EntraIDPrinicpal = {
 param OperationalInsights_workspaces__id string
 
 @description('Administrator principal.')
-param adminPrincipal EntraIDPrinicpal
+param adminPrincipal EntraPrinicpal
 
 @description('Location to deploy the resource.')
 param location string = resourceGroup().location
