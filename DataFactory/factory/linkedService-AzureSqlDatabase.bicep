@@ -3,7 +3,6 @@ metadata author = {
   profile: 'https://www.linkedin.com/in/stas-sultanov'
 }
 
-
 /* parameters */
 
 param name string

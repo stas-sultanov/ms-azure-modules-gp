@@ -30,8 +30,7 @@ resource CosmosAccount_SqlRoleDefinition 'Microsoft.DocumentDB/databaseAccounts/
           'Microsoft.DocumentDB/databaseAccounts/sqlDatabases/containers/items/*'
           'Microsoft.DocumentDB/databaseAccounts/sqlDatabases/containers/*'
         ]
-        notDataActions: [
-        ]
+        notDataActions: []
       }
     ]
     roleName: name

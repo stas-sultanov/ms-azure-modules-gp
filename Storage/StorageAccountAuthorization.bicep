@@ -5,7 +5,7 @@ metadata author = {
 }
 /* imports */
 
-import{AuthorizationPrincipalInfo}from'./../types.bicep'
+import { AuthorizationPrincipalInfo } from './../types.bicep'
 
 /* types */
 

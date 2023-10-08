@@ -6,9 +6,11 @@ metadata author = {
 
 /* imports */
 
-import{IpSecurityRestriction, ManagedServiceIdentity}from'./../types.bicep'
+import { IpSecurityRestriction, ManagedServiceIdentity } from './../types.bicep'
 
 /* types */
+
+type AssignedManagedServiceIdentity = ManagedServiceIdentity // <-- creating an alias for use in param and output statements avoids the issue
 
 type Parameters = {
 	@description('true if Always On is enabled; otherwise, false')
@@ -59,7 +61,7 @@ param Web_serverFarms__id string
 param appSettings object = {}
 
 @description('Managed Service Identity.')
-param identity ManagedServiceIdentity
+param identity AssignedManagedServiceIdentity
 
 @description('Location to deploy the resource.')
 param location string = resourceGroup().location
@@ -214,7 +216,7 @@ resource Web_sites_config__Web 'Microsoft.Web/sites/config@2022-09-01' = {
 	name: 'web'
 	properties: {
 		alwaysOn: parameters.alwaysOn
-		apiDefinition:{
+		apiDefinition: {
 			url: empty(parameters.apiDefinition) ? null : 'https://${Web_sites_.properties.defaultHostName}${parameters.apiDefinition}'
 		}
 		cors: {

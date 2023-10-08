@@ -6,7 +6,25 @@ metadata author = {
 
 /* imports */
 
-import{IpSecurityRestriction, ManagedServiceIdentity}from'./../types.bicep'
+import{ManagedServiceIdentity}from'./../types.bicep'
+
+/* types */
+
+type IpSecurityRestrictionAction = 'Allow' | 'Deny'
+
+type IpSecurityRestriction = {
+	@description('Allow or Deny access for this IP range.')
+	action: IpSecurityRestrictionAction
+
+	@description('Information.')
+	description: string?
+
+	@description('IP address the security restriction is valid for.')
+	ipAddress: string
+
+	@description('IP restriction rule name.')
+	name: string
+}
 
 /* parameters */
 

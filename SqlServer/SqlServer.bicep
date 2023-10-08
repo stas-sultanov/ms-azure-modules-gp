@@ -6,7 +6,7 @@
 
 /* imports */
 
-import{ManagedServiceIdentity}from'./../types.bicep'
+import { ManagedServiceIdentity } from './../types.bicep'
 
 /* types */
 
