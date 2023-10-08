@@ -197,7 +197,7 @@ resource Web_sites_config__Web 'Microsoft.Web/sites/config@2022-09-01' = {
 	properties: {
 		alwaysOn: parameters.alwaysOn
 		apiDefinition: {
-			url: empty(parameters.apiDefinition) ? null : 'https://${Web_sites_.properties.defaultHostName}${parameters.apiDefinition}'
+			url: (!contains(parameters, 'apiDefinition') || empty(parameters.apiDefinition)) ? null : 'https://${Web_sites_.properties.defaultHostName}${parameters.apiDefinition}'
 		}
 		cors: {
 			allowedOrigins: parameters.corsAllowedOrigins
