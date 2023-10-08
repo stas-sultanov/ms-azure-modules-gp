@@ -16,6 +16,23 @@ type AuthorizationPrincipalInfo = {
 @export()
 type AuthorizationPrincipalType = 'Device' | 'ForeignGroup' | 'Group' | 'ServicePrincipal' | 'User'
 
+type IpSecurityRestrictionAction = 'Allow' | 'Deny'
+
+@export()
+type IpSecurityRestriction = {
+	@description('Allow or Deny access for this IP range.')
+	action: IpSecurityRestrictionAction
+
+	@description('Information.')
+	description: string?
+
+	@description('IP address the security restriction is valid for.')
+	ipAddress: string
+
+	@description('IP restriction rule name.')
+	name: string
+}
+
 @description('Type of Azure Resource Identity.')
 @export()
 type ManagedServiceIdentityType = 'None' | 'SystemAssigned' | 'SystemAssigned,UserAssigned' | 'UserAssigned'

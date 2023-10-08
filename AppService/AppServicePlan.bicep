@@ -18,14 +18,14 @@ param name string
 @description('The SKU capability.')
 @allowed(
 	[
-		'B1' // Basic
-		'D1' // Shared
-		'EP1' // ElasticPremium
-		'F1' // Free
-		'P1V3' // PremiumV3
-		'S1' // Standard
-		'U1' // Compute
-		'Y1' // Dynamic
+		'B1'	// Basic
+		'D1'	// Shared
+		'EP1'	// ElasticPremium
+		'F1'	// Free
+		'P1V3'	// PremiumV3
+		'S1'	// Standard
+		'U1'	// Compute
+		'Y1'	// Dynamic
 	]
 )
 param sku string = 'Y1'
