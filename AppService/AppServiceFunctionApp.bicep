@@ -138,33 +138,13 @@ resource Insights_diagnosticSettings_ 'Microsoft.Insights/diagnosticSettings@202
 		logAnalyticsDestinationType: 'Dedicated'
 		logs: [
 			{
-				category: 'AppServiceHTTPLogs'
-				enabled: true
-			}
-			{
-				category: 'AppServiceConsoleLogs'
-				enabled: true
-			}
-			{
-				category: 'AppServiceAppLogs'
-				enabled: true
-			}
-			{
-				category: 'AppServiceAuditLogs'
-				enabled: true
-			}
-			{
-				category: 'AppServiceIPSecAuditLogs'
-				enabled: true
-			}
-			{
-				category: 'AppServicePlatformLogs'
+				category: 'FunctionAppLogs'
 				enabled: true
 			}
 		]
 		metrics: [
 			{
-				timeGrain: 'PT1M'
+				category: 'AllMetrics'
 				enabled: true
 			}
 		]
