@@ -38,7 +38,7 @@ resource Sql_Server_Database 'Microsoft.Sql/servers/databases@2022-08-01-preview
 
 /* resources */
 
-// resource info:
+// resource info
 // 
 resource DataFactory_Factory_LinkedService 'Microsoft.DataFactory/factories/linkedservices@2018-06-01' = {
   name: name

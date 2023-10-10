@@ -60,7 +60,7 @@ resource OperationalInsights_Workspace 'Microsoft.OperationalInsights/workspaces
 
 /* resources */
 
-// resource info:
+// resource info
 // https://learn.microsoft.com/azure/templates/microsoft.datafactory/factories
 resource DataFactory_factories_ 'Microsoft.DataFactory/factories@2018-06-01' = {
 	name: name
@@ -82,7 +82,7 @@ resource DataFactory_factories_ 'Microsoft.DataFactory/factories@2018-06-01' = {
 	}
 }
 
-// resource info:
+// resource info
 // https://learn.microsoft.com/azure/templates/microsoft.insights/diagnosticsettings
 resource Insighs_diagnosticSettings_ 'Microsoft.Insights/diagnosticSettings@2021-05-01-preview' = {
 	scope: DataFactory_factories_

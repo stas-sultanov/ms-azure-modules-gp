@@ -46,7 +46,7 @@ resource OperationalInsights_workspaces_ 'Microsoft.OperationalInsights/workspac
 
 /* resources */
 
-// resource info:
+// resource info
 // https://learn.microsoft.com/azure/templates/microsoft.insights/diagnosticsettings
 resource Insighs_diagnosticSettings_ 'Microsoft.Insights/diagnosticSettings@2021-05-01-preview' = {
 	scope: Web_serverfarms_
@@ -63,7 +63,7 @@ resource Insighs_diagnosticSettings_ 'Microsoft.Insights/diagnosticSettings@2021
 	}
 }
 
-// resource info:
+// resource info
 // https://learn.microsoft.com/azure/templates/microsoft.web/serverfarms
 resource Web_serverfarms_ 'Microsoft.Web/serverfarms@2022-09-01' = {
 	name: name

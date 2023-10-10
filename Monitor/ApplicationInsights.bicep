@@ -31,7 +31,7 @@ resource OperationalInsights_workspaces_ 'Microsoft.OperationalInsights/workspac
 
 /* resources */
 
-// resource info:
+// resource info
 // https://learn.microsoft.com/azure/templates/microsoft.insights/components
 resource Insights_components_ 'Microsoft.Insights/components@2020-02-02' = {
 	name: name
@@ -40,11 +40,13 @@ resource Insights_components_ 'Microsoft.Insights/components@2020-02-02' = {
 	kind: 'web'
 	properties: {
 		Application_Type: 'web'
+		DisableLocalAuth: false
+		Flow_Type: 'Redfield'
 		WorkspaceResourceId: OperationalInsights_workspaces_.id
 	}
 }
 
-// resource info:
+// resource info
 // https://learn.microsoft.com/azure/templates/microsoft.insights/diagnosticsettings
 resource Insights_diagnosticSettings_ 'Microsoft.Insights/diagnosticSettings@2021-05-01-preview' = {
 	scope: Insights_components_

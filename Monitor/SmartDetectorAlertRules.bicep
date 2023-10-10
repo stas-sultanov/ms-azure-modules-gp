@@ -46,7 +46,7 @@ resource Insights_actionGroup_ 'Microsoft.Insights/actionGroups@2023-01-01' exis
 
 /* resources */
 
-// resource info:
+// resource info
 // https://learn.microsoft.com/azure/templates/microsoft.alertsmanagement/smartdetectoralertrules
 resource alertsManagement_smartDetectorAlertRules_AnomaliesAlert 'microsoft.alertsManagement/smartDetectorAlertRules@2021-04-01' = {
 	name: '${baseName}-FailureAnomaliesDetector'
@@ -65,7 +65,7 @@ resource alertsManagement_smartDetectorAlertRules_AnomaliesAlert 'microsoft.aler
 	}
 }
 
-// resource info:
+// resource info
 // https://learn.microsoft.com/azure/templates/microsoft.alertsmanagement/smartdetectoralertrules 
 resource alertsManagement_smartDetectorAlertRules_RequestPerformanceDegradation 'microsoft.alertsManagement/smartDetectorAlertRules@2021-04-01' = {
 	name: '${baseName}-RequestPerformanceDegradationDetector'
@@ -84,7 +84,7 @@ resource alertsManagement_smartDetectorAlertRules_RequestPerformanceDegradation 
 	}
 }
 
-// resource info:
+// resource info
 // https://learn.microsoft.com/azure/templates/microsoft.alertsmanagement/smartdetectoralertrules
 resource alertsManagement_smartDetectorAlertRules_DependencyPerformanceDegradation 'microsoft.alertsManagement/smartDetectorAlertRules@2021-04-01' = {
 	name: '${baseName}-DependencyPerformanceDegradationDetector'
@@ -103,7 +103,7 @@ resource alertsManagement_smartDetectorAlertRules_DependencyPerformanceDegradati
 	}
 }
 
-// resource info:
+// resource info
 // https://learn.microsoft.com/azure/templates/microsoft.alertsmanagement/smartdetectoralertrules
 resource alertsManagement_smartDetectorAlertRules_TraceSeverityDetector 'microsoft.alertsManagement/smartDetectorAlertRules@2021-04-01' = {
 	name: '${baseName}-TraceSeverityDetector'
@@ -122,7 +122,7 @@ resource alertsManagement_smartDetectorAlertRules_TraceSeverityDetector 'microso
 	}
 }
 
-// resource info:
+// resource info
 // https://learn.microsoft.com/azure/templates/microsoft.alertsmanagement/smartdetectoralertrules
 resource alertsManagement_smartDetectorAlertRules_ExceptionVolumeChangedDetector 'microsoft.alertsManagement/smartDetectorAlertRules@2021-04-01' = {
 	name: '${baseName}-ExceptionVolumeChangedDetector'
@@ -141,7 +141,7 @@ resource alertsManagement_smartDetectorAlertRules_ExceptionVolumeChangedDetector
 	}
 }
 
-// resource info:
+// resource info
 // https://learn.microsoft.com/azure/templates/microsoft.alertsmanagement/smartdetectoralertrules
 resource alertsManagement_smartDetectorAlertRules_MemoryLeakDetector 'microsoft.alertsManagement/smartDetectorAlertRules@2021-04-01' = {
 	name: '${baseName}-MemoryLeakDetector'

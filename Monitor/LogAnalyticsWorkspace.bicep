@@ -40,7 +40,7 @@ resource Storage_storageAccounts_ 'Microsoft.Storage/storageAccounts@2023-01-01'
 
 /* resources */
 
-// resource info:
+// resource info
 // https://learn.microsoft.com/azure/templates/microsoft.operationalinsights/workspaces
 resource OperationalInsights_workspaces_ 'Microsoft.OperationalInsights/workspaces@2022-10-01' = {
 	name: name
@@ -58,7 +58,7 @@ resource OperationalInsights_workspaces_ 'Microsoft.OperationalInsights/workspac
 	}
 }
 
-// resource info:
+// resource info
 // https://learn.microsoft.com/azure/templates/microsoft.operationalinsights/workspaces/linkedstorageaccounts
 resource OperationalInsights_workspaces_linkedStorageAccounts_Alerts 'Microsoft.OperationalInsights/workspaces/linkedStorageAccounts@2020-08-01' = {
 	parent: OperationalInsights_workspaces_
@@ -68,7 +68,7 @@ resource OperationalInsights_workspaces_linkedStorageAccounts_Alerts 'Microsoft.
 	}
 }
 
-// resource info:
+// resource info
 // https://learn.microsoft.com/azure/templates/microsoft.operationalinsights/workspaces/linkedstorageaccounts
 resource OperationalInsights_workspaces_linkedStorageAccounts_CustomLogs 'Microsoft.OperationalInsights/workspaces/linkedStorageAccounts@2020-08-01' = {
 	parent: OperationalInsights_workspaces_
@@ -78,7 +78,7 @@ resource OperationalInsights_workspaces_linkedStorageAccounts_CustomLogs 'Micros
 	}
 }
 
-// resource info:
+// resource info
 // https://learn.microsoft.com/azure/templates/microsoft.operationalinsights/workspaces/linkedstorageaccounts
 resource OperationalInsights_workspace_linkedStorageAccounts_Query 'Microsoft.OperationalInsights/workspaces/linkedStorageAccounts@2020-08-01' = {
 	parent: OperationalInsights_workspaces_
@@ -88,7 +88,7 @@ resource OperationalInsights_workspace_linkedStorageAccounts_Query 'Microsoft.Op
 	}
 }
 
-// resource info:
+// resource info
 // https://learn.microsoft.com/azure/templates/microsoft.insights/diagnosticsettings 
 resource Insights_diagnosticSettings_ 'Microsoft.Insights/diagnosticSettings@2021-05-01-preview' = {
 	scope: OperationalInsights_workspaces_

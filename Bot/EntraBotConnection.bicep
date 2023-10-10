@@ -51,7 +51,7 @@ resource BotService_botServices_ 'Microsoft.BotService/botServices@2022-09-15' e
 
 /* resources */
 
-// resource info:
+// resource info
 // https://learn.microsoft.com/azure/templates/microsoft.botservice/botservices
 resource BotService_botServices_connections_ 'Microsoft.BotService/botServices/connections@2022-09-15' = {
 	parent: BotService_botServices_

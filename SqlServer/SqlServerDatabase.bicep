@@ -77,7 +77,7 @@ resource Sql_servers_ 'Microsoft.Sql/servers@2022-11-01-preview' existing = {
 
 /* resources */
 
-// resource info:
+// resource info
 // https://learn.microsoft.com/azure/templates/microsoft.sql/servers/databases
 resource Sql_servers_databases_ 'Microsoft.Sql/servers/databases@2023-02-01-preview' = {
 	parent: Sql_servers_
@@ -90,7 +90,7 @@ resource Sql_servers_databases_ 'Microsoft.Sql/servers/databases@2023-02-01-prev
 	properties: databaseProperties[createMode]
 }
 
-// resource info:
+// resource info
 // https://learn.microsoft.com/azure/templates/microsoft.sql/servers/databases/auditingsettings
 resource Sql_servers_databases_auditingSettings_ 'Microsoft.Sql/servers/databases/auditingSettings@2022-11-01-preview' = {
 	parent: Sql_servers_databases_
@@ -101,7 +101,7 @@ resource Sql_servers_databases_auditingSettings_ 'Microsoft.Sql/servers/database
 	}
 }
 
-// resource info:
+// resource info
 // https://learn.microsoft.com/azure/templates/microsoft.insights/diagnosticsettings
 resource Insights_diagnosticSettings_ 'Microsoft.Insights/diagnosticSettings@2021-05-01-preview' = {
 	scope: Sql_servers_databases_

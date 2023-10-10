@@ -116,6 +116,8 @@ resource ServerFarm 'Microsoft.Web/serverfarms@2022-09-01' existing = {
 
 /* resources */
 
+// resource info
+// https://learn.microsoft.com/azure/templates/microsoft.insights/diagnosticsettings
 resource Insights_diagnosticSettings_ 'Microsoft.Insights/diagnosticSettings@2021-05-01-preview' = {
 	scope: Web_sites_
 	name: 'Log Analytics'
@@ -137,7 +139,7 @@ resource Insights_diagnosticSettings_ 'Microsoft.Insights/diagnosticSettings@202
 	}
 }
 
-// resource info:
+// resource info
 // https://learn.microsoft.com/azure/templates/microsoft.web/sites
 resource Web_sites_ 'Microsoft.Web/sites@2022-09-01' = {
 	name: name
@@ -152,7 +154,27 @@ resource Web_sites_ 'Microsoft.Web/sites@2022-09-01' = {
 	identity: identity
 }
 
-// resource info:
+// resource info
+// https://learn.microsoft.com/azure/templates/microsoft.web/sites/basicpublishingcredentialspolicies-ftp
+resource Web_sites_basicPublishingCredentialsPolicies__FTP 'Microsoft.Web/sites/basicPublishingCredentialsPolicies@2022-09-01' = {
+	name: 'ftp'
+	parent: Web_sites_
+	properties: {
+		allow: false
+	}
+}
+
+// resource info
+// https://learn.microsoft.com/azure/templates/microsoft.web/sites/basicpublishingcredentialspolicies-scm
+resource Web_sites_basicPublishingCredentialsPolicies__SCM 'Microsoft.Web/sites/basicPublishingCredentialsPolicies@2022-09-01' = {
+	name: 'scm'
+	parent: Web_sites_
+	properties: {
+		allow: false
+	}
+}
+
+// resource info
 // https://learn.microsoft.com/azure/templates/microsoft.web/sites/config-appsettings
 resource Web_sites_config__AppSettings 'Microsoft.Web/sites/config@2022-09-01' = {
 	parent: Web_sites_
@@ -160,7 +182,7 @@ resource Web_sites_config__AppSettings 'Microsoft.Web/sites/config@2022-09-01' =
 	properties: union(commonAppSettings, appSettings)
 }
 
-// resource info:
+// resource info
 // https://learn.microsoft.com/azure/templates/microsoft.web/sites/config-metadata
 resource Web_sites_config__Metadata 'Microsoft.Web/sites/config@2022-09-01' = {
 	parent: Web_sites_
@@ -170,7 +192,7 @@ resource Web_sites_config__Metadata 'Microsoft.Web/sites/config@2022-09-01' = {
 	}
 }
 
-// resource info:
+// resource info
 // https://learn.microsoft.com/azure/templates/microsoft.web/sites/config-web
 resource Web_sites_config__Web 'Microsoft.Web/sites/config@2022-09-01' = {
 	parent: Web_sites_
@@ -184,13 +206,10 @@ resource Web_sites_config__Web 'Microsoft.Web/sites/config@2022-09-01' = {
 			allowedOrigins: parameters.corsAllowedOrigins
 		}
 		defaultDocuments: []
-		ftpsState: 'Disabled'
 		functionAppScaleLimit: parameters.functionAppScaleLimit
 		http20Enabled: parameters.http20Enabled
 		ipSecurityRestrictions: parameters.ipSecurityRestrictions
 		netFrameworkVersion: parameters.netFrameworkVersion
-		nodeVersion: null
-		phpVersion: 'OFF'
 		use32BitWorkerProcess: parameters.use32BitWorkerProcess
 		webSocketsEnabled: parameters.webSocketsEnabled
 	}

@@ -57,7 +57,7 @@ resource Storage_storageAccounts_blobServices_ 'Microsoft.Storage/storageAccount
 /* resources */
 
 // provision Container
-// resource info:
+// resource info
 // 
 resource Storage_storageAccounts_blobServices_containers_ 'Microsoft.Storage/storageAccounts/blobServices/containers@2023-01-01' = {
 	name: name
@@ -65,7 +65,7 @@ resource Storage_storageAccounts_blobServices_containers_ 'Microsoft.Storage/sto
 }
 
 // provision Container authorizations
-// resource info:
+// resource info
 // 
 resource Authorization_roleAssignments_ 'Microsoft.Authorization/roleAssignments@2022-04-01' = [
 for authorization in authorizationList: {

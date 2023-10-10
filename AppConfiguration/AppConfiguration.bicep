@@ -35,7 +35,7 @@ resource OperationalInsights_workspaces_ 'Microsoft.OperationalInsights/workspac
 
 /* resources */
 
-// resource info:
+// resource info
 // https://learn.microsoft.com/azure/templates/microsoft.appconfiguration/configurationstores
 resource AppConfiguration_configurationStores_ 'Microsoft.AppConfiguration/configurationStores@2023-03-01' = {
 	name: name
@@ -49,7 +49,7 @@ resource AppConfiguration_configurationStores_ 'Microsoft.AppConfiguration/confi
 	}
 }
 
-// resource info:
+// resource info
 // https://learn.microsoft.com/azure/templates/microsoft.insights/diagnosticsettings
 resource Insights_diagnosticSettings_ 'Microsoft.Insights/diagnosticSettings@2021-05-01-preview' = {
 	scope: AppConfiguration_configurationStores_

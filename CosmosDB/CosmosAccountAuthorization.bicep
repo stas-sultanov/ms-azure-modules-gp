@@ -43,7 +43,7 @@ resource DocumentDB_databaseAccounts_ 'Microsoft.DocumentDB/databaseAccounts@202
 
 /* resources */
 
-// resource info:
+// resource info
 // https://learn.microsoft.com/azure/templates/microsoft.authorization/roleassignments
 resource Authorization_roleAssignments_ 'Microsoft.Authorization/roleAssignments@2022-04-01' = [
 for authorization in authorizationList: {

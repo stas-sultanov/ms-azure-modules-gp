@@ -152,7 +152,7 @@ resource Insights_diagnosticSettings_ 'Microsoft.Insights/diagnosticSettings@202
 	}
 }
 
-// resource info:
+// resource info
 // https://learn.microsoft.com/azure/templates/microsoft.web/sites
 resource Web_sites_ 'Microsoft.Web/sites@2022-09-01' = {
 	name: name
@@ -166,7 +166,7 @@ resource Web_sites_ 'Microsoft.Web/sites@2022-09-01' = {
 	identity: identity
 }
 
-// resource info:
+// resource info
 // https://learn.microsoft.com/azure/templates/microsoft.web/sites/config-appsettings
 resource Web_sites_config__AppSettings 'Microsoft.Web/sites/config@2022-09-01' = {
 	parent: Web_sites_
@@ -178,7 +178,7 @@ resource Web_sites_config__AppSettings 'Microsoft.Web/sites/config@2022-09-01' =
 	)
 }
 
-// resource info:
+// resource info
 // https://learn.microsoft.com/azure/templates/microsoft.web/sites/config-metadata
 resource Web_sites_config__Metadata 'Microsoft.Web/sites/config@2022-09-01' = {
 	parent: Web_sites_
@@ -188,7 +188,7 @@ resource Web_sites_config__Metadata 'Microsoft.Web/sites/config@2022-09-01' = {
 	}
 }
 
-// resource info:
+// resource info
 // https://learn.microsoft.com/azure/templates/microsoft.web/sites/config-web
 resource Web_sites_config__Web 'Microsoft.Web/sites/config@2022-09-01' = {
 	parent: Web_sites_

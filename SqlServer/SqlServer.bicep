@@ -66,7 +66,7 @@ resource OperationalInsights_workspaces_ 'Microsoft.OperationalInsights/workspac
 
 /* resources */
 
-// resource info:
+// resource info
 // https://learn.microsoft.com/azure/templates/microsoft.insights/diagnosticsettings
 resource Insighs_diagnosticSettings_ 'Microsoft.Insights/diagnosticSettings@2021-05-01-preview' = {
 	scope: Sql_servers_databases__Master
@@ -83,7 +83,7 @@ resource Insighs_diagnosticSettings_ 'Microsoft.Insights/diagnosticSettings@2021
 	}
 }
 
-// resource info:
+// resource info
 // https://learn.microsoft.com/azure/templates/microsoft.sql/servers
 resource Sql_servers_ 'Microsoft.Sql/servers@2023-02-01-preview' = {
 	name: name
@@ -104,7 +104,7 @@ resource Sql_servers_ 'Microsoft.Sql/servers@2023-02-01-preview' = {
 	}
 }
 
-// resource info:
+// resource info
 // https://learn.microsoft.com/azure/templates/microsoft.sql/servers/auditingsettings
 resource Sql_servers_auditingSettings__Default 'Microsoft.Sql/servers/auditingSettings@2023-02-01-preview' = {
 	parent: Sql_servers_
@@ -115,7 +115,7 @@ resource Sql_servers_auditingSettings__Default 'Microsoft.Sql/servers/auditingSe
 	}
 }
 
-// resource info:
+// resource info
 // https://learn.microsoft.com/azure/templates/microsoft.sql/servers/databases
 resource Sql_servers_databases__Master 'Microsoft.Sql/servers/databases@2023-02-01-preview' = {
 	parent: Sql_servers_
@@ -124,7 +124,7 @@ resource Sql_servers_databases__Master 'Microsoft.Sql/servers/databases@2023-02-
 	properties: {}
 }
 
-// resource info:
+// resource info
 // https://learn.microsoft.com/azure/templates/microsoft.sql/servers/firewallrules
 resource Sql_servers_firewallRules__AllowAllWindowsAzureIps 'Microsoft.Sql/servers/firewallRules@2023-02-01-preview' = {
 	parent: Sql_servers_
@@ -135,7 +135,7 @@ resource Sql_servers_firewallRules__AllowAllWindowsAzureIps 'Microsoft.Sql/serve
 	}
 }
 
-// resource info:
+// resource info
 // https://learn.microsoft.com/azure/templates/microsoft.sql/servers/firewallrules
 resource Sql_servers_firewallRules__AllowPublicNetworkAccess 'Microsoft.Sql/servers/firewallRules@2023-02-01-preview' = if (publicNetworkAccess == 'Enabled') {
 	parent: Sql_servers_

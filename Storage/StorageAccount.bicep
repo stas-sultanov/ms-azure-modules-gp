@@ -34,7 +34,7 @@ resource OperationalInsights_workspaces_ 'Microsoft.OperationalInsights/workspac
 
 /* resources */
 
-// resource info:
+// resource info
 // https://learn.microsoft.com/azure/templates/microsoft.insights/diagnosticsettings
 resource Insighs_diagnosticSettings_ 'Microsoft.Insights/diagnosticSettings@2021-05-01-preview' = {
 	scope: Storage_storageAccounts_
@@ -51,7 +51,7 @@ resource Insighs_diagnosticSettings_ 'Microsoft.Insights/diagnosticSettings@2021
 	}
 }
 
-// resource info:
+// resource info
 // https://learn.microsoft.com/azure/templates/microsoft.storage/storageaccounts
 resource Storage_storageAccounts_ 'Microsoft.Storage/storageAccounts@2023-01-01' = {
 	name: name

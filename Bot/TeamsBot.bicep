@@ -78,7 +78,7 @@ resource OperationalInsights_workspaces_ 'Microsoft.OperationalInsights/workspac
 
 /* resources */
 
-// resource info:
+// resource info
 // https://learn.microsoft.com/azure/templates/microsoft.botservice/botservices
 resource BotService_botServices_ 'Microsoft.BotService/botServices@2022-09-15' = {
 	name: name
@@ -108,7 +108,7 @@ resource BotService_botServices_ 'Microsoft.BotService/botServices@2022-09-15' =
 }
 
 // DirectLine is enabled by default. No known way to disable. Set no sites.
-// resource info:
+// resource info
 // https://learn.microsoft.com/azure/templates/microsoft.botservice/botservices/channels
 resource BotService_botServices_channels_DirectLineChannel 'Microsoft.BotService/botServices/channels@2021-03-01' = {
 	parent: BotService_botServices_
@@ -124,7 +124,7 @@ resource BotService_botServices_channels_DirectLineChannel 'Microsoft.BotService
 }
 
 // Provision channel
-// resource info:
+// resource info
 // https://learn.microsoft.com/azure/templates/microsoft.botservice/botservices/channels
 resource BotService_botServices_channels_MsTeamsChannel 'Microsoft.BotService/botServices/channels@2021-03-01' = {
 	parent: BotService_botServices_
@@ -137,7 +137,7 @@ resource BotService_botServices_channels_MsTeamsChannel 'Microsoft.BotService/bo
 }
 
 // WebChat is enabled by default. No known way to disable. Set no sites.
-// resource info:
+// resource info
 // https://learn.microsoft.com/azure/templates/microsoft.botservice/botservices/channels
 resource BotService_botServices_channels_WebChatChannel 'Microsoft.BotService/botServices/channels@2022-09-15' = {
 	parent: BotService_botServices_
@@ -153,7 +153,7 @@ resource BotService_botServices_channels_WebChatChannel 'Microsoft.BotService/bo
 }
 
 // Provision Diagnostic
-// resource info:
+// resource info
 // https://learn.microsoft.com/azure/templates/microsoft.insights/diagnosticsettings
 resource Insighs_diagnosticSetting_ 'Microsoft.Insights/diagnosticSettings@2017-05-01-preview' = {
 	scope: BotService_botServices_
