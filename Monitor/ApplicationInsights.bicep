@@ -71,6 +71,8 @@ resource Insights_diagnosticSettings_ 'Microsoft.Insights/diagnosticSettings@202
 
 output appId string = Insights_components_.properties.AppId
 
+output connectionString string = Insights_components_.properties.ConnectionString
+
 output instrumentationKey string = Insights_components_.properties.InstrumentationKey
 
 output resourceId string = Insights_components_.id

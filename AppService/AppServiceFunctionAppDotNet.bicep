@@ -12,6 +12,9 @@ import { IpSecurityRestriction, ManagedServiceIdentity } from './../types.bicep'
 
 type AssignedManagedServiceIdentity = ManagedServiceIdentity // <-- creating an alias for use in param and output statements avoids the issue
 
+@description('dotNet Framework version.')
+type DotNetVersion = 'v6.0' | 'v7.0' | 'v8.0'
+
 type Parameters = {
 	@description('true if Always On is enabled; otherwise, false')
 	alwaysOn: bool
@@ -38,6 +41,9 @@ type Parameters = {
 
 	@description('List of allowed IP addresses')
 	ipSecurityRestrictions: IpSecurityRestriction[]
+
+	@description('dotNet Framework version.')
+	netFrameworkVersion: DotNetVersion
 
 	@description('true to use 32-bit worker process; otherwise, false')
 	use32BitWorkerProcess: bool
@@ -69,11 +75,8 @@ param location string = resourceGroup().location
 @description('Name of the resource.')
 param name string
 
+@description('Configuration parameters.')
 param parameters Parameters
-
-@description('Current platform.')
-@allowed([ 'dotNet', 'nodeJS' ])
-param platform string
 
 @description('Tags to put on the resource.')
 param tags object = {}
@@ -84,31 +87,13 @@ var commonAppSettings = {
 	APPLICATIONINSIGHTS_CONNECTION_STRING: Insights_components_.properties.ConnectionString
 	ApplicationInsightsAgent_EXTENSION_VERSION: '~2'
 	FUNCTIONS_EXTENSION_VERSION: '~4'
+	FUNCTIONS_WORKER_RUNTIME: 'dotnet-isolated'
 	XDT_MicrosoftApplicationInsights_Mode: 'default'
 }
 
 var insights_components__id_split = split(Insights_components__id, '/')
 
 var operationalInsights_workspaces__id_split = split(OperationalInsights_workspaces__id, '/')
-
-var platformStack = {
-	dotNet: 'dotnet'
-	nodeJS: 'node'
-}
-
-var platformVersion = {
-	dotNet: 'v7.0'
-	nodeJS: '~18'
-}
-
-var platformAppSettings = {
-	dotNet: {}
-	nodeJS: {
-		WEBSITE_NODE_DEFAULT_VERSION: platformVersion.nodeJS
-		XDT_MicrosoftApplicationInsights_Mode: 'default'
-		XDT_MicrosoftApplicationInsights_NodeJS: '1'
-	}
-}
 
 var web_serverfarms__id_split = split(Web_serverFarms__id, '/')
 
@@ -172,11 +157,7 @@ resource Web_sites_ 'Microsoft.Web/sites@2022-09-01' = {
 resource Web_sites_config__AppSettings 'Microsoft.Web/sites/config@2022-09-01' = {
 	parent: Web_sites_
 	name: 'appsettings'
-	properties: union(
-		commonAppSettings,
-		appSettings,
-		platformAppSettings[platform]
-	)
+	properties: union(commonAppSettings, appSettings)
 }
 
 // resource info:
@@ -185,7 +166,7 @@ resource Web_sites_config__Metadata 'Microsoft.Web/sites/config@2022-09-01' = {
 	parent: Web_sites_
 	name: 'metadata'
 	properties: {
-		CURRENT_STACK: platformStack[platform]
+		CURRENT_STACK: 'dotnet'
 	}
 }
 
@@ -207,8 +188,8 @@ resource Web_sites_config__Web 'Microsoft.Web/sites/config@2022-09-01' = {
 		functionAppScaleLimit: parameters.functionAppScaleLimit
 		http20Enabled: parameters.http20Enabled
 		ipSecurityRestrictions: parameters.ipSecurityRestrictions
-		netFrameworkVersion: (platform == 'dotNet') ? platformVersion.dotNet : null
-		nodeVersion: (platform == 'nodeJS') ? platformVersion.nodeJS : null
+		netFrameworkVersion: parameters.netFrameworkVersion
+		nodeVersion: null
 		phpVersion: 'OFF'
 		use32BitWorkerProcess: parameters.use32BitWorkerProcess
 		webSocketsEnabled: parameters.webSocketsEnabled
