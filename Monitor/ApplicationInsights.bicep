@@ -9,6 +9,9 @@ metadata author = {
 @description('Id of the OperationalInsights/workspaces resource.')
 param OperationalInsights_workspaces__id string
 
+@description('Authentication via Entra only.')
+param entraAuthOnly bool = false
+
 @description('Location to deploy the resource.')
 param location string = resourceGroup().location
 
@@ -40,8 +43,7 @@ resource Insights_components_ 'Microsoft.Insights/components@2020-02-02' = {
 	kind: 'web'
 	properties: {
 		Application_Type: 'web'
-		DisableLocalAuth: false
-		Flow_Type: 'Redfield'
+		DisableLocalAuth: entraAuthOnly
 		WorkspaceResourceId: OperationalInsights_workspaces_.id
 	}
 }

@@ -54,16 +54,19 @@ type Parameters = {
 
 /* parameters */
 
-@description('Id of the Insights/components resource.')
-param Insights_components__id string
-
 @description('Id of the OperationalInsights/workspaces resource.')
 param OperationalInsights_workspaces__id string
+
+@description('Id of the Storage/storageAccounts resource.')
+param Storage_storageAccounts__id string
 
 @description('Id of the Web/serverfarms resource.')
 param Web_serverFarms__id string
 
-@description('Application settings.')
+@description('Application package path wtithin the storage.')
+param appPackPath string
+
+@description('Application settings to be used Environment Variables.')
 param appSettings object = {}
 
 @description('Managed Service Identity.')
@@ -83,33 +86,25 @@ param tags object = {}
 
 /* variables */
 
-var commonAppSettings = {
-	APPLICATIONINSIGHTS_CONNECTION_STRING: Insights_components_.properties.ConnectionString
-	ApplicationInsightsAgent_EXTENSION_VERSION: '~2'
-	FUNCTIONS_EXTENSION_VERSION: '~4'
-	FUNCTIONS_WORKER_RUNTIME: 'dotnet-isolated'
-	XDT_MicrosoftApplicationInsights_Mode: 'default'
-}
-
-var insights_components__id_split = split(Insights_components__id, '/')
-
 var operationalInsights_workspaces__id_split = split(OperationalInsights_workspaces__id, '/')
+
+var storage_StorageAccounts__id_split = split(Storage_storageAccounts__id, '/')
 
 var web_serverfarms__id_split = split(Web_serverFarms__id, '/')
 
 /* existing resources */
-
-resource Insights_components_ 'Microsoft.Insights/components@2020-02-02' existing = {
-	name: insights_components__id_split[8]
-	scope: resourceGroup(insights_components__id_split[4])
-}
 
 resource OperationalInsights_workspaces_ 'Microsoft.OperationalInsights/workspaces@2022-10-01' existing = {
 	name: operationalInsights_workspaces__id_split[8]
 	scope: resourceGroup(operationalInsights_workspaces__id_split[4])
 }
 
-resource ServerFarm 'Microsoft.Web/serverfarms@2022-09-01' existing = {
+resource Storage_storageAccounts_ 'Microsoft.Storage/storageAccounts@2023-01-01' existing = {
+	name: storage_StorageAccounts__id_split[8]
+	scope: resourceGroup(storage_StorageAccounts__id_split[4])
+}
+
+resource Web_serverFarms_ 'Microsoft.Web/serverfarms@2022-09-01' existing = {
 	name: web_serverfarms__id_split[8]
 	scope: resourceGroup(web_serverfarms__id_split[4])
 }
@@ -148,7 +143,7 @@ resource Web_sites_ 'Microsoft.Web/sites@2022-09-01' = {
 	kind: 'functionapp'
 	properties: {
 		clientAffinityEnabled: parameters.clientAffinityEnabled
-		serverFarmId: ServerFarm.id
+		serverFarmId: Web_serverFarms_.id
 		httpsOnly: parameters.httpsOnly
 	}
 	identity: identity
@@ -179,7 +174,12 @@ resource Web_sites_basicPublishingCredentialsPolicies__SCM 'Microsoft.Web/sites/
 resource Web_sites_config__AppSettings 'Microsoft.Web/sites/config@2022-09-01' = {
 	parent: Web_sites_
 	name: 'appsettings'
-	properties: union(commonAppSettings, appSettings)
+	properties: union(appSettings, {
+			FUNCTIONS_EXTENSION_VERSION: '~4'
+			FUNCTIONS_WORKER_RUNTIME: 'dotnet-isolated'
+			WEBSITE_RUN_FROM_PACKAGE: '${Storage_storageAccounts_.properties.primaryEndpoints.blob}${appPackPath}'
+			WEBSITE_RUN_FROM_PACKAGE_BLOB_MI_RESOURCE_ID: 'SystemAssigned'
+		})
 }
 
 // resource info
