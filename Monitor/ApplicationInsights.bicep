@@ -48,29 +48,6 @@ resource Insights_components_ 'Microsoft.Insights/components@2020-02-02' = {
 	}
 }
 
-// resource info
-// https://learn.microsoft.com/azure/templates/microsoft.insights/diagnosticsettings
-resource Insights_diagnosticSettings_ 'Microsoft.Insights/diagnosticSettings@2021-05-01-preview' = {
-	scope: Insights_components_
-	name: 'Log Analytics'
-	properties: {
-		logAnalyticsDestinationType: 'Dedicated'
-		logs: [
-			{
-				categoryGroup: 'allLogs'
-				enabled: true
-			}
-		]
-		metrics: [
-			{
-				timeGrain: 'PT1M'
-				enabled: true
-			}
-		]
-		workspaceId: OperationalInsights_workspaces_.id
-	}
-}
-
 /* outputs */
 
 output appId string = Insights_components_.properties.AppId
