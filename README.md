@@ -4,16 +4,18 @@ Authored by Stas Sultanov [ [linkedIn](https://www.linkedin.com/in/stas-sultanov
 
 This repo contains Azure Bicep modules.
 
-The modules are to be used by Azure Bicep templates.
-The modules are designed to be used for general purpose IT solutions.
-The modules may be not a good fit for IT solutions which require advanced security like network isolation.
+The modules:
+- to be used by Azure Bicep templates
+- are designed to be used for general purpose IT solutions
+- may be not a good fit for IT solutions which require advanced security like network isolation
 
 With help of this modules it is possible to create templates to provision full functional environments within Azure for DEVelopment and OPerationS purposes.
 
 # Resources Aliases
 
 Microsoft Azure uses aliases for names of the resources types.
-Below is a table of well known aliases and corresponding resource types names.
+
+Below is a table of well-known aliases and corresponding resource types names.
 
 Alias | Resource Type
 :-----|:-------------
