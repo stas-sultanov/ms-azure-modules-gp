@@ -10,7 +10,7 @@ metadata author = {
 param OperationalInsights_workspaces__id string
 
 @description('Authentication via Entra only.')
-param entraAuthOnly bool = false
+param entraAuthOnly bool = true
 
 @description('Location to deploy the resource.')
 param location string = resourceGroup().location
