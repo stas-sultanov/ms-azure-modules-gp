@@ -2,11 +2,13 @@ Authored by Stas Sultanov [ [linkedIn](https://www.linkedin.com/in/stas-sultanov
 
 # Info
 
-This repo contains Azure Bicep modules, which are designed to be used for creating general purpose IT solutions.
+This repo contains Azure Bicep modules.
+
+The modules are to be used by Azure Bicep templates.
+The modules are designed to be used for general purpose IT solutions.
+The modules may be not a good fit for IT solutions which require advanced security like network isolation.
 
 With help of this modules it is possible to create templates to provision full functional environments within Azure for DEVelopment and OPerationS purposes.
-
-This modules may be not a good fit for IT solutions which require advanced security like network isolation.
 
 # Resources Aliases
 
