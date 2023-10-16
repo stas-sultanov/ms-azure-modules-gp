@@ -4,10 +4,10 @@ Authored by Stas Sultanov [ [linkedIn](https://www.linkedin.com/in/stas-sultanov
 
 This repo contains Azure Bicep modules.
 
-The modules:
-- to be used by Azure Bicep templates
-- are designed to be used for general purpose IT solutions
-- may be not a good fit for IT solutions which require advanced security like network isolation
+The modules are designed to be used for:
+- Azure Bicep templates.
+- general purpose IT solutions.
+- IT solutions, which do not require network isolation.
 
 With help of this modules it is possible to create templates to provision full functional environments within Azure for DEVelopment and OPerationS purposes.
 
@@ -38,10 +38,10 @@ Storage Account Container | Microsoft.Storage/storageAccounts/blobServices/conta
 # Security
 
 The modules aims to utilize latest security approaches.
-This is why access to Azure Resources with Security Access Keys is disabled..
-The modules uses EntaId as one security provider for all Azure Resources and RBAC for granular Authorizations.
+This is why access to Azure Resources with Security Access Keys is disabled.
+The modules uses EntraId as one security provider for all Azure Resources and RBAC for granular Authorizations.
 
-Below is a list of Azure Resource Types which utilize EntaId for clients Authentication and Authorization.
+Below is a list of Azure Resource Types which utilize EntraId for clients Authentication and Authorization.
 
 - App Configuration
 - Cosmos DB
@@ -53,9 +53,9 @@ Below is a list of Azure Resource Types which utilize EntaId for clients Authent
 
 # Diagnostics
 
-The modules aims to utilize Log Analytics workspace as one Service for central management of logis and metrics.
+The modules aims to utilize **Log Analytics workspace** as one service for central management of logs and metrics.
 
-Below is a list of Azure Resource Types which utilize Log Analytics workspace to store their logs and metrics.
+Below is a list of Azure Resource Types which utilize **Log Analytics workspace** to store their logs and metrics.
 
 - App Configuration
 - Application Insights
