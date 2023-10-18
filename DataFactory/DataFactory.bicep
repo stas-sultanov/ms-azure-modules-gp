@@ -11,10 +11,10 @@ import { ManagedServiceIdentity } from './../types.bicep'
 /* types */
 
 type AzureDevOpsRepoConfiguration = {
-	@description('Name of the Azure DevOps Organisation.')
-	organisationName: string
+	@description('Name of the Azure DevOps Organization.')
+	organizationName: string
 
-	@description('Name of the Project within the Azure DevOps Organisation.')
+	@description('Name of the Project within the Azure DevOps Organization.')
 	projectName: string
 
 	@description('Name of the Repo within the Azure DevOps Project.')
@@ -71,7 +71,7 @@ resource DataFactory_factories_ 'Microsoft.DataFactory/factories@2018-06-01' = {
 		repoConfiguration: (repoConfiguration == null) 
 		 ? {} 
 		 : {
-			accountName: repoConfiguration.organisationName
+			accountName: repoConfiguration.organizationName
 			collaborationBranch: 'main'
 			disablePublish: true
 			projectName: repoConfiguration.projectName
@@ -84,7 +84,7 @@ resource DataFactory_factories_ 'Microsoft.DataFactory/factories@2018-06-01' = {
 
 // resource info
 // https://learn.microsoft.com/azure/templates/microsoft.insights/diagnosticsettings
-resource Insighs_diagnosticSettings_ 'Microsoft.Insights/diagnosticSettings@2021-05-01-preview' = {
+resource Insights_diagnosticSettings_ 'Microsoft.Insights/diagnosticSettings@2021-05-01-preview' = {
 	scope: DataFactory_factories_
 	name: 'Log Analytics'
 	properties: {

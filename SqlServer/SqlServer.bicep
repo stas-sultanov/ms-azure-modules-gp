@@ -12,12 +12,12 @@ import { ManagedServiceIdentity } from './../types.bicep'
 
 type EntraPrincipalType = 'Application' | 'Group' | 'User'
 
-type EntraPrinicpal = {
+type EntraPrincipal = {
 	@description('Name of the principal within the Entra tenant.')
 	name: string
 
 	@description('ObjectId of the principal within the Entra tenant.')
-	objecId: string
+	objectId: string
 
 	@description('Id of the Entra tenant.')
 	tenantId: string
@@ -32,7 +32,7 @@ type EntraPrinicpal = {
 param OperationalInsights_workspaces__id string
 
 @description('Administrator principal.')
-param adminPrincipal EntraPrinicpal
+param adminPrincipal EntraPrincipal
 
 @description('Location to deploy the resource.')
 param location string = resourceGroup().location
@@ -68,7 +68,7 @@ resource OperationalInsights_workspaces_ 'Microsoft.OperationalInsights/workspac
 
 // resource info
 // https://learn.microsoft.com/azure/templates/microsoft.insights/diagnosticsettings
-resource Insighs_diagnosticSettings_ 'Microsoft.Insights/diagnosticSettings@2021-05-01-preview' = {
+resource Insights_diagnosticSettings_ 'Microsoft.Insights/diagnosticSettings@2021-05-01-preview' = {
 	scope: Sql_servers_databases__Master
 	name: 'Log Analytics'
 	properties: {
@@ -97,7 +97,7 @@ resource Sql_servers_ 'Microsoft.Sql/servers@2023-02-01-preview' = {
 			administratorType: 'ActiveDirectory'
 			principalType: adminPrincipal.type
 			login: adminPrincipal.name
-			sid: adminPrincipal.objecId
+			sid: adminPrincipal.objectId
 			tenantId: adminPrincipal.tenantId
 			azureADOnlyAuthentication: true
 		}

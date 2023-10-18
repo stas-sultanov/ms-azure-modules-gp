@@ -19,7 +19,7 @@ type Parameters = {
 	@description('true if Always On is enabled; otherwise, false')
 	alwaysOn: bool
 
-	@description('OpenApi defintion path')
+	@description('OpenApi definition path')
 	apiDefinition: string?
 
 	@description('true to enable client affinity; false to stop sending session affinity cookies, which route client requests in the same session to the same instance')
@@ -63,7 +63,7 @@ param Storage_storageAccounts__id string
 @description('Id of the Web/serverfarms resource.')
 param Web_serverFarms__id string
 
-@description('Application package path wtithin the storage.')
+@description('Application package path within the storage.')
 param appPackPath string
 
 @description('Application settings to be used Environment Variables.')

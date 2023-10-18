@@ -20,7 +20,7 @@ type EntraParameters = {
 	@description('Entra Application Token Exchange Url')
 	applicationTokenExchangeUrl: string?
 
-	@description('Entra Teanant Id')
+	@description('Entra Tenant Id')
 	tenantId: string
 }
 

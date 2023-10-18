@@ -155,7 +155,7 @@ resource BotService_botServices_channels_WebChatChannel 'Microsoft.BotService/bo
 // Provision Diagnostic
 // resource info
 // https://learn.microsoft.com/azure/templates/microsoft.insights/diagnosticsettings
-resource Insighs_diagnosticSetting_ 'Microsoft.Insights/diagnosticSettings@2017-05-01-preview' = {
+resource Insights_diagnosticSetting_ 'Microsoft.Insights/diagnosticSettings@2017-05-01-preview' = {
 	scope: BotService_botServices_
 	name: 'Log Analytics'
 	properties: {

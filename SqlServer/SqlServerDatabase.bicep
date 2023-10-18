@@ -13,7 +13,7 @@ param OperationalInsights_workspaces__id string
 param Sql_servers__id string
 
 @description(
-	'Id of the Sql/servers/dabases resource which is used by different creation modes.'
+	'Id of the Sql/servers/databases resource which is used by different creation modes.'
 )
 param Sql_servers_databases_Source_id string = ''
 

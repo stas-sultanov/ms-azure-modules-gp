@@ -14,7 +14,7 @@ param ttl int = 3600
 @description('Value of the record.')
 param value string
 
-@description('Id of the Network/dnsZore resource.')
+@description('Id of the Network/dnsZone resource.')
 param dnsZoneId string
 
 /* variables */

@@ -20,7 +20,7 @@ type AuthorizationRoleName = 'CosmosDBAccountReaderRole' | 'CosmosDBOperator' | 
 
 /* parameters */
 
-@description('Id of the Microsoft.DocumentDB/databaseAccountss resource.')
+@description('Id of the Microsoft.DocumentDB/databaseAccounts resource.')
 param DocumentDB_databaseAccounts__id string
 
 @description('Collection of authorizations.')

@@ -1,6 +1,6 @@
 /* parameters */
 
-@description('Id of the Microsoft.DocumentDB/databaseAccountss resource.')
+@description('Id of the Microsoft.DocumentDB/databaseAccounts resource.')
 param DocumentDB_databaseAccounts__id string
 
 @description('The capacity mode for database operations.')
