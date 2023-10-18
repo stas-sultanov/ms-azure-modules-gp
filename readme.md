@@ -1,15 +1,15 @@
 Authored by Stas Sultanov [ [linkedIn](https://www.linkedin.com/in/stas-sultanov) | [gitHub](https://github.com/stas-sultanov) | [mail](mailto:stas.sultanov@outlook.com) ]
 
-# Info
+# About
 
-This repo contains Azure Bicep modules.
+Collection of Microsoft Azure Bicep modules.
 
 The modules are designed to be used for:
 - Azure Bicep templates.
 - general purpose IT solutions.
 - IT solutions, which do not require network isolation.
 
-With help of this modules it is possible to create templates to provision full functional environments within Azure for DEVelopment and OPerationS purposes.
+The modules are designed to create templates to provision full functional environments within Azure for DEVelopment and OPerationS purposes.
 
 # Resources Aliases
 
