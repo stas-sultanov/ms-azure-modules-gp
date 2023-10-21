@@ -43,26 +43,26 @@ resource Storage_storageAccounts_ 'Microsoft.Storage/storageAccounts@2023-01-01'
 // resource info
 // https://learn.microsoft.com/azure/templates/microsoft.operationalinsights/workspaces
 resource OperationalInsights_workspaces_ 'Microsoft.OperationalInsights/workspaces@2022-10-01' = {
-	name: name
 	location: location
-	tags: tags
+	name: name
 	properties: {
-		sku: {
-			name: sku
-		}
 		features: {
 			disableLocalAuth: true
 		}
-		retentionInDays: retentionInDays
 		publicNetworkAccessForIngestion: 'Disabled'
+		retentionInDays: retentionInDays
+		sku: {
+			name: sku
+		}
 	}
+	tags: tags
 }
 
 // resource info
 // https://learn.microsoft.com/azure/templates/microsoft.operationalinsights/workspaces/linkedstorageaccounts
 resource OperationalInsights_workspaces_linkedStorageAccounts_Alerts 'Microsoft.OperationalInsights/workspaces/linkedStorageAccounts@2020-08-01' = {
-	parent: OperationalInsights_workspaces_
 	name: 'Alerts'
+	parent: OperationalInsights_workspaces_
 	properties: {
 		storageAccountIds: [ Storage_storageAccounts_.id ]
 	}
@@ -71,27 +71,30 @@ resource OperationalInsights_workspaces_linkedStorageAccounts_Alerts 'Microsoft.
 // resource info
 // https://learn.microsoft.com/azure/templates/microsoft.operationalinsights/workspaces/linkedstorageaccounts
 resource OperationalInsights_workspaces_linkedStorageAccounts_CustomLogs 'Microsoft.OperationalInsights/workspaces/linkedStorageAccounts@2020-08-01' = {
-	parent: OperationalInsights_workspaces_
 	name: 'CustomLogs'
+	parent: OperationalInsights_workspaces_
 	properties: {
-		storageAccountIds: [ Storage_storageAccounts_.id ]
+		storageAccountIds: [
+			Storage_storageAccounts_.id
+		]
 	}
 }
 
 // resource info
 // https://learn.microsoft.com/azure/templates/microsoft.operationalinsights/workspaces/linkedstorageaccounts
 resource OperationalInsights_workspace_linkedStorageAccounts_Query 'Microsoft.OperationalInsights/workspaces/linkedStorageAccounts@2020-08-01' = {
-	parent: OperationalInsights_workspaces_
 	name: 'Query'
+	parent: OperationalInsights_workspaces_
 	properties: {
-		storageAccountIds: [ Storage_storageAccounts_.id ]
+		storageAccountIds: [
+			Storage_storageAccounts_.id
+		]
 	}
 }
 
 // resource info
-// https://learn.microsoft.com/azure/templates/microsoft.insights/diagnosticsettings 
+// https://learn.microsoft.com/azure/templates/microsoft.insights/diagnosticsettings
 resource Insights_diagnosticSettings_ 'Microsoft.Insights/diagnosticSettings@2021-05-01-preview' = {
-	scope: OperationalInsights_workspaces_
 	name: 'Storage'
 	properties: {
 		storageAccountId: Storage_storageAccounts_.id
@@ -103,11 +106,12 @@ resource Insights_diagnosticSettings_ 'Microsoft.Insights/diagnosticSettings@202
 		]
 		metrics: [
 			{
-				timeGrain: 'PT1M'
 				enabled: true
+				timeGrain: 'PT1M'
 			}
 		]
 	}
+	scope: OperationalInsights_workspaces_
 }
 
 /* outputs */

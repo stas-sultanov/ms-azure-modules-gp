@@ -71,7 +71,7 @@ resource OperationalInsights_workspaces_ 'Microsoft.OperationalInsights/workspac
 	scope: resourceGroup(operationalInsights_workspaces__id_split[4])
 }
 
-resource Sql_servers_ 'Microsoft.Sql/servers@2022-11-01-preview' existing = {
+resource Sql_servers_ 'Microsoft.Sql/servers@2023-02-01-preview' existing = {
 	name: split(Sql_servers__id, '/')[8]
 }
 
@@ -80,31 +80,30 @@ resource Sql_servers_ 'Microsoft.Sql/servers@2022-11-01-preview' existing = {
 // resource info
 // https://learn.microsoft.com/azure/templates/microsoft.sql/servers/databases
 resource Sql_servers_databases_ 'Microsoft.Sql/servers/databases@2023-02-01-preview' = {
-	parent: Sql_servers_
-	name: name
 	location: location
-	tags: tags
+	name: name
+	parent: Sql_servers_
+	properties: databaseProperties[createMode]
 	sku: {
 		name: sku
 	}
-	properties: databaseProperties[createMode]
+	tags: tags
 }
 
 // resource info
 // https://learn.microsoft.com/azure/templates/microsoft.sql/servers/databases/auditingsettings
-resource Sql_servers_databases_auditingSettings_ 'Microsoft.Sql/servers/databases/auditingSettings@2022-11-01-preview' = {
-	parent: Sql_servers_databases_
+resource Sql_servers_databases_auditingSettings_ 'Microsoft.Sql/servers/databases/auditingSettings@2023-02-01-preview' = {
 	name: 'default'
+	parent: Sql_servers_databases_
 	properties: {
-		state: 'Enabled'
 		isAzureMonitorTargetEnabled: true
+		state: 'Enabled'
 	}
 }
 
 // resource info
 // https://learn.microsoft.com/azure/templates/microsoft.insights/diagnosticsettings
 resource Insights_diagnosticSettings_ 'Microsoft.Insights/diagnosticSettings@2021-05-01-preview' = {
-	scope: Sql_servers_databases_
 	name: 'Log Analytics'
 	properties: {
 		logAnalyticsDestinationType: 'Dedicated'
@@ -120,12 +119,13 @@ resource Insights_diagnosticSettings_ 'Microsoft.Insights/diagnosticSettings@202
 		]
 		metrics: [
 			{
-				timeGrain: 'PT1M'
 				enabled: true
+				timeGrain: 'PT1M'
 			}
 		]
 		workspaceId: OperationalInsights_workspaces_.id
 	}
+	scope: Sql_servers_databases_
 }
 
 /* outputs */

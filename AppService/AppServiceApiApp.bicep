@@ -6,51 +6,42 @@ metadata author = {
 
 /* imports */
 
-import{ManagedServiceIdentity}from'./../types.bicep'
+import { ManagedServiceIdentity } from './../types.bicep'
+
+import { AppServiceParameters } from 'AppServiceTypes.bicep'
 
 /* types */
 
-type IpSecurityRestrictionAction = 'Allow' | 'Deny'
-
-type IpSecurityRestriction = {
-	@description('Allow or Deny access for this IP range.')
-	action: IpSecurityRestrictionAction
-
-	@description('Information.')
-	description: string?
-
-	@description('IP address the security restriction is valid for.')
-	ipAddress: string
-
-	@description('IP restriction rule name.')
-	name: string
-}
+type AssignedManagedServiceIdentity = ManagedServiceIdentity // <-- creating an alias for use in param and output statements avoids the issue
 
 /* parameters */
-
-@description('Id of the Insights/components resource.')
-param Insights_components__id string
 
 @description('Id of the OperationalInsights/workspaces resource.')
 param OperationalInsights_workspaces__id string
 
+@description('Id of the Storage/storageAccounts resource.')
+param Storage_storageAccounts__id string
+
 @description('Id of the Web/serverfarms resource.')
 param Web_serverFarms__id string
 
-@description('Application settings.')
+@description('Application package path within the storage.')
+param appPackPath string
+
+@description('Application settings to be used as Environment Variables.')
 param appSettings object = {}
 
 @description('Managed Service Identity.')
-param identity ManagedServiceIdentity
-
-@description('List of allowed IP addresses.')
-param ipSecurityRestrictions IpSecurityRestriction[] = []
+param identity AssignedManagedServiceIdentity
 
 @description('Location to deploy the resource.')
 param location string = resourceGroup().location
 
 @description('Name of the resource.')
 param name string
+
+@description('Configuration parameters.')
+param parameters AppServiceParameters
 
 @description('Current platform.')
 @allowed([ 'dotNet', 'nodeJS' ])
@@ -60,14 +51,6 @@ param platform string
 param tags object = {}
 
 /* variables */
-
-var commonAppSettings = {
-	APPLICATIONINSIGHTS_CONNECTION_STRING: Insights_components_.properties.ConnectionString
-	ApplicationInsightsAgent_EXTENSION_VERSION: '~2'
-	XDT_MicrosoftApplicationInsights_Mode: 'default'
-}
-
-var insights_components__id_split = split(Insights_components__id, '/')
 
 var operationalInsights_workspaces__id_split = split(OperationalInsights_workspaces__id, '/')
 
@@ -90,21 +73,23 @@ var platformAppSettings = {
 	}
 }
 
+var storage_StorageAccounts__id_split = split(Storage_storageAccounts__id, '/')
+
 var web_serverfarms__id_split = split(Web_serverFarms__id, '/')
 
 /* existing resources */
-
-resource Insights_components_ 'Microsoft.Insights/components@2020-02-02' existing = {
-	name: insights_components__id_split[8]
-	scope: resourceGroup(insights_components__id_split[4])
-}
 
 resource OperationalInsights_workspaces_ 'Microsoft.OperationalInsights/workspaces@2022-10-01' existing = {
 	name: operationalInsights_workspaces__id_split[8]
 	scope: resourceGroup(operationalInsights_workspaces__id_split[4])
 }
 
-resource ServerFarm 'Microsoft.Web/serverfarms@2022-09-01' existing = {
+resource Storage_storageAccounts_ 'Microsoft.Storage/storageAccounts@2023-01-01' existing = {
+	name: storage_StorageAccounts__id_split[8]
+	scope: resourceGroup(storage_StorageAccounts__id_split[4])
+}
+
+resource Web_serverFarms_ 'Microsoft.Web/serverfarms@2022-09-01' existing = {
 	name: web_serverfarms__id_split[8]
 	scope: resourceGroup(web_serverfarms__id_split[4])
 }
@@ -112,13 +97,16 @@ resource ServerFarm 'Microsoft.Web/serverfarms@2022-09-01' existing = {
 /* resources */
 
 resource Insights_diagnosticSettings_ 'Microsoft.Insights/diagnosticSettings@2021-05-01-preview' = {
-	scope: Web_sites_
 	name: 'Log Analytics'
 	properties: {
 		logAnalyticsDestinationType: 'Dedicated'
 		logs: [
 			{
-				category: 'AppServiceHTTPLogs'
+				category: 'AppServiceAppLogs'
+				enabled: true
+			}
+			{
+				category: 'AppServiceAuditLogs'
 				enabled: true
 			}
 			{
@@ -126,11 +114,7 @@ resource Insights_diagnosticSettings_ 'Microsoft.Insights/diagnosticSettings@202
 				enabled: true
 			}
 			{
-				category: 'AppServiceAppLogs'
-				enabled: true
-			}
-			{
-				category: 'AppServiceAuditLogs'
+				category: 'AppServiceHTTPLogs'
 				enabled: true
 			}
 			{
@@ -144,37 +128,62 @@ resource Insights_diagnosticSettings_ 'Microsoft.Insights/diagnosticSettings@202
 		]
 		metrics: [
 			{
-				timeGrain: 'PT1M'
 				enabled: true
+				timeGrain: 'PT1M'
 			}
 		]
 		workspaceId: OperationalInsights_workspaces_.id
 	}
+	scope: Web_sites_
 }
 
 // resource info
 // https://learn.microsoft.com/azure/templates/microsoft.web/sites
 resource Web_sites_ 'Microsoft.Web/sites@2022-09-01' = {
-	name: name
-	location: location
-	tags: tags
-	kind: 'api'
-	properties: {
-		serverFarmId: ServerFarm.id
-		httpsOnly: true
-	}
 	identity: identity
+	kind: 'api'
+	location: location
+	name: name
+	properties: {
+		clientAffinityEnabled: parameters.clientAffinityEnabled
+		httpsOnly: parameters.httpsOnly
+		serverFarmId: Web_serverFarms_.id
+	}
+	tags: tags
+}
+
+// resource info
+// https://learn.microsoft.com/azure/templates/microsoft.web/sites/basicpublishingcredentialspolicies-ftp
+resource Web_sites_basicPublishingCredentialsPolicies__FTP 'Microsoft.Web/sites/basicPublishingCredentialsPolicies@2022-09-01' = {
+	name: 'ftp'
+	parent: Web_sites_
+	properties: {
+		allow: false
+	}
+}
+
+// resource info
+// https://learn.microsoft.com/azure/templates/microsoft.web/sites/basicpublishingcredentialspolicies-scm
+resource Web_sites_basicPublishingCredentialsPolicies__SCM 'Microsoft.Web/sites/basicPublishingCredentialsPolicies@2022-09-01' = {
+	name: 'scm'
+	parent: Web_sites_
+	properties: {
+		allow: false
+	}
 }
 
 // resource info
 // https://learn.microsoft.com/azure/templates/microsoft.web/sites/config-appsettings
 resource Web_sites_config__AppSettings 'Microsoft.Web/sites/config@2022-09-01' = {
-	parent: Web_sites_
 	name: 'appsettings'
+	parent: Web_sites_
 	properties: union(
-		commonAppSettings,
 		appSettings,
-		platformAppSettings[platform]
+		platformAppSettings[platform],
+		{
+			WEBSITE_RUN_FROM_PACKAGE: '${Storage_storageAccounts_.properties.primaryEndpoints.blob}${appPackPath}'
+			WEBSITE_RUN_FROM_PACKAGE_BLOB_MI_RESOURCE_ID: 'SystemAssigned'
+		}
 	)
 }
 
@@ -191,18 +200,25 @@ resource Web_sites_config__Metadata 'Microsoft.Web/sites/config@2022-09-01' = {
 // resource info
 // https://learn.microsoft.com/azure/templates/microsoft.web/sites/config-web
 resource Web_sites_config__Web 'Microsoft.Web/sites/config@2022-09-01' = {
-	parent: Web_sites_
 	name: 'web'
+	parent: Web_sites_
 	properties: {
-		alwaysOn: true
+		alwaysOn: parameters.alwaysOn
+		apiDefinition: {
+			url: (!contains(parameters, 'apiDefinition') || empty(parameters.apiDefinition)) ? null : 'https://${Web_sites_.properties.defaultHostName}${parameters.apiDefinition}'
+		}
+		cors: {
+			allowedOrigins: parameters.corsAllowedOrigins
+		}
 		defaultDocuments: []
-		ftpsState: 'Disabled'
+		functionAppScaleLimit: parameters.functionAppScaleLimit
 		healthCheckPath: '/healthcheck'
-		http20Enabled: true
-		ipSecurityRestrictions: ipSecurityRestrictions
-		netFrameworkVersion: (platform == 'dotNet') ? platformVersion.dotNet : null
+		http20Enabled: parameters.http20Enabled
+		ipSecurityRestrictions: parameters.ipSecurityRestrictions
+		netFrameworkVersion: (platform == 'dotNet') ? parameters.netFrameworkVersion : null
 		nodeVersion: (platform == 'nodeJS') ? platformVersion.nodeJS : null
-		phpVersion: 'OFF'
+		use32BitWorkerProcess: parameters.use32BitWorkerProcess
+		webSocketsEnabled: parameters.webSocketsEnabled
 	}
 }
 

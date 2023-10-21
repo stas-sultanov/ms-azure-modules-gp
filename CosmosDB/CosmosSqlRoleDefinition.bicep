@@ -1,24 +1,28 @@
 /* parameters */
 
-@description('Name of the resource.')
-param name string
-
 @description('Id of the parent Cosmos account.')
 param cosmosAccountId string
+
+@description('Name of the resource.')
+param name string
 
 /* variables */
 
 /* existing resources */
 
-resource CosmosAccount 'Microsoft.DocumentDB/databaseAccounts@2021-10-15' existing = {
+resource CosmosAccount 'Microsoft.DocumentDB/databaseAccounts@2023-09-15' existing = {
   name: split(cosmosAccountId, '/')[8]
 }
 
 /* resources */
 
-resource CosmosAccount_SqlRoleDefinition 'Microsoft.DocumentDB/databaseAccounts/sqlRoleDefinitions@2021-10-15' = {
+resource CosmosAccount_SqlRoleDefinition 'Microsoft.DocumentDB/databaseAccounts/sqlRoleDefinitions@2023-09-15' = {
+  name: guid(
+    subscription().id,
+    CosmosAccount.id,
+    name
+  )
   parent: CosmosAccount
-  name: guid(CosmosAccount.id, name)
   properties: {
     assignableScopes: [
       CosmosAccount.id

@@ -3,7 +3,6 @@ metadata author = {
 	name: 'Stas Sultanov'
 	profileUrl: 'https://www.linkedin.com/in/stas-sultanov'
 }
-metadata resource_info = 'https://learn.microsoft.com/en-us/azure/templates/microsoft.storage/storageaccounts/blobservices'
 
 /* parameters */
 
@@ -38,7 +37,6 @@ resource Storage_storageAccounts_ 'Microsoft.Storage/storageAccounts@2023-01-01'
 // resource info
 // https://learn.microsoft.com/azure/templates/microsoft.insights/diagnosticsettings
 resource Insights_diagnosticSettings_ 'Microsoft.Insights/diagnosticSettings@2021-05-01-preview' = {
-	scope: Storage_storageAccounts_blobServices_
 	name: 'Log Analytics'
 	properties: {
 		logAnalyticsDestinationType: 'Dedicated'
@@ -50,16 +48,17 @@ resource Insights_diagnosticSettings_ 'Microsoft.Insights/diagnosticSettings@202
 		]
 		metrics: [
 			{
-				enabled: true
 				category: 'Transaction'
+				enabled: true
 			}
 		]
 		workspaceId: OperationalInsights_workspaces_.id
 	}
+	scope: Storage_storageAccounts_blobServices_
 }
 
 // resource info
-// 
+// https://learn.microsoft.com/azure/templates/microsoft.storage/storageaccounts/blobservices
 resource Storage_storageAccounts_blobServices_ 'Microsoft.Storage/storageAccounts/blobServices@2023-01-01' = {
 	parent: Storage_storageAccounts_
 	name: 'default'

@@ -3,6 +3,7 @@ metadata author = {
 	name: 'Stas Sultanov'
 	profileUrl: 'https://www.linkedin.com/in/stas-sultanov'
 }
+
 /* imports */
 
 import { AuthorizationPrincipalInfo } from './../types.bicep'
@@ -52,15 +53,20 @@ resource Storage_storageAccounts_ 'Microsoft.Storage/storageAccounts@2023-01-01'
 // https://learn.microsoft.com/azure/templates/microsoft.authorization/roleassignments
 resource Authorization_roleAssignments_ 'Microsoft.Authorization/roleAssignments@2022-04-01' = [
 for authorization in authorizationList: {
-	scope: Storage_storageAccounts_
-	name: guid(Storage_storageAccounts_.id, roleId[authorization.role], authorization.principal.id)
+	name: guid(
+		subscription().id,
+		Storage_storageAccounts_.id,
+		roleId[authorization.role],
+		authorization.principal.id
+	)
 	properties: {
-		roleDefinitionId: subscriptionResourceId('Microsoft.Authorization/roleDefinitions', roleId[authorization.role])
-		principalId: authorization.principal.id
-		principalType: authorization.principal.type
 		description: (!contains(authorization, 'description') || empty(authorization.description)) 
 		 ? '${authorization.role} role for ${(!contains(authorization.principal, 'name') || empty(authorization.principal.name)) ? authorization.principal.id : authorization.principal.name}.' 
 		 : authorization.description
+		principalId: authorization.principal.id
+		principalType: authorization.principal.type
+		roleDefinitionId: subscriptionResourceId('Microsoft.Authorization/roleDefinitions', roleId[authorization.role])
 	}
+	scope: Storage_storageAccounts_
 }
 ]

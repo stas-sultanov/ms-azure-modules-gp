@@ -1,6 +1,7 @@
 metadata author = {
+  githubUrl: 'https://github.com/stas-sultanov'
   name: 'Stas Sultanov'
-  profile: 'https://www.linkedin.com/in/stas-sultanov'
+  profileUrl: 'https://www.linkedin.com/in/stas-sultanov'
 }
 
 /* parameters */

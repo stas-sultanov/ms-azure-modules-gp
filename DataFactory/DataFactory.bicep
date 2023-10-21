@@ -63,10 +63,9 @@ resource OperationalInsights_Workspace 'Microsoft.OperationalInsights/workspaces
 // resource info
 // https://learn.microsoft.com/azure/templates/microsoft.datafactory/factories
 resource DataFactory_factories_ 'Microsoft.DataFactory/factories@2018-06-01' = {
-	name: name
-	location: location
-	tags: tags
 	identity: identity
+	location: location
+	name: name
 	properties: {
 		repoConfiguration: (repoConfiguration == null) 
 		 ? {} 
@@ -80,12 +79,12 @@ resource DataFactory_factories_ 'Microsoft.DataFactory/factories@2018-06-01' = {
 			type: 'FactoryVSTSConfiguration'
 		}
 	}
+	tags: tags
 }
 
 // resource info
 // https://learn.microsoft.com/azure/templates/microsoft.insights/diagnosticsettings
 resource Insights_diagnosticSettings_ 'Microsoft.Insights/diagnosticSettings@2021-05-01-preview' = {
-	scope: DataFactory_factories_
 	name: 'Log Analytics'
 	properties: {
 		logAnalyticsDestinationType: 'Dedicated'
@@ -97,16 +96,17 @@ resource Insights_diagnosticSettings_ 'Microsoft.Insights/diagnosticSettings@202
 		]
 		metrics: [
 			{
-				timeGrain: 'PT1M'
 				enabled: true
+				timeGrain: 'PT1M'
 			}
 		]
 		workspaceId: OperationalInsights_Workspace.id
 	}
+	scope: DataFactory_factories_
 }
 
 /* outputs */
 
-output resourceId string = DataFactory_factories_.id
-
 output identity object = DataFactory_factories_.identity
+
+output resourceId string = DataFactory_factories_.id

@@ -6,51 +6,13 @@ metadata author = {
 
 /* imports */
 
-import { IpSecurityRestriction, ManagedServiceIdentity } from './../types.bicep'
+import { ManagedServiceIdentity } from './../types.bicep'
+
+import { AppServiceParameters } from 'AppServiceTypes.bicep'
 
 /* types */
 
 type AssignedManagedServiceIdentity = ManagedServiceIdentity // <-- creating an alias for use in param and output statements avoids the issue
-
-@description('dotNet Framework version.')
-type DotNetVersion = 'v6.0' | 'v7.0' | 'v8.0'
-
-type Parameters = {
-	@description('true if Always On is enabled; otherwise, false')
-	alwaysOn: bool
-
-	@description('OpenApi definition path')
-	apiDefinition: string?
-
-	@description('true to enable client affinity; false to stop sending session affinity cookies, which route client requests in the same session to the same instance')
-	clientAffinityEnabled: bool
-
-	@description('List of origins that should be allowed to make cross-origin calls. Use "*" to allow all')
-	corsAllowedOrigins: string[]
-
-	@description('Maximum number of workers that a site can scale out to')
-	@minValue(0)
-	@maxValue(200)
-	functionAppScaleLimit: int
-
-	@description('Allow clients to connect over http2.0')
-	http20Enabled: bool
-
-	@description('HttpsOnly: configures a web site to accept only https requests. Issues redirect for http requests')
-	httpsOnly: bool
-
-	@description('List of allowed IP addresses')
-	ipSecurityRestrictions: IpSecurityRestriction[]
-
-	@description('dotNet Framework version.')
-	netFrameworkVersion: DotNetVersion
-
-	@description('true to use 32-bit worker process; otherwise, false')
-	use32BitWorkerProcess: bool
-
-	@description('true if WebSocket is enabled; otherwise, false')
-	webSocketsEnabled: bool
-}
 
 /* parameters */
 
@@ -66,7 +28,7 @@ param Web_serverFarms__id string
 @description('Application package path within the storage.')
 param appPackPath string
 
-@description('Application settings to be used Environment Variables.')
+@description('Application settings to be used as Environment Variables.')
 param appSettings object = {}
 
 @description('Managed Service Identity.')
@@ -79,7 +41,7 @@ param location string = resourceGroup().location
 param name string
 
 @description('Configuration parameters.')
-param parameters Parameters
+param parameters AppServiceParameters
 
 @description('Tags to put on the resource.')
 param tags object = {}
@@ -114,7 +76,6 @@ resource Web_serverFarms_ 'Microsoft.Web/serverfarms@2022-09-01' existing = {
 // resource info
 // https://learn.microsoft.com/azure/templates/microsoft.insights/diagnosticsettings
 resource Insights_diagnosticSettings_ 'Microsoft.Insights/diagnosticSettings@2021-05-01-preview' = {
-	scope: Web_sites_
 	name: 'Log Analytics'
 	properties: {
 		logAnalyticsDestinationType: 'Dedicated'
@@ -132,21 +93,22 @@ resource Insights_diagnosticSettings_ 'Microsoft.Insights/diagnosticSettings@202
 		]
 		workspaceId: OperationalInsights_workspaces_.id
 	}
+	scope: Web_sites_
 }
 
 // resource info
 // https://learn.microsoft.com/azure/templates/microsoft.web/sites
 resource Web_sites_ 'Microsoft.Web/sites@2022-09-01' = {
-	name: name
-	location: location
-	tags: tags
+	identity: identity
 	kind: 'functionapp'
+	location: location
+	name: name
 	properties: {
 		clientAffinityEnabled: parameters.clientAffinityEnabled
-		serverFarmId: Web_serverFarms_.id
 		httpsOnly: parameters.httpsOnly
+		serverFarmId: Web_serverFarms_.id
 	}
-	identity: identity
+	tags: tags
 }
 
 // resource info
@@ -172,21 +134,24 @@ resource Web_sites_basicPublishingCredentialsPolicies__SCM 'Microsoft.Web/sites/
 // resource info
 // https://learn.microsoft.com/azure/templates/microsoft.web/sites/config-appsettings
 resource Web_sites_config__AppSettings 'Microsoft.Web/sites/config@2022-09-01' = {
-	parent: Web_sites_
 	name: 'appsettings'
-	properties: union(appSettings, {
+	parent: Web_sites_
+	properties: union(
+		appSettings,
+		{
 			FUNCTIONS_EXTENSION_VERSION: '~4'
 			FUNCTIONS_WORKER_RUNTIME: 'dotnet-isolated'
 			WEBSITE_RUN_FROM_PACKAGE: '${Storage_storageAccounts_.properties.primaryEndpoints.blob}${appPackPath}'
 			WEBSITE_RUN_FROM_PACKAGE_BLOB_MI_RESOURCE_ID: 'SystemAssigned'
-		})
+		}
+	)
 }
 
 // resource info
 // https://learn.microsoft.com/azure/templates/microsoft.web/sites/config-metadata
 resource Web_sites_config__Metadata 'Microsoft.Web/sites/config@2022-09-01' = {
-	parent: Web_sites_
 	name: 'metadata'
+	parent: Web_sites_
 	properties: {
 		CURRENT_STACK: 'dotnet'
 	}
@@ -195,8 +160,8 @@ resource Web_sites_config__Metadata 'Microsoft.Web/sites/config@2022-09-01' = {
 // resource info
 // https://learn.microsoft.com/azure/templates/microsoft.web/sites/config-web
 resource Web_sites_config__Web 'Microsoft.Web/sites/config@2022-09-01' = {
-	parent: Web_sites_
 	name: 'web'
+	parent: Web_sites_
 	properties: {
 		alwaysOn: parameters.alwaysOn
 		apiDefinition: {

@@ -4,23 +4,17 @@ metadata author = {
 	profileUrl: 'https://www.linkedin.com/in/stas-sultanov'
 }
 
-metadata resource_info = 'https://learn.microsoft.com/en-us/azure/templates/microsoft.authorization/roleassignments'
+/* imports */
+
+import { AuthorizationPrincipalInfo } from './../types.bicep'
 
 /* types */
 
 type Authorization = {
-	description: string
-	principal: PrincipalInfo
+	description: string?
+	principal: AuthorizationPrincipalInfo
 	role: RoleName
 }
-
-type PrincipalInfo = {
-	id: string
-	name: string?
-	type: PrincipalType?
-}
-
-type PrincipalType = 'Device' | 'ForeignGroup' | 'Group' | 'ServicePrincipal' | 'User'
 
 type RoleName = 'BlobDataContributor' | 'BlobDataReader'
 
@@ -58,7 +52,7 @@ resource Storage_storageAccounts_blobServices_ 'Microsoft.Storage/storageAccount
 
 // provision Container
 // resource info
-// 
+// https://learn.microsoft.com/azure/templates/microsoft.storage/storageaccounts/blobservices/containers
 resource Storage_storageAccounts_blobServices_containers_ 'Microsoft.Storage/storageAccounts/blobServices/containers@2023-01-01' = {
 	name: name
 	parent: Storage_storageAccounts_blobServices_
@@ -66,10 +60,9 @@ resource Storage_storageAccounts_blobServices_containers_ 'Microsoft.Storage/sto
 
 // provision Container authorizations
 // resource info
-// 
+// https://learn.microsoft.com/azure/templates/microsoft.authorization/roleassignments
 resource Authorization_roleAssignments_ 'Microsoft.Authorization/roleAssignments@2022-04-01' = [
 for authorization in authorizationList: {
-	scope: Storage_storageAccounts_blobServices_containers_
 	name: guid(
 		subscription().id,
 		Storage_storageAccounts_.id,
@@ -78,13 +71,13 @@ for authorization in authorizationList: {
 		authorization.principal.id
 	)
 	properties: {
-		roleDefinitionId: subscriptionResourceId(
-			'Microsoft.Authorization/roleDefinitions',
-			roleId[authorization.role]
-		)
+		description: (!contains(authorization, 'description') || empty(authorization.description)) 
+		 ? '${authorization.role} role for ${(!contains(authorization.principal, 'name') || empty(authorization.principal.name)) ? authorization.principal.id : authorization.principal.name}.' 
+		 : authorization.description
 		principalId: authorization.principal.id
 		principalType: authorization.principal.type
-		description: authorization.description
+		roleDefinitionId: subscriptionResourceId('Microsoft.Authorization/roleDefinitions', roleId[authorization.role])
 	}
+	scope: Storage_storageAccounts_blobServices_containers_
 }
 ]

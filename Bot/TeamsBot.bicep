@@ -81,13 +81,9 @@ resource OperationalInsights_workspaces_ 'Microsoft.OperationalInsights/workspac
 // resource info
 // https://learn.microsoft.com/azure/templates/microsoft.botservice/botservices
 resource BotService_botServices_ 'Microsoft.BotService/botServices@2022-09-15' = {
-	name: name
-	location: 'global'
-	tags: tags
-	sku: {
-		name: sku
-	}
 	kind: 'azurebot'
+	location: 'global'
+	name: name
 	properties: {
 		developerAppInsightKey: Insights_components_.properties.InstrumentationKey
 		developerAppInsightsApiKey: Insights_components__apiKey
@@ -96,6 +92,7 @@ resource BotService_botServices_ 'Microsoft.BotService/botServices@2022-09-15' =
 		disableLocalAuth: true
 		description: descriptionText
 		endpoint: endpoint
+		#disable-next-line use-resource-id-functions
 		msaAppId: application.clientId
 		msaAppType: application.type
 		msaAppTenantId: contains(application, 'tenantId') 
@@ -105,58 +102,61 @@ resource BotService_botServices_ 'Microsoft.BotService/botServices@2022-09-15' =
 		 ? application.MSIResourceId 
 		 : null
 	}
+	sku: {
+		name: sku
+	}
+	tags: tags
 }
 
 // DirectLine is enabled by default. No known way to disable. Set no sites.
 // resource info
 // https://learn.microsoft.com/azure/templates/microsoft.botservice/botservices/channels
-resource BotService_botServices_channels_DirectLineChannel 'Microsoft.BotService/botServices/channels@2021-03-01' = {
-	parent: BotService_botServices_
-	name: 'DirectLineChannel'
+resource BotService_botServices_channels_DirectLineChannel 'Microsoft.BotService/botServices/channels@2022-09-15' = {
 	location: 'global'
-	tags: tags
+	name: 'DirectLineChannel'
+	parent: BotService_botServices_
 	properties: {
 		channelName: 'DirectLineChannel'
 		properties: {
 			sites: []
 		}
 	}
+	tags: tags
 }
 
 // Provision channel
 // resource info
 // https://learn.microsoft.com/azure/templates/microsoft.botservice/botservices/channels
-resource BotService_botServices_channels_MsTeamsChannel 'Microsoft.BotService/botServices/channels@2021-03-01' = {
-	parent: BotService_botServices_
-	name: 'MsTeamsChannel'
+resource BotService_botServices_channels_MsTeamsChannel 'Microsoft.BotService/botServices/channels@2022-09-15' = {
 	location: 'global'
-	tags: tags
+	name: 'MsTeamsChannel'
+	parent: BotService_botServices_
 	properties: {
 		channelName: 'MsTeamsChannel'
 	}
+	tags: tags
 }
 
 // WebChat is enabled by default. No known way to disable. Set no sites.
 // resource info
 // https://learn.microsoft.com/azure/templates/microsoft.botservice/botservices/channels
 resource BotService_botServices_channels_WebChatChannel 'Microsoft.BotService/botServices/channels@2022-09-15' = {
-	parent: BotService_botServices_
-	name: 'WebChatChannel'
 	location: 'global'
-	tags: tags
+	name: 'WebChatChannel'
+	parent: BotService_botServices_
 	properties: {
 		channelName: 'WebChatChannel'
 		properties: {
 			sites: []
 		}
 	}
+	tags: tags
 }
 
 // Provision Diagnostic
 // resource info
 // https://learn.microsoft.com/azure/templates/microsoft.insights/diagnosticsettings
-resource Insights_diagnosticSetting_ 'Microsoft.Insights/diagnosticSettings@2017-05-01-preview' = {
-	scope: BotService_botServices_
+resource Insights_diagnosticSetting_ 'Microsoft.Insights/diagnosticSettings@2021-05-01-preview' = {
 	name: 'Log Analytics'
 	properties: {
 		logAnalyticsDestinationType: 'Dedicated'
@@ -168,12 +168,13 @@ resource Insights_diagnosticSetting_ 'Microsoft.Insights/diagnosticSettings@2017
 		]
 		metrics: [
 			{
-				timeGrain: 'PT1M'
 				enabled: true
+				timeGrain: 'PT1M'
 			}
 		]
 		workspaceId: OperationalInsights_workspaces_.id
 	}
+	scope: BotService_botServices_
 }
 
 /* outputs */

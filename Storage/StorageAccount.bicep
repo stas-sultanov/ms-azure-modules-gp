@@ -37,38 +37,43 @@ resource OperationalInsights_workspaces_ 'Microsoft.OperationalInsights/workspac
 // resource info
 // https://learn.microsoft.com/azure/templates/microsoft.insights/diagnosticsettings
 resource Insights_diagnosticSettings_ 'Microsoft.Insights/diagnosticSettings@2021-05-01-preview' = {
-	scope: Storage_storageAccounts_
 	name: 'Log Analytics'
 	properties: {
 		logAnalyticsDestinationType: 'Dedicated'
 		metrics: [
 			{
-				timeGrain: 'PT1M'
 				enabled: true
+				timeGrain: 'PT1M'
 			}
 		]
 		workspaceId: OperationalInsights_workspaces_.id
 	}
+	scope: Storage_storageAccounts_
 }
 
 // resource info
 // https://learn.microsoft.com/azure/templates/microsoft.storage/storageaccounts
 resource Storage_storageAccounts_ 'Microsoft.Storage/storageAccounts@2023-01-01' = {
-	name: name
-	sku: {
-		name: 'Standard_LRS'
-	}
 	kind: 'StorageV2'
 	location: location
-	tags: tags
+	name: name
 	properties: {
 		accessTier: 'Hot'
 		allowBlobPublicAccess: false
+		allowCrossTenantReplication: false
 		allowSharedKeyAccess: false
-		supportsHttpsTrafficOnly: true
-		minimumTlsVersion: 'TLS1_2'
 		defaultToOAuthAuthentication: true
+		minimumTlsVersion: 'TLS1_2'
+		networkAcls: {
+			bypass: 'AzureServices'
+			defaultAction: 'Deny'
+		}
+		supportsHttpsTrafficOnly: false
 	}
+	sku: {
+		name: 'Standard_LRS'
+	}
+	tags: tags
 }
 
 /* outputs */

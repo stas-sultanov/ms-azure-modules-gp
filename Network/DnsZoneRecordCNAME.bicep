@@ -1,9 +1,13 @@
 metadata author = {
+  githubUrl: 'https://github.com/stas-sultanov'
   name: 'Stas Sultanov'
-  profile: 'https://www.linkedin.com/in/stas-sultanov'
+  profileUrl: 'https://www.linkedin.com/in/stas-sultanov'
 }
 
 /* parameters */
+
+@description('Id of the Network/dnsZone resource.')
+param Network_dnsZone__id string
 
 @description('Name of the resource.')
 param name string
@@ -14,12 +18,9 @@ param ttl int = 3600
 @description('Value of the record.')
 param value string
 
-@description('Id of the Network/dnsZone resource.')
-param dnsZoneId string
-
 /* variables */
 
-var dnsZoneId_split = split(dnsZoneId, '/')
+var dnsZoneId_split = split(Network_dnsZone__id, '/')
 
 /* existing resources */
 
@@ -30,16 +31,16 @@ resource Network_DnsZone 'Microsoft.Network/dnsZones@2023-07-01-preview' existin
 /* resources */
 
 resource Network_DnsZone_CNAME 'Microsoft.Network/dnsZones/CNAME@2023-07-01-preview' = {
-  parent: Network_DnsZone
   name: name
+  parent: Network_DnsZone
   properties: {
-    TTL: ttl
     CNAMERecord: {
       cname: value
     }
+    TTL: ttl
   }
 }
 
 /* outputs */
 
-output id string = Network_DnsZone_CNAME.id
+output resourceId string = Network_DnsZone_CNAME.id

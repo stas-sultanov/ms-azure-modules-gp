@@ -37,15 +37,15 @@ resource OperationalInsights_workspaces_ 'Microsoft.OperationalInsights/workspac
 // resource info
 // https://learn.microsoft.com/azure/templates/microsoft.insights/components
 resource Insights_components_ 'Microsoft.Insights/components@2020-02-02' = {
-	name: name
-	location: location
-	tags: tags
 	kind: 'web'
+	location: location
+	name: name
 	properties: {
 		Application_Type: 'web'
 		DisableLocalAuth: entraAuthOnly
 		WorkspaceResourceId: OperationalInsights_workspaces_.id
 	}
+	tags: tags
 }
 
 /* outputs */

@@ -47,15 +47,20 @@ resource DocumentDB_databaseAccounts_ 'Microsoft.DocumentDB/databaseAccounts@202
 // https://learn.microsoft.com/azure/templates/microsoft.authorization/roleassignments
 resource Authorization_roleAssignments_ 'Microsoft.Authorization/roleAssignments@2022-04-01' = [
 for authorization in authorizationList: {
-	scope: DocumentDB_databaseAccounts_
-	name: guid(DocumentDB_databaseAccounts_.id, roleId[authorization.role], authorization.principal.id)
+	name: guid(
+		subscription().id,
+		DocumentDB_databaseAccounts_.id,
+		roleId[authorization.role],
+		authorization.principal.id
+	)
 	properties: {
-		roleDefinitionId: subscriptionResourceId('Microsoft.Authorization/roleDefinitions', roleId[authorization.role])
+		description: (!contains(authorization, 'description') || empty(authorization.description)) 
+		? '${authorization.role} role for ${(!contains(authorization.principal, 'name') || empty(authorization.principal.name)) ? authorization.principal.id : authorization.principal.name}.' 
+		: authorization.description
 		principalId: authorization.principal.id
 		principalType: authorization.principal.type
-		description: (!contains(authorization, 'description') || empty(authorization.description)) 
-		 ? '${authorization.role} role for ${(!contains(authorization.principal, 'name') || empty(authorization.principal.name)) ? authorization.principal.id : authorization.principal.name}.' 
-		 : authorization.description
+		roleDefinitionId: subscriptionResourceId('Microsoft.Authorization/roleDefinitions', roleId[authorization.role])
 	}
+	scope: DocumentDB_databaseAccounts_
 }
 ]

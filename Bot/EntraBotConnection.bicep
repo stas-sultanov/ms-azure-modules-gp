@@ -54,10 +54,9 @@ resource BotService_botServices_ 'Microsoft.BotService/botServices@2022-09-15' e
 // resource info
 // https://learn.microsoft.com/azure/templates/microsoft.botservice/botservices
 resource BotService_botServices_connections_ 'Microsoft.BotService/botServices/connections@2022-09-15' = {
-	parent: BotService_botServices_
-	name: name
 	location: 'global'
-	tags: tags
+	name: name
+	parent: BotService_botServices_
 	properties: {
 		clientId: parameters.applicationClientId
 		clientSecret: parameters.applicationSecret
@@ -77,4 +76,5 @@ resource BotService_botServices_connections_ 'Microsoft.BotService/botServices/c
 		serviceProviderDisplayName: 'Azure Active Directory v2'
 		serviceProviderId: '30dd229c-58e3-4a48-bdfd-91ec48eb906c'
 	}
+	tags: tags
 }

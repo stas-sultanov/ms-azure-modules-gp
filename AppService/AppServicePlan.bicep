@@ -18,14 +18,14 @@ param name string
 @description('The SKU capability.')
 @allowed(
 	[
-		'B1'	// Basic
-		'D1'	// Shared
-		'EP1'	// ElasticPremium
-		'F1'	// Free
-		'P1V3'	// PremiumV3
-		'S1'	// Standard
-		'U1'	// Compute
-		'Y1'	// Dynamic
+		'B1' // Basic
+		'D1' // Shared
+		'EP1' // ElasticPremium
+		'F1' // Free
+		'P1V3' // PremiumV3
+		'S1' // Standard
+		'U1' // Compute
+		'Y1' // Dynamic
 	]
 )
 param sku string = 'Y1'
@@ -49,29 +49,29 @@ resource OperationalInsights_workspaces_ 'Microsoft.OperationalInsights/workspac
 // resource info
 // https://learn.microsoft.com/azure/templates/microsoft.insights/diagnosticsettings
 resource Insights_diagnosticSettings_ 'Microsoft.Insights/diagnosticSettings@2021-05-01-preview' = {
-	scope: Web_serverfarms_
 	name: 'Log Analytics'
 	properties: {
 		logAnalyticsDestinationType: 'Dedicated'
 		metrics: [
 			{
-				timeGrain: 'PT1M'
 				enabled: true
+				timeGrain: 'PT1M'
 			}
 		]
 		workspaceId: OperationalInsights_workspaces_.id
 	}
+	scope: Web_serverfarms_
 }
 
 // resource info
 // https://learn.microsoft.com/azure/templates/microsoft.web/serverfarms
 resource Web_serverfarms_ 'Microsoft.Web/serverfarms@2022-09-01' = {
-	name: name
 	location: location
-	tags: tags
+	name: name
 	sku: {
 		name: sku
 	}
+	tags: tags
 }
 
 /* outputs */

@@ -38,21 +38,20 @@ resource OperationalInsights_workspaces_ 'Microsoft.OperationalInsights/workspac
 // resource info
 // https://learn.microsoft.com/azure/templates/microsoft.appconfiguration/configurationstores
 resource AppConfiguration_configurationStores_ 'Microsoft.AppConfiguration/configurationStores@2023-03-01' = {
-	name: name
 	location: location
-	tags: tags
+	name: name
 	properties: {
 		disableLocalAuth: true
 	}
 	sku: {
 		name: skuName
 	}
+	tags: tags
 }
 
 // resource info
 // https://learn.microsoft.com/azure/templates/microsoft.insights/diagnosticsettings
 resource Insights_diagnosticSettings_ 'Microsoft.Insights/diagnosticSettings@2021-05-01-preview' = {
-	scope: AppConfiguration_configurationStores_
 	name: 'Log Analytics'
 	properties: {
 		logAnalyticsDestinationType: 'Dedicated'
@@ -64,12 +63,13 @@ resource Insights_diagnosticSettings_ 'Microsoft.Insights/diagnosticSettings@202
 		]
 		metrics: [
 			{
-				timeGrain: 'PT1M'
 				enabled: true
+				timeGrain: 'PT1M'
 			}
 		]
 		workspaceId: OperationalInsights_workspaces_.id
 	}
+	scope: AppConfiguration_configurationStores_
 }
 
 /* outputs */

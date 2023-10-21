@@ -65,19 +65,19 @@ var ipRules = {
 			ipAddressOrRange: '0.0.0.0'
 		}
 		{
-			ipAddressOrRange: '104.42.195.92'
-		}
-		{
 			ipAddressOrRange: '40.76.54.131'
-		}
-		{
-			ipAddressOrRange: '52.176.6.30'
 		}
 		{
 			ipAddressOrRange: '52.169.50.45'
 		}
 		{
+			ipAddressOrRange: '52.176.6.30'
+		}
+		{
 			ipAddressOrRange: '52.187.184.26'
+		}
+		{
+			ipAddressOrRange: '104.42.195.92'
 		}
 	]
 }
@@ -104,33 +104,32 @@ resource OperationalInsights_workspaces_ 'Microsoft.OperationalInsights/workspac
 
 // resource info
 // https://learn.microsoft.com/azure/templates/microsoft.documentdb/databaseaccounts
-resource DocumentDB_databaseAccounts_ 'Microsoft.DocumentDB/databaseAccounts@2023-04-15' = {
-	name: name
-	location: location
-	tags: union(tags, { capacityMode: capacityMode })
+resource DocumentDB_databaseAccounts_ 'Microsoft.DocumentDB/databaseAccounts@2023-09-15' = {
 	kind: 'GlobalDocumentDB'
+	location: location
+	name: name
 	properties: {
+		backupPolicy: {
+			type: 'Continuous'
+		}
+		capabilities: capabilities[capacityMode]
+		createMode: createMode
+		databaseAccountOfferType: 'Standard'
+		ipRules: ipRules[publicNetworkAccess]
 		locations: [
 			{
 				locationName: location
 			}
 		]
-		databaseAccountOfferType: 'Standard'
-		ipRules: ipRules[publicNetworkAccess]
-		capabilities: capabilities[capacityMode]
-		backupPolicy: {
-			type: 'Continuous'
-		}
 		publicNetworkAccess: publicNetworkAccess
-		createMode: createMode
 		restoreParameters: restoreParameters[createMode]
 	}
+	tags: union(tags, { capacityMode: capacityMode })
 }
 
 // resource info
 // https://learn.microsoft.com/azure/templates/microsoft.insights/diagnosticsettings
 resource Insights_diagnosticSettings_ 'Microsoft.Insights/diagnosticSettings@2021-05-01-preview' = {
-	scope: DocumentDB_databaseAccounts_
 	name: 'Log Analytics'
 	properties: {
 		logAnalyticsDestinationType: 'Dedicated'
@@ -142,22 +141,23 @@ resource Insights_diagnosticSettings_ 'Microsoft.Insights/diagnosticSettings@202
 		]
 		metrics: [
 			{
-				timeGrain: 'PT1M'
 				enabled: true
+				timeGrain: 'PT1M'
 			}
 		]
 		workspaceId: OperationalInsights_workspaces_.id
 	}
+	scope: DocumentDB_databaseAccounts_
 }
 
 // resource info
 // https://learn.microsoft.com/azure/templates/microsoft.security/advancedthreatprotectionsettings
 resource Security_advancedThreatProtectionSettings_ 'Microsoft.Security/advancedThreatProtectionSettings@2019-01-01' = {
-	scope: DocumentDB_databaseAccounts_
 	name: 'current'
 	properties: {
 		isEnabled: true
 	}
+	scope: DocumentDB_databaseAccounts_
 }
 
 /* outputs */

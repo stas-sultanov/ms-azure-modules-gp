@@ -6,7 +6,7 @@ metadata author = {
 
 /* imports */
 
-import{AuthorizationPrincipalInfo}from'./../types.bicep'
+import { AuthorizationPrincipalInfo } from './../types.bicep'
 
 /* types */
 
@@ -35,7 +35,7 @@ var roleId = {
 
 /* existing resources */
 
-resource AppConfiguration_configurationStores_ 'Microsoft.AppConfiguration/configurationStores@2021-10-01-preview' existing = {
+resource AppConfiguration_configurationStores_ 'Microsoft.AppConfiguration/configurationStores@2023-03-01' existing = {
 	name: split(AppConfiguration_configurationStores__id, '/')[8]
 }
 
@@ -45,15 +45,20 @@ resource AppConfiguration_configurationStores_ 'Microsoft.AppConfiguration/confi
 // https://learn.microsoft.com/azure/templates/microsoft.authorization/roleassignments
 resource Authorization_roleAssignments_ 'Microsoft.Authorization/roleAssignments@2022-04-01' = [
 for authorization in authorizationList: {
-	scope: AppConfiguration_configurationStores_
-	name: guid(AppConfiguration_configurationStores_.id, roleId[authorization.role], authorization.principal.id)
+	name: guid(
+		subscription().id,
+		AppConfiguration_configurationStores_.id,
+		roleId[authorization.role],
+		authorization.principal.id
+	)
 	properties: {
-		roleDefinitionId: subscriptionResourceId('Microsoft.Authorization/roleDefinitions', roleId[authorization.role])
-		principalId: authorization.principal.id
-		principalType: authorization.principal.type
 		description: (!contains(authorization, 'description') || empty(authorization.description)) 
 		 ? '${authorization.role} role for ${(!contains(authorization.principal, 'name') || empty(authorization.principal.name)) ? authorization.principal.id : authorization.principal.name}.' 
 		 : authorization.description
+		principalId: authorization.principal.id
+		principalType: authorization.principal.type
+		roleDefinitionId: subscriptionResourceId('Microsoft.Authorization/roleDefinitions', roleId[authorization.role])
 	}
+	scope: AppConfiguration_configurationStores_
 }
 ]

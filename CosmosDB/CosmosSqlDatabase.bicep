@@ -5,17 +5,17 @@ param DocumentDB_databaseAccounts__id string
 
 @description('The capacity mode for database operations.')
 @allowed([
-	'Static'
 	'Autoscale'
 	'Serverless'
+	'Static'
 ])
 param capacityMode string = 'Serverless'
 
-@description('Name of the resource.')
-param name string
-
 @description('Location to deploy the resource.')
 param location string = resourceGroup().location
+
+@description('Name of the resource.')
+param name string
 
 @description('Tags to put on the resource.')
 param tags object
@@ -35,37 +35,42 @@ param throughputMax int = 4000
 var documentDB_databaseAccounts__id_split = split(DocumentDB_databaseAccounts__id, '/')
 
 var options = {
-	Static: {
-		throughput: throughput
-	}
 	Autoscale: {
 		autoscaleSettings: {
 			maxThroughput: throughputMax
 		}
 	}
 	Serverless: {}
+	Static: {
+		throughput: throughput
+	}
 }
 
 /* existing resources */
 
-resource DocumentDB_databaseAccounts_ 'Microsoft.DocumentDB/databaseAccounts@2023-04-15' existing = {
+resource DocumentDB_databaseAccounts_ 'Microsoft.DocumentDB/databaseAccounts@2023-09-15' existing = {
 	name: documentDB_databaseAccounts__id_split[8]
 	// scope: resourceGroup(documentDB_databaseAccounts__id_split[4])
 }
 
 /* resources */
 
-resource DocumentDB_databaseAccounts_sqlDatabases_ 'Microsoft.DocumentDB/databaseAccounts/sqlDatabases@2023-04-15' = {
-	parent: DocumentDB_databaseAccounts_
-	name: name
+resource DocumentDB_databaseAccounts_sqlDatabases_ 'Microsoft.DocumentDB/databaseAccounts/sqlDatabases@2023-09-15' = {
 	location: location
-	tags: union(tags, { capacityMode: capacityMode })
+	name: name
+	parent: DocumentDB_databaseAccounts_
 	properties: {
+		options: options[capacityMode]
 		resource: {
 			id: name
 		}
-		options: options[capacityMode]
 	}
+	tags: union(
+		tags,
+		{
+			capacityMode: capacityMode
+		}
+	)
 }
 
 /* outputs */

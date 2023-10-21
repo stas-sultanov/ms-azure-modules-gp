@@ -69,80 +69,80 @@ resource OperationalInsights_workspaces_ 'Microsoft.OperationalInsights/workspac
 // resource info
 // https://learn.microsoft.com/azure/templates/microsoft.insights/diagnosticsettings
 resource Insights_diagnosticSettings_ 'Microsoft.Insights/diagnosticSettings@2021-05-01-preview' = {
-	scope: Sql_servers_databases__Master
 	name: 'Log Analytics'
 	properties: {
 		logAnalyticsDestinationType: 'Dedicated'
 		logs: [
 			{
-				category: 'SQLSecurityAuditEvents'
 				enabled: true
+				category: 'SQLSecurityAuditEvents'
 			}
 		]
 		workspaceId: OperationalInsights_workspaces_.id
 	}
+	scope: Sql_servers_databases__Master
 }
 
 // resource info
 // https://learn.microsoft.com/azure/templates/microsoft.sql/servers
 resource Sql_servers_ 'Microsoft.Sql/servers@2023-02-01-preview' = {
-	name: name
-	location: location
-	tags: tags
 	identity: identity
+	location: location
+	name: name
 	properties: {
-		minimalTlsVersion: '1.2'
-		publicNetworkAccess: publicNetworkAccess
 		administrators: {
 			administratorType: 'ActiveDirectory'
+			azureADOnlyAuthentication: true
 			principalType: adminPrincipal.type
 			login: adminPrincipal.name
 			sid: adminPrincipal.objectId
 			tenantId: adminPrincipal.tenantId
-			azureADOnlyAuthentication: true
 		}
+		minimalTlsVersion: '1.2'
+		publicNetworkAccess: publicNetworkAccess
 	}
+	tags: tags
 }
 
 // resource info
 // https://learn.microsoft.com/azure/templates/microsoft.sql/servers/auditingsettings
 resource Sql_servers_auditingSettings__Default 'Microsoft.Sql/servers/auditingSettings@2023-02-01-preview' = {
-	parent: Sql_servers_
 	name: 'default'
+	parent: Sql_servers_
 	properties: {
-		state: 'Enabled'
 		isAzureMonitorTargetEnabled: true
+		state: 'Enabled'
 	}
 }
 
 // resource info
 // https://learn.microsoft.com/azure/templates/microsoft.sql/servers/databases
 resource Sql_servers_databases__Master 'Microsoft.Sql/servers/databases@2023-02-01-preview' = {
-	parent: Sql_servers_
-	name: 'master'
 	location: location
+	name: 'master'
+	parent: Sql_servers_
 	properties: {}
 }
 
 // resource info
 // https://learn.microsoft.com/azure/templates/microsoft.sql/servers/firewallrules
 resource Sql_servers_firewallRules__AllowAllWindowsAzureIps 'Microsoft.Sql/servers/firewallRules@2023-02-01-preview' = {
-	parent: Sql_servers_
 	name: 'AllowAllWindowsAzureIps'
+	parent: Sql_servers_
 	properties: {
-		startIpAddress: '0.0.0.0'
 		endIpAddress: '0.0.0.0'
+		startIpAddress: '0.0.0.0'
 	}
 }
 
 // resource info
 // https://learn.microsoft.com/azure/templates/microsoft.sql/servers/firewallrules
 resource Sql_servers_firewallRules__AllowPublicNetworkAccess 'Microsoft.Sql/servers/firewallRules@2023-02-01-preview' = if (publicNetworkAccess == 'Enabled') {
-	parent: Sql_servers_
 	name: 'AllowPublicNetworkAccess'
+	parent: Sql_servers_
 	properties: {
-		startIpAddress: '0.0.0.0'
 		endIpAddress: '255.255.255.255'
+		startIpAddress: '0.0.0.0'
 	}
 }
 
