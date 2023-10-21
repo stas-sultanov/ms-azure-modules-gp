@@ -64,10 +64,6 @@ resource Storage_storageAccounts_ 'Microsoft.Storage/storageAccounts@2023-01-01'
 		allowSharedKeyAccess: false
 		defaultToOAuthAuthentication: true
 		minimumTlsVersion: 'TLS1_2'
-		networkAcls: {
-			bypass: 'AzureServices'
-			defaultAction: 'Deny'
-		}
 		supportsHttpsTrafficOnly: false
 	}
 	sku: {
