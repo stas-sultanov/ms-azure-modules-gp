@@ -6,13 +6,15 @@ metadata author = {
 
 /* imports */
 
-import { ManagedServiceIdentity } from './../types.bicep'
-
 import { AppServiceParameters } from 'AppServiceTypes.bicep'
+
+import { ManagedServiceIdentity } from './../types.bicep'
 
 /* types */
 
-type AssignedManagedServiceIdentity = ManagedServiceIdentity // <-- creating an alias for use in param and output statements avoids the issue
+type _AppServiceParameters = AppServiceParameters // <-- creating an alias for use in param and output statements avoids the issue
+
+type _ManagedServiceIdentity = ManagedServiceIdentity // <-- creating an alias for use in param and output statements avoids the issue
 
 /* parameters */
 
@@ -32,7 +34,7 @@ param appPackPath string
 param appSettings object = {}
 
 @description('Managed Service Identity.')
-param identity AssignedManagedServiceIdentity
+param identity _ManagedServiceIdentity
 
 @description('Location to deploy the resource.')
 param location string = resourceGroup().location
@@ -41,7 +43,7 @@ param location string = resourceGroup().location
 param name string
 
 @description('Configuration parameters.')
-param parameters AppServiceParameters
+param parameters _AppServiceParameters
 
 @description('Current platform.')
 @allowed([ 'dotNet', 'nodeJS' ])
