@@ -15,7 +15,7 @@ param Sql_servers__id string
 @description(
 	'Id of the Sql/servers/databases resource which is used by different creation modes.'
 )
-param Sql_servers_databases_Source_id string = ''
+param Sql_servers_databases__sourceId string = ''
 
 @description('The mode of database creation.')
 @allowed([ 'Default', 'Copy' ])
@@ -34,12 +34,17 @@ param name string
 		'S0'
 		'S1'
 		'S2'
+		'S3'
 		'GP_Gen5_2'
 		'GP_Gen5_4'
 		'GP_Gen5_6'
+		'GP_Gen5_8'
+		'GP_Gen5_10'
 		'GP_S_Gen5_1'
 		'GP_S_Gen5_2'
 		'GP_S_Gen5_4'
+		'GP_S_Gen5_6'
+		'GP_S_Gen5_8'
 	]
 )
 param sku string = 'Basic'
@@ -55,7 +60,7 @@ var databaseProperties = {
 	}
 	Copy: {
 		createMode: 'Copy'
-		sourceDatabaseId: Sql_servers_databases_Source_id
+		sourceDatabaseId: Sql_servers_databases__sourceId
 	}
 }
 
@@ -76,30 +81,6 @@ resource Sql_servers_ 'Microsoft.Sql/servers@2023-02-01-preview' existing = {
 }
 
 /* resources */
-
-// resource info
-// https://learn.microsoft.com/azure/templates/microsoft.sql/servers/databases
-resource Sql_servers_databases_ 'Microsoft.Sql/servers/databases@2023-02-01-preview' = {
-	location: location
-	name: name
-	parent: Sql_servers_
-	properties: databaseProperties[createMode]
-	sku: {
-		name: sku
-	}
-	tags: tags
-}
-
-// resource info
-// https://learn.microsoft.com/azure/templates/microsoft.sql/servers/databases/auditingsettings
-resource Sql_servers_databases_auditingSettings_ 'Microsoft.Sql/servers/databases/auditingSettings@2023-02-01-preview' = {
-	name: 'default'
-	parent: Sql_servers_databases_
-	properties: {
-		isAzureMonitorTargetEnabled: true
-		state: 'Enabled'
-	}
-}
 
 // resource info
 // https://learn.microsoft.com/azure/templates/microsoft.insights/diagnosticsettings
@@ -126,6 +107,30 @@ resource Insights_diagnosticSettings_ 'Microsoft.Insights/diagnosticSettings@202
 		workspaceId: OperationalInsights_workspaces_.id
 	}
 	scope: Sql_servers_databases_
+}
+
+// resource info
+// https://learn.microsoft.com/azure/templates/microsoft.sql/servers/databases
+resource Sql_servers_databases_ 'Microsoft.Sql/servers/databases@2023-02-01-preview' = {
+	location: location
+	name: name
+	parent: Sql_servers_
+	properties: databaseProperties[createMode]
+	sku: {
+		name: sku
+	}
+	tags: tags
+}
+
+// resource info
+// https://learn.microsoft.com/azure/templates/microsoft.sql/servers/databases/auditingsettings
+resource Sql_servers_databases_auditingSettings_ 'Microsoft.Sql/servers/databases/auditingSettings@2023-02-01-preview' = {
+	name: 'default'
+	parent: Sql_servers_databases_
+	properties: {
+		isAzureMonitorTargetEnabled: true
+		state: 'Enabled'
+	}
 }
 
 /* outputs */

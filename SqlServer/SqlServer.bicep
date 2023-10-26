@@ -34,11 +34,11 @@ param OperationalInsights_workspaces__id string
 @description('Administrator principal.')
 param adminPrincipal EntraPrincipal
 
-@description('Location to deploy the resource.')
-param location string = resourceGroup().location
-
 @description('Managed Service Identity.')
 param identity ManagedServiceIdentity
+
+@description('Location to deploy the resource.')
+param location string = resourceGroup().location
 
 @description('Name of the resource.')
 param name string
@@ -74,13 +74,13 @@ resource Insights_diagnosticSettings_ 'Microsoft.Insights/diagnosticSettings@202
 		logAnalyticsDestinationType: 'Dedicated'
 		logs: [
 			{
-				enabled: true
 				category: 'SQLSecurityAuditEvents'
+				enabled: true
 			}
 		]
 		workspaceId: OperationalInsights_workspaces_.id
 	}
-	scope: Sql_servers_databases__Master
+	scope: Sql_servers_databases__master
 }
 
 // resource info
@@ -93,8 +93,8 @@ resource Sql_servers_ 'Microsoft.Sql/servers@2023-02-01-preview' = {
 		administrators: {
 			administratorType: 'ActiveDirectory'
 			azureADOnlyAuthentication: true
-			principalType: adminPrincipal.type
 			login: adminPrincipal.name
+			principalType: adminPrincipal.type
 			sid: adminPrincipal.objectId
 			tenantId: adminPrincipal.tenantId
 		}
@@ -116,8 +116,18 @@ resource Sql_servers_auditingSettings__Default 'Microsoft.Sql/servers/auditingSe
 }
 
 // resource info
+// https://learn.microsoft.com/azure/templates/microsoft.sql/servers/connectionpolicies
+resource Sql_servers_connectionPolicies__default 'Microsoft.Sql/servers/connectionPolicies@2023-02-01-preview' = {
+	name: 'default'
+	parent: Sql_servers_
+	properties: {
+		connectionType: 'Default'
+	}
+}
+
+// resource info
 // https://learn.microsoft.com/azure/templates/microsoft.sql/servers/databases
-resource Sql_servers_databases__Master 'Microsoft.Sql/servers/databases@2023-02-01-preview' = {
+resource Sql_servers_databases__master 'Microsoft.Sql/servers/databases@2023-02-01-preview' = {
 	location: location
 	name: 'master'
 	parent: Sql_servers_
