@@ -20,7 +20,7 @@ type EntraPrincipal = {
 	objectId: string
 
 	@description('Id of the Entra tenant.')
-	tenantId: string
+	tenantId: string?
 
 	@description('Type of the principal within the Entra tenant.')
 	type: EntraPrincipalType
@@ -96,7 +96,7 @@ resource Sql_servers_ 'Microsoft.Sql/servers@2023-02-01-preview' = {
 			login: adminPrincipal.name
 			principalType: adminPrincipal.type
 			sid: adminPrincipal.objectId
-			tenantId: adminPrincipal.tenantId
+			tenantId: contains(adminPrincipal, 'tenantId') ? adminPrincipal.tenantId : subscription().tenantId
 		}
 		minimalTlsVersion: '1.2'
 		publicNetworkAccess: publicNetworkAccess
