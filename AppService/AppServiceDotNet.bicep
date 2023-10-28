@@ -6,13 +6,53 @@ metadata author = {
 
 /* imports */
 
-import { AppServiceParameters } from 'AppServiceTypes.bicep'
-
-import { ManagedServiceIdentity } from './../types.bicep'
+import { DotNetVersion, IpSecurityRestriction, ManagedServiceIdentity } from './../types.bicep'
 
 /* types */
 
-type _AppServiceParameters = AppServiceParameters // <-- creating an alias for use in param and output statements avoids the issue
+@description('AppService parameters.')
+type Parameters = {
+	@description('true if Always On is enabled; otherwise, false')
+	alwaysOn: bool
+
+	@description('OpenApi definition path')
+	apiDefinition: string?
+
+	@description('true to enable client affinity; false to stop sending session affinity cookies, which route client requests in the same session to the same instance')
+	clientAffinityEnabled: bool
+
+	@description('List of origins that should be allowed to make cross-origin calls. Use "*" to allow all')
+	corsAllowedOrigins: string[]
+
+	@description('Allow clients to connect over http2.0')
+	http20Enabled: bool
+
+	@description('HttpsOnly: configures a web site to accept only https requests. Issues redirect for http requests')
+	httpsOnly: bool
+
+	@description('List of allowed IP addresses')
+	ipSecurityRestrictions: IpSecurityRestriction[]
+
+	minimumElasticInstanceCount: int?
+
+	preWarmedInstanceCount: int?
+
+	@description('dotNet Framework version.')
+	netFrameworkVersion: DotNetVersion
+
+	@description('true if remote debugging is enabled; otherwise, false.')
+	remoteDebuggingEnabled: bool
+
+	@description('true to use 32-bit worker process; otherwise, false')
+	use32BitWorkerProcess: bool
+
+	@description('true if WebSocket is enabled; otherwise, false')
+	webSocketsEnabled: bool
+}
+
+type _DotNetVersion = DotNetVersion // <-- creating an alias for use in param and output statements avoids the issue
+
+type _IpSecurityRestriction = IpSecurityRestriction // <-- creating an alias for use in param and output statements avoids the issue
 
 type _ManagedServiceIdentity = ManagedServiceIdentity // <-- creating an alias for use in param and output statements avoids the issue
 
@@ -34,7 +74,6 @@ param identity _ManagedServiceIdentity
 @allowed([
 	'api'
 	'app'
-	'functionapp'
 ])
 param kind string
 
@@ -45,73 +84,12 @@ param location string = resourceGroup().location
 param name string
 
 @description('Configuration parameters.')
-param parameters _AppServiceParameters
+param parameters Parameters
 
 @description('Tags to put on the resource.')
 param tags object = {}
 
 /* variables */
-
-var logs = {
-	api: [
-		{
-			category: 'AppServiceAppLogs'
-			enabled: true
-		}
-		{
-			category: 'AppServiceAuditLogs'
-			enabled: true
-		}
-		{
-			category: 'AppServiceConsoleLogs'
-			enabled: true
-		}
-		{
-			category: 'AppServiceHTTPLogs'
-			enabled: true
-		}
-		{
-			category: 'AppServiceIPSecAuditLogs'
-			enabled: true
-		}
-		{
-			category: 'AppServicePlatformLogs'
-			enabled: true
-		}
-	]
-	app: [
-		{
-			category: 'AppServiceAppLogs'
-			enabled: true
-		}
-		{
-			category: 'AppServiceAuditLogs'
-			enabled: true
-		}
-		{
-			category: 'AppServiceConsoleLogs'
-			enabled: true
-		}
-		{
-			category: 'AppServiceHTTPLogs'
-			enabled: true
-		}
-		{
-			category: 'AppServiceIPSecAuditLogs'
-			enabled: true
-		}
-		{
-			category: 'AppServicePlatformLogs'
-			enabled: true
-		}
-	]
-	functionapp: [
-		{
-			category: 'FunctionAppLogs'
-			enabled: true
-		}
-	]
-}
 
 var operationalInsights_workspaces__id_split = split(OperationalInsights_workspaces__id, '/')
 
@@ -137,7 +115,32 @@ resource Insights_diagnosticSettings_ 'Microsoft.Insights/diagnosticSettings@202
 	name: 'Log Analytics'
 	properties: {
 		logAnalyticsDestinationType: 'Dedicated'
-		logs: logs[kind]
+		logs: [
+			{
+				category: 'AppServiceAppLogs'
+				enabled: true
+			}
+			{
+				category: 'AppServiceAuditLogs'
+				enabled: true
+			}
+			{
+				category: 'AppServiceConsoleLogs'
+				enabled: true
+			}
+			{
+				category: 'AppServiceHTTPLogs'
+				enabled: true
+			}
+			{
+				category: 'AppServiceIPSecAuditLogs'
+				enabled: true
+			}
+			{
+				category: 'AppServicePlatformLogs'
+				enabled: true
+			}
+		]
 		metrics: [
 			{
 				category: 'AllMetrics'
@@ -216,9 +219,13 @@ resource Web_sites_config__Web 'Microsoft.Web/sites/config@2022-09-01' = {
 			allowedOrigins: parameters.corsAllowedOrigins
 		}
 		defaultDocuments: []
-		functionAppScaleLimit: contains(parameters, 'functionAppScaleLimit') ? parameters.functionAppScaleLimit : 0
+		ftpsState: 'Disabled'
+		healthCheckPath: '/healthcheck'
 		http20Enabled: parameters.http20Enabled
 		ipSecurityRestrictions: parameters.ipSecurityRestrictions
+		minimumElasticInstanceCount: parameters.minimumElasticInstanceCount
+		numberOfWorkers: 1
+		preWarmedInstanceCount: 1
 		remoteDebuggingEnabled: parameters.remoteDebuggingEnabled
 		remoteDebuggingVersion: 'VS2022'
 		netFrameworkVersion: parameters.netFrameworkVersion

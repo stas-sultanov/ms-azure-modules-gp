@@ -4,6 +4,20 @@ metadata author = {
 	profileUrl: 'https://www.linkedin.com/in/stas-sultanov'
 }
 
+/* types */
+
+@description('App Service Plan Properties.')
+type Properties = {
+	@description('true if Elastic Scale is enabled; otherwise, false')
+	elasticScaleEnabled: bool
+
+	@description('Maximum number of total workers allowed for this App Service Plan with ElasticScaleEnabled = true')
+	maximumElasticWorkerCount: int
+
+	@description('If true, apps assigned to this App Service plan can be scaled independently. If false, apps assigned to this App Service plan will scale to all instances of the plan.')
+	perSiteScaling: bool
+}
+
 /* parameters */
 
 @description('Id of the OperationalInsights/workspaces resource.')
@@ -15,6 +29,13 @@ param location string = resourceGroup().location
 @description('Name of the resource.')
 param name string
 
+@description('Service properties.')
+param properties Properties = {
+	elasticScaleEnabled: false
+	maximumElasticWorkerCount: 30
+	perSiteScaling: false
+}
+
 @description('The SKU capability.')
 @allowed(
 	[
@@ -22,13 +43,16 @@ param name string
 		'D1' // Shared
 		'EP1' // ElasticPremium
 		'F1' // Free
-		'P1V3' // PremiumV3
+		'P0V3' // Premium:v3 vCPU:1 RAM:4
+		'P1' // Premium:v1 vCPU:1 RAM:1.75
+		'P1V2' // Premium:v2 vCPU:1 RAM:3.5
+		'P1V3' // Premium:v3 vCPU:2 RAM:8
 		'S1' // Standard
 		'U1' // Compute
 		'Y1' // Dynamic
 	]
 )
-param sku string = 'Y1'
+param sku string
 
 @description('Tags to put on the resource.')
 param tags object
@@ -68,6 +92,7 @@ resource Insights_diagnosticSettings_ 'Microsoft.Insights/diagnosticSettings@202
 resource Web_serverfarms_ 'Microsoft.Web/serverfarms@2022-09-01' = {
 	location: location
 	name: name
+	properties: properties
 	sku: {
 		name: sku
 	}

@@ -6,15 +6,48 @@ metadata author = {
 
 /* imports */
 
-import { AppServiceParameters } from 'AppServiceTypes.bicep'
-
-import { ManagedServiceIdentity } from './../types.bicep'
+import { DotNetVersion, IpSecurityRestriction, ManagedServiceIdentity } from './../types.bicep'
 
 /* types */
 
-type _AppServiceParameters = AppServiceParameters // <-- creating an alias for use in param and output statements avoids the issue
+type _DotNetVersion = DotNetVersion // <-- creating an alias for use in param and output statements avoids the issue
+
+type _IpSecurityRestriction = IpSecurityRestriction // <-- creating an alias for use in param and output statements avoids the issue
 
 type _ManagedServiceIdentity = ManagedServiceIdentity // <-- creating an alias for use in param and output statements avoids the issue
+
+@description('FunctionApp properties.')
+type Properties = {
+
+	@description('OpenApi definition path')
+	apiDefinition: string?
+
+	@description('List of origins that should be allowed to make cross-origin calls. Use "*" to allow all')
+	corsAllowedOrigins: string[]
+
+	@description('Maximum number of workers that a site can scale out to')
+	@minValue(0)
+	@maxValue(200)
+	functionAppScaleLimit: int?
+
+	@description('Allow clients to connect over http2.0')
+	http20Enabled: bool
+
+	@description('HttpsOnly: configures a web site to accept only https requests. Issues redirect for http requests')
+	httpsOnly: bool
+
+	@description('List of allowed IP addresses')
+	ipSecurityRestrictions: _IpSecurityRestriction[]
+
+	@description('dotNet Framework version.')
+	netFrameworkVersion: _DotNetVersion
+
+	@description('true if remote debugging is enabled; otherwise, false.')
+	remoteDebuggingEnabled: bool
+
+	@description('true to use 32-bit worker process; otherwise, false')
+	use32BitWorkerProcess: bool
+}
 
 /* parameters */
 
@@ -42,8 +75,8 @@ param location string = resourceGroup().location
 @description('Name of the resource.')
 param name string
 
-@description('Configuration parameters.')
-param parameters _AppServiceParameters
+@description('Service properties.')
+param properties Properties
 
 @description('Tags to put on the resource.')
 param tags object = {}
@@ -106,8 +139,7 @@ resource Web_sites_ 'Microsoft.Web/sites@2022-09-01' = {
 	location: location
 	name: name
 	properties: {
-		clientAffinityEnabled: parameters.clientAffinityEnabled
-		httpsOnly: parameters.httpsOnly
+		httpsOnly: properties.httpsOnly
 		serverFarmId: Web_serverFarms_.id
 	}
 	tags: tags
@@ -165,20 +197,19 @@ resource Web_sites_config__Web 'Microsoft.Web/sites/config@2022-09-01' = {
 	name: 'web'
 	parent: Web_sites_
 	properties: {
-		alwaysOn: parameters.alwaysOn
 		apiDefinition: {
-			url: (!contains(parameters, 'apiDefinition') || empty(parameters.apiDefinition)) ? null : 'https://${Web_sites_.properties.defaultHostName}${parameters.apiDefinition}'
+			url: (!contains(properties, 'apiDefinition') || empty(properties.apiDefinition)) ? null : 'https://${Web_sites_.properties.defaultHostName}${properties.apiDefinition}'
 		}
 		cors: {
-			allowedOrigins: parameters.corsAllowedOrigins
+			allowedOrigins: properties.corsAllowedOrigins
 		}
 		defaultDocuments: []
-		functionAppScaleLimit: parameters.functionAppScaleLimit
-		http20Enabled: parameters.http20Enabled
-		ipSecurityRestrictions: parameters.ipSecurityRestrictions
-		netFrameworkVersion: parameters.netFrameworkVersion
-		use32BitWorkerProcess: parameters.use32BitWorkerProcess
-		webSocketsEnabled: parameters.webSocketsEnabled
+		ftpsState: 'Disabled'
+		functionAppScaleLimit: properties.functionAppScaleLimit
+		http20Enabled: properties.http20Enabled
+		ipSecurityRestrictions: properties.ipSecurityRestrictions
+		netFrameworkVersion: properties.netFrameworkVersion
+		use32BitWorkerProcess: properties.use32BitWorkerProcess
 	}
 }
 
