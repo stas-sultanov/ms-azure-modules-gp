@@ -21,14 +21,8 @@ type _ManagedServiceIdentity = ManagedServiceIdentity // <-- creating an alias f
 @description('Id of the OperationalInsights/workspaces resource.')
 param OperationalInsights_workspaces__id string
 
-@description('Id of the Storage/storageAccounts resource.')
-param Storage_storageAccounts__id string
-
 @description('Id of the Web/serverfarms resource.')
 param Web_serverFarms__id string
-
-@description('Application package path within the storage.')
-param appPackPath string
 
 @description('Application settings to be used as Environment Variables.')
 param appSettings object = {}
@@ -87,6 +81,26 @@ var logs = {
 	]
 	app: [
 		{
+			category: 'AppServiceAppLogs'
+			enabled: true
+		}
+		{
+			category: 'AppServiceAuditLogs'
+			enabled: true
+		}
+		{
+			category: 'AppServiceConsoleLogs'
+			enabled: true
+		}
+		{
+			category: 'AppServiceHTTPLogs'
+			enabled: true
+		}
+		{
+			category: 'AppServiceIPSecAuditLogs'
+			enabled: true
+		}
+		{
 			category: 'AppServicePlatformLogs'
 			enabled: true
 		}
@@ -101,8 +115,6 @@ var logs = {
 
 var operationalInsights_workspaces__id_split = split(OperationalInsights_workspaces__id, '/')
 
-var storage_StorageAccounts__id_split = split(Storage_storageAccounts__id, '/')
-
 var web_serverfarms__id_split = split(Web_serverFarms__id, '/')
 
 /* existing resources */
@@ -110,11 +122,6 @@ var web_serverfarms__id_split = split(Web_serverFarms__id, '/')
 resource OperationalInsights_workspaces_ 'Microsoft.OperationalInsights/workspaces@2022-10-01' existing = {
 	name: operationalInsights_workspaces__id_split[8]
 	scope: resourceGroup(operationalInsights_workspaces__id_split[4])
-}
-
-resource Storage_storageAccounts_ 'Microsoft.Storage/storageAccounts@2023-01-01' existing = {
-	name: storage_StorageAccounts__id_split[8]
-	scope: resourceGroup(storage_StorageAccounts__id_split[4])
 }
 
 resource Web_serverFarms_ 'Microsoft.Web/serverfarms@2022-09-01' existing = {
@@ -182,15 +189,7 @@ resource Web_sites_basicPublishingCredentialsPolicies__SCM 'Microsoft.Web/sites/
 resource Web_sites_config__AppSettings 'Microsoft.Web/sites/config@2022-09-01' = {
 	name: 'appsettings'
 	parent: Web_sites_
-	properties: union(
-		appSettings,
-		{
-			FUNCTIONS_EXTENSION_VERSION: '~4'
-			FUNCTIONS_WORKER_RUNTIME: 'dotnet-isolated'
-			WEBSITE_RUN_FROM_PACKAGE: '${Storage_storageAccounts_.properties.primaryEndpoints.blob}${appPackPath}'
-			WEBSITE_RUN_FROM_PACKAGE_BLOB_MI_RESOURCE_ID: 'SystemAssigned'
-		}
-	)
+	properties: appSettings
 }
 
 // resource info
@@ -217,9 +216,11 @@ resource Web_sites_config__Web 'Microsoft.Web/sites/config@2022-09-01' = {
 			allowedOrigins: parameters.corsAllowedOrigins
 		}
 		defaultDocuments: []
-		functionAppScaleLimit: parameters.functionAppScaleLimit
+		functionAppScaleLimit: contains(parameters, 'functionAppScaleLimit') ? parameters.functionAppScaleLimit : 0
 		http20Enabled: parameters.http20Enabled
 		ipSecurityRestrictions: parameters.ipSecurityRestrictions
+		remoteDebuggingEnabled: parameters.remoteDebuggingEnabled
+		remoteDebuggingVersion: 'VS2022'
 		netFrameworkVersion: parameters.netFrameworkVersion
 		use32BitWorkerProcess: parameters.use32BitWorkerProcess
 		webSocketsEnabled: parameters.webSocketsEnabled

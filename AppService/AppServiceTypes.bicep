@@ -32,7 +32,7 @@ type AppServiceParameters = {
 	@description('Maximum number of workers that a site can scale out to')
 	@minValue(0)
 	@maxValue(200)
-	functionAppScaleLimit: int
+	functionAppScaleLimit: int?
 
 	@description('Allow clients to connect over http2.0')
 	http20Enabled: bool
@@ -45,6 +45,9 @@ type AppServiceParameters = {
 
 	@description('dotNet Framework version.')
 	netFrameworkVersion: DotNetVersion
+
+	@description('true if remote debugging is enabled; otherwise, false.')
+	remoteDebuggingEnabled: bool
 
 	@description('true to use 32-bit worker process; otherwise, false')
 	use32BitWorkerProcess: bool
