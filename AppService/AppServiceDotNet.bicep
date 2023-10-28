@@ -36,7 +36,13 @@ param appSettings object = {}
 @description('Managed Service Identity.')
 param identity _ManagedServiceIdentity
 
-param kind string 
+@description('Type of site to deploy.')
+@allowed([
+	'api'
+	'app'
+	'functionapp'
+])
+param kind string
 
 @description('Location to deploy the resource.')
 param location string = resourceGroup().location
@@ -51,6 +57,47 @@ param parameters _AppServiceParameters
 param tags object = {}
 
 /* variables */
+
+var logs = {
+	api: [
+		{
+			category: 'AppServiceAppLogs'
+			enabled: true
+		}
+		{
+			category: 'AppServiceAuditLogs'
+			enabled: true
+		}
+		{
+			category: 'AppServiceConsoleLogs'
+			enabled: true
+		}
+		{
+			category: 'AppServiceHTTPLogs'
+			enabled: true
+		}
+		{
+			category: 'AppServiceIPSecAuditLogs'
+			enabled: true
+		}
+		{
+			category: 'AppServicePlatformLogs'
+			enabled: true
+		}
+	]
+	app: [
+		{
+			category: 'AppServicePlatformLogs'
+			enabled: true
+		}
+	]
+	functionapp: [
+		{
+			category: 'FunctionAppLogs'
+			enabled: true
+		}
+	]
+}
 
 var operationalInsights_workspaces__id_split = split(OperationalInsights_workspaces__id, '/')
 
@@ -83,12 +130,7 @@ resource Insights_diagnosticSettings_ 'Microsoft.Insights/diagnosticSettings@202
 	name: 'Log Analytics'
 	properties: {
 		logAnalyticsDestinationType: 'Dedicated'
-		logs: [
-			{
-				category: 'FunctionAppLogs'
-				enabled: true
-			}
-		]
+		logs: logs[kind]
 		metrics: [
 			{
 				category: 'AllMetrics'
