@@ -25,7 +25,7 @@ type Properties = {
 	@description('List of origins that should be allowed to make cross-origin calls. Use "*" to allow all')
 	corsAllowedOrigins: string[]
 
-	@description('Maximum number of workers that a site can scale out to')
+	@description('Maximum number of workers that a site can scale out to.')
 	@minValue(0)
 	@maxValue(200)
 	functionAppScaleLimit: int?
@@ -141,6 +141,8 @@ resource Web_sites_ 'Microsoft.Web/sites@2022-09-01' = {
 	properties: {
 		httpsOnly: properties.httpsOnly
 		serverFarmId: Web_serverFarms_.id
+		#disable-next-line BCP073 // in API definition this property is read only
+		state: 'Stopped'
 	}
 	tags: tags
 }

@@ -24,6 +24,11 @@ type Parameters = {
 	@description('List of origins that should be allowed to make cross-origin calls. Use "*" to allow all')
 	corsAllowedOrigins: string[]
 
+	@description('Maximum number of workers that a site can scale out to.')
+	@minValue(0)
+	@maxValue(200)
+	functionAppScaleLimit: int?
+
 	@description('Allow clients to connect over http2.0')
 	http20Enabled: bool
 
@@ -34,6 +39,8 @@ type Parameters = {
 	ipSecurityRestrictions: IpSecurityRestriction[]
 
 	minimumElasticInstanceCount: int?
+
+	numberOfWorkers: int?
 
 	preWarmedInstanceCount: int?
 
@@ -163,6 +170,8 @@ resource Web_sites_ 'Microsoft.Web/sites@2022-09-01' = {
 		clientAffinityEnabled: parameters.clientAffinityEnabled
 		httpsOnly: parameters.httpsOnly
 		serverFarmId: Web_serverFarms_.id
+		#disable-next-line BCP073 // in API definition this property is read only
+		state: 'Stopped'
 	}
 	tags: tags
 }
@@ -224,8 +233,8 @@ resource Web_sites_config__Web 'Microsoft.Web/sites/config@2022-09-01' = {
 		http20Enabled: parameters.http20Enabled
 		ipSecurityRestrictions: parameters.ipSecurityRestrictions
 		minimumElasticInstanceCount: parameters.minimumElasticInstanceCount
-		numberOfWorkers: 1
-		preWarmedInstanceCount: 1
+		numberOfWorkers: parameters.numberOfWorkers
+		preWarmedInstanceCount: parameters.preWarmedInstanceCount
 		remoteDebuggingEnabled: parameters.remoteDebuggingEnabled
 		remoteDebuggingVersion: 'VS2022'
 		netFrameworkVersion: parameters.netFrameworkVersion
