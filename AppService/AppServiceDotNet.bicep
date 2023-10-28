@@ -29,6 +29,9 @@ type Parameters = {
 	@maxValue(200)
 	functionAppScaleLimit: int?
 
+	@description('Health check path.')
+	healthCheckPath: string
+
 	@description('Allow clients to connect over http2.0')
 	http20Enabled: bool
 
@@ -38,14 +41,14 @@ type Parameters = {
 	@description('List of allowed IP addresses')
 	ipSecurityRestrictions: IpSecurityRestriction[]
 
+	@description('Number of minimum instance count for a site.')
 	minimumElasticInstanceCount: int?
-
-	numberOfWorkers: int?
-
-	preWarmedInstanceCount: int?
 
 	@description('dotNet Framework version.')
 	netFrameworkVersion: DotNetVersion
+
+	@description('Number of pre warmed instances.')
+	preWarmedInstanceCount: int?
 
 	@description('true if remote debugging is enabled; otherwise, false.')
 	remoteDebuggingEnabled: bool
@@ -229,12 +232,12 @@ resource Web_sites_config__Web 'Microsoft.Web/sites/config@2022-09-01' = {
 		}
 		defaultDocuments: []
 		ftpsState: 'Disabled'
-		healthCheckPath: '/healthcheck'
+		functionAppScaleLimit: contains(parameters, 'functionAppScaleLimit') ? parameters.functionAppScaleLimit : 0
+		healthCheckPath: contains(parameters, 'healthCheckPath') ? parameters.healthCheckPath : null
 		http20Enabled: parameters.http20Enabled
 		ipSecurityRestrictions: parameters.ipSecurityRestrictions
-		minimumElasticInstanceCount: parameters.minimumElasticInstanceCount
-		numberOfWorkers: parameters.numberOfWorkers
-		preWarmedInstanceCount: parameters.preWarmedInstanceCount
+		minimumElasticInstanceCount: contains(parameters, 'minimumElasticInstanceCount') ? parameters.minimumElasticInstanceCount : 0
+		preWarmedInstanceCount: contains(parameters, 'preWarmedInstanceCount') ? parameters.preWarmedInstanceCount : 0
 		remoteDebuggingEnabled: parameters.remoteDebuggingEnabled
 		remoteDebuggingVersion: 'VS2022'
 		netFrameworkVersion: parameters.netFrameworkVersion
