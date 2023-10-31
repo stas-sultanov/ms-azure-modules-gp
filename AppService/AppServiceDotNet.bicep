@@ -48,7 +48,7 @@ type Parameters = {
 	netFrameworkVersion: DotNetVersion
 
 	@description('Number of workers.')
-	numberOfWorkers: int
+	numberOfWorkers: int?
 
 	@description('Number of pre warmed instances.')
 	preWarmedInstanceCount: int?
@@ -244,7 +244,7 @@ resource Web_sites_config__Web 'Microsoft.Web/sites/config@2022-09-01' = {
 		remoteDebuggingEnabled: parameters.remoteDebuggingEnabled
 		remoteDebuggingVersion: 'VS2022'
 		netFrameworkVersion: parameters.netFrameworkVersion
-		numberOfWorkers: parameters.numberOfWorkers
+		numberOfWorkers: contains(parameters, 'numberOfWorkers') ? parameters.numberOfWorkers : null
 		use32BitWorkerProcess: parameters.use32BitWorkerProcess
 		webSocketsEnabled: parameters.webSocketsEnabled
 	}
