@@ -10,8 +10,6 @@ import { ManagedServiceIdentity } from './../types.bicep'
 
 /* types */
 
-type _ManagedServiceIdentity = ManagedServiceIdentity // <-- creating an alias for use in param and output statements avoids the issue
-
 type EntraPrincipalType = 'Application' | 'Group' | 'User'
 
 type EntraPrincipal = {
@@ -37,7 +35,7 @@ param OperationalInsights_workspaces__id string
 param adminPrincipal EntraPrincipal
 
 @description('Managed Service Identity.')
-param identity _ManagedServiceIdentity
+param identity ManagedServiceIdentity
 
 @description('Location to deploy the resource.')
 param location string = resourceGroup().location

@@ -10,12 +10,6 @@ import { DotNetVersion, IpSecurityRestriction, ManagedServiceIdentity } from './
 
 /* types */
 
-type _DotNetVersion = DotNetVersion // <-- creating an alias for use in param and output statements avoids the issue
-
-type _IpSecurityRestriction = IpSecurityRestriction // <-- creating an alias for use in param and output statements avoids the issue
-
-type _ManagedServiceIdentity = ManagedServiceIdentity // <-- creating an alias for use in param and output statements avoids the issue
-
 @description('FunctionApp properties.')
 type Properties = {
 
@@ -37,10 +31,10 @@ type Properties = {
 	httpsOnly: bool
 
 	@description('List of allowed IP addresses')
-	ipSecurityRestrictions: _IpSecurityRestriction[]
+	ipSecurityRestrictions: IpSecurityRestriction[]
 
 	@description('dotNet Framework version.')
-	netFrameworkVersion: _DotNetVersion
+	netFrameworkVersion: DotNetVersion
 
 	@description('true if remote debugging is enabled; otherwise, false.')
 	remoteDebuggingEnabled: bool
@@ -67,7 +61,7 @@ param appPackPath string
 param appSettings object = {}
 
 @description('Managed Service Identity.')
-param identity _ManagedServiceIdentity
+param identity ManagedServiceIdentity
 
 @description('Location to deploy the resource.')
 param location string = resourceGroup().location

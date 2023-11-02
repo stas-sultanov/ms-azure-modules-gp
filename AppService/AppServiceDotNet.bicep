@@ -63,12 +63,6 @@ type Parameters = {
 	webSocketsEnabled: bool
 }
 
-type _DotNetVersion = DotNetVersion // <-- creating an alias for use in param and output statements avoids the issue
-
-type _IpSecurityRestriction = IpSecurityRestriction // <-- creating an alias for use in param and output statements avoids the issue
-
-type _ManagedServiceIdentity = ManagedServiceIdentity // <-- creating an alias for use in param and output statements avoids the issue
-
 /* parameters */
 
 @description('Id of the OperationalInsights/workspaces resource.')
@@ -81,7 +75,7 @@ param Web_serverFarms__id string
 param appSettings object = {}
 
 @description('Managed Service Identity.')
-param identity _ManagedServiceIdentity
+param identity ManagedServiceIdentity
 
 @description('Type of site to deploy.')
 @allowed([
