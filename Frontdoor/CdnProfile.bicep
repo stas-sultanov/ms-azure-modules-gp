@@ -3,6 +3,8 @@ metadata author = {
 	name: 'Stas Sultanov'
 	profileUrl: 'https://www.linkedin.com/in/stas-sultanov'
 }
+metadata copyright = '2023 Stas Sultanov'
+metadata license = 'MIT'
 
 /* parameters */
 
@@ -11,6 +13,10 @@ param OperationalInsights_workspaces__id string
 
 @description('Name of the resource.')
 param name string
+
+@description('Send and receive timeout on forwarding request to the origin. When timeout is reached, the request fails and returns.')
+@minValue(16)
+param originResponseTimeoutSeconds int
 
 @description('Tags to put on the resource.')
 param tags object = {}
@@ -32,7 +38,7 @@ resource Cdn_profiles_ 'Microsoft.Cdn/profiles@2023-05-01' = {
 	location: 'global'
 	name: name
 	properties: {
-		originResponseTimeoutSeconds: 60
+		originResponseTimeoutSeconds: originResponseTimeoutSeconds
 	}
 	sku: {
 		name: 'Standard_AzureFrontDoor'
