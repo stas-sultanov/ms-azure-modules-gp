@@ -48,7 +48,7 @@ resource Insights_diagnosticSettings_ 'Microsoft.Insights/diagnosticSettings@202
 		logAnalyticsDestinationType: 'Dedicated'
 		logs: [
 			{
-				category: 'AzureCdnAccessLog'
+				categoryGroup: 'allLogs'
 				enabled: true
 			}
 		]
