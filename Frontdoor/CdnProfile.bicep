@@ -34,7 +34,7 @@ resource OperationalInsights_workspaces_ 'Microsoft.OperationalInsights/workspac
 
 // resource info
 // https://learn.microsoft.com/azure/templates/microsoft.cdn/profiles
-resource Cdn_profiles_ 'Microsoft.Cdn/profiles@2023-05-01' = {
+resource Cdn_profiles_ 'Microsoft.Cdn/profiles@2023-07-01-preview' = {
 	location: 'global'
 	name: name
 	properties: {
