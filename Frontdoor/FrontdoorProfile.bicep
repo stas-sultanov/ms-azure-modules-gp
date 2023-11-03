@@ -1,10 +1,10 @@
+/* Copyright © 2023 Stas Sultanov */
+
 metadata author = {
 	githubUrl: 'https://github.com/stas-sultanov'
 	name: 'Stas Sultanov'
 	profileUrl: 'https://www.linkedin.com/in/stas-sultanov'
 }
-metadata copyright = '2023 Stas Sultanov'
-metadata license = 'MIT'
 
 /* parameters */
 
@@ -42,9 +42,8 @@ resource OperationalInsights_workspaces_ 'Microsoft.OperationalInsights/workspac
 	scope: resourceGroup(operationalInsights_workspaces__id_split[4])
 }
 
-// resource info
 // https://learn.microsoft.com/azure/templates/microsoft.cdn/profiles
-resource Cdn_profiles_ 'Microsoft.Cdn/profiles@2023-07-01-preview' = {
+resource Cdn_profiles_ 'Microsoft.Cdn/profiles@2023-05-01' = {
 	location: 'global'
 	name: name
 	properties: {
@@ -56,9 +55,8 @@ resource Cdn_profiles_ 'Microsoft.Cdn/profiles@2023-07-01-preview' = {
 	tags: tags
 }
 
-// resource info
 // https://learn.microsoft.com/azure/templates/microsoft.cdn/profiles/afdendpoints
-resource Cdn_profiles_afdEndpoints_ 'Microsoft.Cdn/profiles/afdEndpoints@2023-07-01-preview' = [
+resource Cdn_profiles_afdEndpoints_ 'Microsoft.Cdn/profiles/afdEndpoints@2023-05-01' = [
 for afdEndpointName in afdEndpointNameList: {
 	location: 'global'
 	name: afdEndpointName
@@ -67,7 +65,6 @@ for afdEndpointName in afdEndpointNameList: {
 	tags: tags
 }]
 
-// resource info
 // https://learn.microsoft.com/azure/templates/microsoft.insights/diagnosticsettings
 resource Insights_diagnosticSettings_ 'Microsoft.Insights/diagnosticSettings@2021-05-01-preview' = {
 	name: 'Log Analytics'

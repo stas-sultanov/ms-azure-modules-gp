@@ -1,3 +1,5 @@
+/* Copyright © 2023 Stas Sultanov */
+
 metadata author = {
 	githubUrl: 'https://github.com/stas-sultanov'
 	name: 'Stas Sultanov'
@@ -43,7 +45,6 @@ resource DocumentDB_databaseAccounts_ 'Microsoft.DocumentDB/databaseAccounts@202
 
 /* resources */
 
-// resource info
 // https://learn.microsoft.com/azure/templates/microsoft.authorization/roleassignments
 resource Authorization_roleAssignments_ 'Microsoft.Authorization/roleAssignments@2022-04-01' = [
 for authorization in authorizationList: {
@@ -55,8 +56,8 @@ for authorization in authorizationList: {
 	)
 	properties: {
 		description: (!contains(authorization, 'description') || empty(authorization.description)) 
-		? '${authorization.role} role for ${(!contains(authorization.principal, 'name') || empty(authorization.principal.name)) ? authorization.principal.id : authorization.principal.name}.' 
-		: authorization.description
+		 ? '${authorization.role} role for ${(!contains(authorization.principal, 'name') || empty(authorization.principal.name)) ? authorization.principal.id : authorization.principal.name}.' 
+		 : authorization.description
 		principalId: authorization.principal.id
 		principalType: authorization.principal.type
 		roleDefinitionId: subscriptionResourceId('Microsoft.Authorization/roleDefinitions', roleId[authorization.role])

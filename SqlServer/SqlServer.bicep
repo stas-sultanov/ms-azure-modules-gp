@@ -1,4 +1,6 @@
-﻿metadata author = {
+﻿/* Copyright © 2023 Stas Sultanov */
+
+metadata author = {
 	githubUrl: 'https://github.com/stas-sultanov'
 	name: 'Stas Sultanov'
 	profileUrl: 'https://www.linkedin.com/in/stas-sultanov'
@@ -66,7 +68,6 @@ resource OperationalInsights_workspaces_ 'Microsoft.OperationalInsights/workspac
 
 /* resources */
 
-// resource info
 // https://learn.microsoft.com/azure/templates/microsoft.insights/diagnosticsettings
 resource Insights_diagnosticSettings_ 'Microsoft.Insights/diagnosticSettings@2021-05-01-preview' = {
 	name: 'Log Analytics'
@@ -83,7 +84,6 @@ resource Insights_diagnosticSettings_ 'Microsoft.Insights/diagnosticSettings@202
 	scope: Sql_servers_databases__master
 }
 
-// resource info
 // https://learn.microsoft.com/azure/templates/microsoft.sql/servers
 resource Sql_servers_ 'Microsoft.Sql/servers@2023-02-01-preview' = {
 	identity: identity
@@ -104,9 +104,8 @@ resource Sql_servers_ 'Microsoft.Sql/servers@2023-02-01-preview' = {
 	tags: tags
 }
 
-// resource info
 // https://learn.microsoft.com/azure/templates/microsoft.sql/servers/auditingsettings
-resource Sql_servers_auditingSettings__Default 'Microsoft.Sql/servers/auditingSettings@2023-02-01-preview' = {
+resource Sql_servers_auditingSettings__Default 'Microsoft.Sql/servers/auditingSettings@2021-11-01' = {
 	name: 'default'
 	parent: Sql_servers_
 	properties: {
@@ -115,9 +114,8 @@ resource Sql_servers_auditingSettings__Default 'Microsoft.Sql/servers/auditingSe
 	}
 }
 
-// resource info
 // https://learn.microsoft.com/azure/templates/microsoft.sql/servers/connectionpolicies
-resource Sql_servers_connectionPolicies__default 'Microsoft.Sql/servers/connectionPolicies@2023-02-01-preview' = {
+resource Sql_servers_connectionPolicies__default 'Microsoft.Sql/servers/connectionPolicies@2021-11-01' = {
 	name: 'default'
 	parent: Sql_servers_
 	properties: {
@@ -125,18 +123,16 @@ resource Sql_servers_connectionPolicies__default 'Microsoft.Sql/servers/connecti
 	}
 }
 
-// resource info
 // https://learn.microsoft.com/azure/templates/microsoft.sql/servers/databases
-resource Sql_servers_databases__master 'Microsoft.Sql/servers/databases@2023-02-01-preview' = {
+resource Sql_servers_databases__master 'Microsoft.Sql/servers/databases@2021-11-01' = {
 	location: location
 	name: 'master'
 	parent: Sql_servers_
 	properties: {}
 }
 
-// resource info
 // https://learn.microsoft.com/azure/templates/microsoft.sql/servers/firewallrules
-resource Sql_servers_firewallRules__AllowAllWindowsAzureIps 'Microsoft.Sql/servers/firewallRules@2023-02-01-preview' = {
+resource Sql_servers_firewallRules__AllowAllWindowsAzureIps 'Microsoft.Sql/servers/firewallRules@2021-11-01' = {
 	name: 'AllowAllWindowsAzureIps'
 	parent: Sql_servers_
 	properties: {
@@ -145,9 +141,8 @@ resource Sql_servers_firewallRules__AllowAllWindowsAzureIps 'Microsoft.Sql/serve
 	}
 }
 
-// resource info
 // https://learn.microsoft.com/azure/templates/microsoft.sql/servers/firewallrules
-resource Sql_servers_firewallRules__AllowPublicNetworkAccess 'Microsoft.Sql/servers/firewallRules@2023-02-01-preview' = if (publicNetworkAccess == 'Enabled') {
+resource Sql_servers_firewallRules__AllowPublicNetworkAccess 'Microsoft.Sql/servers/firewallRules@2021-11-01' = if (publicNetworkAccess == 'Enabled') {
 	name: 'AllowPublicNetworkAccess'
 	parent: Sql_servers_
 	properties: {

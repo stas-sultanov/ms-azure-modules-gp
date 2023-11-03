@@ -1,3 +1,5 @@
+/* Copyright © 2023 Stas Sultanov */
+
 metadata author = {
 	githubUrl: 'https://github.com/stas-sultanov'
 	name: 'Stas Sultanov'
@@ -47,7 +49,6 @@ resource Insights_components_ 'Microsoft.Insights/components@2020-02-02' existin
 
 /* resources */
 
-// resource info
 // https://learn.microsoft.com/azure/templates/microsoft.authorization/roleassignments
 resource Authorization_roleAssignments_ 'Microsoft.Authorization/roleAssignments@2022-04-01' = [
 for authorization in authorizationList: {

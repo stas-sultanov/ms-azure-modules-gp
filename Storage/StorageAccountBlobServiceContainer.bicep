@@ -1,3 +1,5 @@
+/* Copyright © 2023 Stas Sultanov */
+
 metadata author = {
 	githubUrl: 'https://github.com/stas-sultanov'
 	name: 'Stas Sultanov'
@@ -51,7 +53,6 @@ resource Storage_storageAccounts_blobServices_ 'Microsoft.Storage/storageAccount
 /* resources */
 
 // provision Container
-// resource info
 // https://learn.microsoft.com/azure/templates/microsoft.storage/storageaccounts/blobservices/containers
 resource Storage_storageAccounts_blobServices_containers_ 'Microsoft.Storage/storageAccounts/blobServices/containers@2023-01-01' = {
 	name: name
@@ -59,7 +60,6 @@ resource Storage_storageAccounts_blobServices_containers_ 'Microsoft.Storage/sto
 }
 
 // provision Container authorizations
-// resource info
 // https://learn.microsoft.com/azure/templates/microsoft.authorization/roleassignments
 resource Authorization_roleAssignments_ 'Microsoft.Authorization/roleAssignments@2022-04-01' = [
 for authorization in authorizationList: {

@@ -1,3 +1,5 @@
+/* Copyright © 2023 Stas Sultanov */
+
 metadata author = {
 	githubUrl: 'https://github.com/stas-sultanov'
 	name: 'Stas Sultanov'
@@ -46,7 +48,6 @@ resource Insights_actionGroup_ 'Microsoft.Insights/actionGroups@2023-01-01' exis
 
 /* resources */
 
-// resource info
 // https://learn.microsoft.com/azure/templates/microsoft.alertsmanagement/smartdetectoralertrules
 resource alertsManagement_smartDetectorAlertRules_AnomaliesAlert 'microsoft.alertsManagement/smartDetectorAlertRules@2021-04-01' = {
 	location: 'global'
@@ -65,7 +66,6 @@ resource alertsManagement_smartDetectorAlertRules_AnomaliesAlert 'microsoft.aler
 	tags: tags
 }
 
-// resource info
 // https://learn.microsoft.com/azure/templates/microsoft.alertsmanagement/smartdetectoralertrules 
 resource alertsManagement_smartDetectorAlertRules_RequestPerformanceDegradation 'microsoft.alertsManagement/smartDetectorAlertRules@2021-04-01' = {
 	location: 'global'
@@ -84,7 +84,6 @@ resource alertsManagement_smartDetectorAlertRules_RequestPerformanceDegradation 
 	tags: tags
 }
 
-// resource info
 // https://learn.microsoft.com/azure/templates/microsoft.alertsmanagement/smartdetectoralertrules
 resource alertsManagement_smartDetectorAlertRules_DependencyPerformanceDegradation 'microsoft.alertsManagement/smartDetectorAlertRules@2021-04-01' = {
 	location: 'global'
@@ -103,7 +102,6 @@ resource alertsManagement_smartDetectorAlertRules_DependencyPerformanceDegradati
 	tags: tags
 }
 
-// resource info
 // https://learn.microsoft.com/azure/templates/microsoft.alertsmanagement/smartdetectoralertrules
 resource alertsManagement_smartDetectorAlertRules_TraceSeverityDetector 'microsoft.alertsManagement/smartDetectorAlertRules@2021-04-01' = {
 	location: 'global'
@@ -122,7 +120,6 @@ resource alertsManagement_smartDetectorAlertRules_TraceSeverityDetector 'microso
 	tags: tags
 }
 
-// resource info
 // https://learn.microsoft.com/azure/templates/microsoft.alertsmanagement/smartdetectoralertrules
 resource alertsManagement_smartDetectorAlertRules_ExceptionVolumeChangedDetector 'microsoft.alertsManagement/smartDetectorAlertRules@2021-04-01' = {
 	location: 'global'
@@ -141,7 +138,6 @@ resource alertsManagement_smartDetectorAlertRules_ExceptionVolumeChangedDetector
 	tags: tags
 }
 
-// resource info
 // https://learn.microsoft.com/azure/templates/microsoft.alertsmanagement/smartdetectoralertrules
 resource alertsManagement_smartDetectorAlertRules_MemoryLeakDetector 'microsoft.alertsManagement/smartDetectorAlertRules@2021-04-01' = {
 	location: 'global'

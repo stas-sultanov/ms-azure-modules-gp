@@ -1,3 +1,5 @@
+/* Copyright © 2023 Stas Sultanov */
+
 metadata author = {
 	githubUrl: 'https://github.com/stas-sultanov'
 	name: 'Stas Sultanov'
@@ -27,7 +29,6 @@ resource AppConfiguration_configurationStores_ 'Microsoft.AppConfiguration/confi
 
 /* resources */
 
-// resource info
 // https://learn.microsoft.com/azure/templates/microsoft.appconfiguration/configurationstores/keyvalues
 resource AppConfiguration_configurationStores_keyValues_ 'Microsoft.AppConfiguration/configurationStores/keyValues@2023-03-01' = [
 for keyValuePair in keyValuePairList: {

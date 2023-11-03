@@ -1,4 +1,6 @@
-﻿metadata author = {
+﻿/* Copyright © 2023 Stas Sultanov */
+
+metadata author = {
 	githubUrl: 'https://github.com/stas-sultanov'
 	name: 'Stas Sultanov'
 	profileUrl: 'https://www.linkedin.com/in/stas-sultanov'
@@ -82,7 +84,6 @@ resource Sql_servers_ 'Microsoft.Sql/servers@2023-02-01-preview' existing = {
 
 /* resources */
 
-// resource info
 // https://learn.microsoft.com/azure/templates/microsoft.insights/diagnosticsettings
 resource Insights_diagnosticSettings_ 'Microsoft.Insights/diagnosticSettings@2021-05-01-preview' = {
 	name: 'Log Analytics'
@@ -109,9 +110,8 @@ resource Insights_diagnosticSettings_ 'Microsoft.Insights/diagnosticSettings@202
 	scope: Sql_servers_databases_
 }
 
-// resource info
 // https://learn.microsoft.com/azure/templates/microsoft.sql/servers/databases
-resource Sql_servers_databases_ 'Microsoft.Sql/servers/databases@2023-02-01-preview' = {
+resource Sql_servers_databases_ 'Microsoft.Sql/servers/databases@2021-11-01' = {
 	location: location
 	name: name
 	parent: Sql_servers_
@@ -122,9 +122,8 @@ resource Sql_servers_databases_ 'Microsoft.Sql/servers/databases@2023-02-01-prev
 	tags: tags
 }
 
-// resource info
 // https://learn.microsoft.com/azure/templates/microsoft.sql/servers/databases/auditingsettings
-resource Sql_servers_databases_auditingSettings_ 'Microsoft.Sql/servers/databases/auditingSettings@2023-02-01-preview' = {
+resource Sql_servers_databases_auditingSettings_ 'Microsoft.Sql/servers/databases/auditingSettings@2021-11-01' = {
 	name: 'default'
 	parent: Sql_servers_databases_
 	properties: {

@@ -1,3 +1,5 @@
+/* Copyright © 2023 Stas Sultanov */
+
 metadata author = {
 	githubUrl: 'https://github.com/stas-sultanov'
 	name: 'Stas Sultanov'
@@ -102,7 +104,6 @@ resource OperationalInsights_workspaces_ 'Microsoft.OperationalInsights/workspac
 
 /* resources */
 
-// resource info
 // https://learn.microsoft.com/azure/templates/microsoft.documentdb/databaseaccounts
 resource DocumentDB_databaseAccounts_ 'Microsoft.DocumentDB/databaseAccounts@2023-09-15' = {
 	kind: 'GlobalDocumentDB'
@@ -127,7 +128,6 @@ resource DocumentDB_databaseAccounts_ 'Microsoft.DocumentDB/databaseAccounts@202
 	tags: union(tags, { capacityMode: capacityMode })
 }
 
-// resource info
 // https://learn.microsoft.com/azure/templates/microsoft.insights/diagnosticsettings
 resource Insights_diagnosticSettings_ 'Microsoft.Insights/diagnosticSettings@2021-05-01-preview' = {
 	name: 'Log Analytics'
@@ -150,7 +150,6 @@ resource Insights_diagnosticSettings_ 'Microsoft.Insights/diagnosticSettings@202
 	scope: DocumentDB_databaseAccounts_
 }
 
-// resource info
 // https://learn.microsoft.com/azure/templates/microsoft.security/advancedthreatprotectionsettings
 resource Security_advancedThreatProtectionSettings_ 'Microsoft.Security/advancedThreatProtectionSettings@2019-01-01' = {
 	name: 'current'

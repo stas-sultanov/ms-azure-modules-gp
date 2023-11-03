@@ -1,3 +1,5 @@
+/* Copyright © 2023 Stas Sultanov */
+
 metadata author = {
 	githubUrl: 'https://github.com/stas-sultanov'
 	name: 'Stas Sultanov'
@@ -116,7 +118,6 @@ resource Web_serverFarms_ 'Microsoft.Web/serverfarms@2022-09-01' existing = {
 
 /* resources */
 
-// resource info
 // https://learn.microsoft.com/azure/templates/microsoft.insights/diagnosticsettings
 resource Insights_diagnosticSettings_ 'Microsoft.Insights/diagnosticSettings@2021-05-01-preview' = {
 	name: 'Log Analytics'
@@ -159,7 +160,6 @@ resource Insights_diagnosticSettings_ 'Microsoft.Insights/diagnosticSettings@202
 	scope: Web_sites_
 }
 
-// resource info
 // https://learn.microsoft.com/azure/templates/microsoft.web/sites
 resource Web_sites_ 'Microsoft.Web/sites@2022-09-01' = {
 	identity: identity
@@ -176,7 +176,6 @@ resource Web_sites_ 'Microsoft.Web/sites@2022-09-01' = {
 	tags: tags
 }
 
-// resource info
 // https://learn.microsoft.com/azure/templates/microsoft.web/sites/basicpublishingcredentialspolicies-ftp
 resource Web_sites_basicPublishingCredentialsPolicies__FTP 'Microsoft.Web/sites/basicPublishingCredentialsPolicies@2022-09-01' = {
 	name: 'ftp'
@@ -186,7 +185,6 @@ resource Web_sites_basicPublishingCredentialsPolicies__FTP 'Microsoft.Web/sites/
 	}
 }
 
-// resource info
 // https://learn.microsoft.com/azure/templates/microsoft.web/sites/basicpublishingcredentialspolicies-scm
 resource Web_sites_basicPublishingCredentialsPolicies__SCM 'Microsoft.Web/sites/basicPublishingCredentialsPolicies@2022-09-01' = {
 	name: 'scm'
@@ -196,7 +194,6 @@ resource Web_sites_basicPublishingCredentialsPolicies__SCM 'Microsoft.Web/sites/
 	}
 }
 
-// resource info
 // https://learn.microsoft.com/azure/templates/microsoft.web/sites/config-appsettings
 resource Web_sites_config__AppSettings 'Microsoft.Web/sites/config@2022-09-01' = {
 	name: 'appsettings'
@@ -204,7 +201,6 @@ resource Web_sites_config__AppSettings 'Microsoft.Web/sites/config@2022-09-01' =
 	properties: appSettings
 }
 
-// resource info
 // https://learn.microsoft.com/azure/templates/microsoft.web/sites/config-metadata
 resource Web_sites_config__Metadata 'Microsoft.Web/sites/config@2022-09-01' = {
 	name: 'metadata'
@@ -214,7 +210,6 @@ resource Web_sites_config__Metadata 'Microsoft.Web/sites/config@2022-09-01' = {
 	}
 }
 
-// resource info
 // https://learn.microsoft.com/azure/templates/microsoft.web/sites/config-web
 resource Web_sites_config__Web 'Microsoft.Web/sites/config@2022-09-01' = {
 	name: 'web'

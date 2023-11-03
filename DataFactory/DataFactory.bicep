@@ -1,3 +1,5 @@
+/* Copyright © 2023 Stas Sultanov */
+
 metadata author = {
 	githubUrl: 'https://github.com/stas-sultanov'
 	name: 'Stas Sultanov'
@@ -60,7 +62,6 @@ resource OperationalInsights_Workspace 'Microsoft.OperationalInsights/workspaces
 
 /* resources */
 
-// resource info
 // https://learn.microsoft.com/azure/templates/microsoft.datafactory/factories
 resource DataFactory_factories_ 'Microsoft.DataFactory/factories@2018-06-01' = {
 	identity: identity
@@ -82,7 +83,6 @@ resource DataFactory_factories_ 'Microsoft.DataFactory/factories@2018-06-01' = {
 	tags: tags
 }
 
-// resource info
 // https://learn.microsoft.com/azure/templates/microsoft.insights/diagnosticsettings
 resource Insights_diagnosticSettings_ 'Microsoft.Insights/diagnosticSettings@2021-05-01-preview' = {
 	name: 'Log Analytics'

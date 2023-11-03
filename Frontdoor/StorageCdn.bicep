@@ -1,10 +1,10 @@
+/* Copyright © 2023 Stas Sultanov */
+
 metadata author = {
 	githubUrl: 'https://github.com/stas-sultanov'
 	name: 'Stas Sultanov'
 	profileUrl: 'https://www.linkedin.com/in/stas-sultanov'
 }
-metadata copyright = '2023 Stas Sultanov'
-metadata license = 'MIT'
 
 /* parameters */
 
@@ -27,11 +27,11 @@ var storage_storageAccounts_primaryEndpoints_blob_hostName = replace(replace(Sto
 
 /* existing resources */
 
-resource Cdn_profiles_ 'Microsoft.Cdn/profiles@2023-07-01-preview' existing = {
+resource Cdn_profiles_ 'Microsoft.Cdn/profiles@2023-05-01' existing = {
 	name: cdn_profiles_afdEndpoints_id_split[8]
 }
 
-resource Cdn_profiles_afdEndpoints_ 'Microsoft.Cdn/profiles/afdEndpoints@2023-07-01-preview' existing = {
+resource Cdn_profiles_afdEndpoints_ 'Microsoft.Cdn/profiles/afdEndpoints@2023-05-01' existing = {
 	name: cdn_profiles_afdEndpoints_id_split[9]
 	parent: Cdn_profiles_
 }
@@ -41,17 +41,15 @@ resource Storage_storageAccounts_ 'Microsoft.Storage/storageAccounts@2023-01-01'
 	scope: resourceGroup(storage_StorageAccounts__id_split[4])
 }
 
-// resource info
 // https://learn.microsoft.com/azure/templates/microsoft.cdn/profiles/afdendpoints/routes
-resource Cdn_profiles_afdEndpoints_routes_ 'Microsoft.Cdn/profiles/afdEndpoints/routes@2021-06-01' = {
+resource Cdn_profiles_afdEndpoints_routes_ 'Microsoft.Cdn/profiles/afdEndpoints/routes@2023-05-01' = {
 	name: name
 	parent: Cdn_profiles_afdEndpoints_
 	properties: {
 		cacheConfiguration: {
 			queryStringCachingBehavior: 'IgnoreQueryString'
 		}
-		customDomains: [
-		]
+		customDomains: []
 		originGroup: {
 			id: Cdn_profiles_originGroups_.id
 		}
@@ -69,9 +67,8 @@ resource Cdn_profiles_afdEndpoints_routes_ 'Microsoft.Cdn/profiles/afdEndpoints/
 	}
 }
 
-// resource info
 // https://learn.microsoft.com/azure/templates/microsoft.cdn/profiles/origingroups
-resource Cdn_profiles_originGroups_ 'Microsoft.Cdn/profiles/originGroups@2023-07-01-preview' = {
+resource Cdn_profiles_originGroups_ 'Microsoft.Cdn/profiles/originGroups@2023-05-01' = {
 	name: '${name}-storage'
 	parent: Cdn_profiles_
 	properties: {
@@ -89,9 +86,8 @@ resource Cdn_profiles_originGroups_ 'Microsoft.Cdn/profiles/originGroups@2023-07
 	}
 }
 
-// resource info
 // https://learn.microsoft.com/azure/templates/microsoft.cdn/profiles/origingroups/origins
-resource Cdn_profiles_originGroups_origins_ 'Microsoft.Cdn/profiles/originGroups/origins@2023-07-01-preview' = {
+resource Cdn_profiles_originGroups_origins_ 'Microsoft.Cdn/profiles/originGroups/origins@2023-05-01' = {
 	name: Storage_storageAccounts_.name
 	parent: Cdn_profiles_originGroups_
 	properties: {

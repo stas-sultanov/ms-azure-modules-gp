@@ -1,3 +1,5 @@
+/* Copyright © 2023 Stas Sultanov */
+
 metadata author = {
 	githubUrl: 'https://github.com/stas-sultanov'
 	name: 'Stas Sultanov'
@@ -51,7 +53,6 @@ resource BotService_botServices_ 'Microsoft.BotService/botServices@2022-09-15' e
 
 /* resources */
 
-// resource info
 // https://learn.microsoft.com/azure/templates/microsoft.botservice/botservices
 resource BotService_botServices_connections_ 'Microsoft.BotService/botServices/connections@2022-09-15' = {
 	location: 'global'

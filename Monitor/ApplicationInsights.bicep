@@ -1,3 +1,5 @@
+/* Copyright © 2023 Stas Sultanov */
+
 metadata author = {
 	githubUrl: 'https://github.com/stas-sultanov'
 	name: 'Stas Sultanov'
@@ -34,7 +36,6 @@ resource OperationalInsights_workspaces_ 'Microsoft.OperationalInsights/workspac
 
 /* resources */
 
-// resource info
 // https://learn.microsoft.com/azure/templates/microsoft.insights/components
 resource Insights_components_ 'Microsoft.Insights/components@2020-02-02' = {
 	kind: 'web'

@@ -1,3 +1,5 @@
+/* Copyright © 2023 Stas Sultanov */
+
 metadata author = {
   name: 'Stas Sultanov'
   profile: 'https://www.linkedin.com/in/stas-sultanov'
@@ -26,7 +28,6 @@ resource Storage_StorageAccount 'Microsoft.Storage/storageAccounts@2023-01-01' e
 
 /* resources */
 
-// resource info
 // 
 resource DataFactory_Factory_LinkedService 'Microsoft.DataFactory/factories/linkedservices@2018-06-01' = {
   name: name

@@ -1,3 +1,11 @@
+/* Copyright © 2023 Stas Sultanov */
+
+metadata author = {
+	githubUrl: 'https://github.com/stas-sultanov'
+	name: 'Stas Sultanov'
+	profileUrl: 'https://www.linkedin.com/in/stas-sultanov'
+}
+
 /* parameters */
 
 @description('Id of the Microsoft.DocumentDB/databaseAccounts resource.')
