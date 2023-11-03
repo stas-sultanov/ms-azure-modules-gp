@@ -9,7 +9,7 @@ metadata author = {
 /* parameters */
 
 @description('Id of the Cdn/profiles/afdEndpoints resource.')
-param Cdn_profiles_afdEndpoints_id string
+param Cdn_profiles_afdEndpoints__id string
 
 @description('Id of the Storage/storageAccounts resource.')
 param Storage_storageAccounts__id string
@@ -19,7 +19,7 @@ param name string
 
 /* variables */
 
-var cdn_profiles_afdEndpoints_id_split = split(Cdn_profiles_afdEndpoints_id, '/')
+var cdn_profiles_afdEndpoints__id_split = split(Cdn_profiles_afdEndpoints__id, '/')
 
 var storage_StorageAccounts__id_split = split(Storage_storageAccounts__id, '/')
 
@@ -28,11 +28,11 @@ var storage_storageAccounts_primaryEndpoints_blob_hostName = replace(replace(Sto
 /* existing resources */
 
 resource Cdn_profiles_ 'Microsoft.Cdn/profiles@2023-05-01' existing = {
-	name: cdn_profiles_afdEndpoints_id_split[8]
+	name: cdn_profiles_afdEndpoints__id_split[8]
 }
 
 resource Cdn_profiles_afdEndpoints_ 'Microsoft.Cdn/profiles/afdEndpoints@2023-05-01' existing = {
-	name: cdn_profiles_afdEndpoints_id_split[9]
+	name: cdn_profiles_afdEndpoints__id_split[10]
 	parent: Cdn_profiles_
 }
 
