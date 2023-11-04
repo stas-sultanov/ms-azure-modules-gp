@@ -43,6 +43,9 @@ resource Storage_storageAccounts_ 'Microsoft.Storage/storageAccounts@2023-01-01'
 
 // https://learn.microsoft.com/azure/templates/microsoft.cdn/profiles/afdendpoints/routes
 resource Cdn_profiles_afdEndpoints_routes_ 'Microsoft.Cdn/profiles/afdEndpoints/routes@2023-05-01' = {
+	dependsOn: [
+		Cdn_profiles_originGroups_origins_
+	]
 	name: name
 	parent: Cdn_profiles_afdEndpoints_
 	properties: {
