@@ -6,16 +6,26 @@ metadata author = {
 	profileUrl: 'https://www.linkedin.com/in/stas-sultanov'
 }
 
+/* types */
+
+type SKU = 'Standard_LRS' | 'Standard_ZRS'
+
 /* parameters */
 
 @description('Id of the OperationalInsights/workspaces resource.')
 param OperationalInsights_workspaces__id string
+
+@description('Indicates whether the storage account permits requests to be authorized with the account access key via Shared Key.')
+param allowSharedKeyAccess bool = false
 
 @description('Location to deploy the resource.')
 param location string = resourceGroup().location
 
 @description('Name of the resource.')
 param name string
+
+@description('Name of the sku.')
+param sku SKU
 
 @description('Tags to put on the resource.')
 param tags object
@@ -61,13 +71,13 @@ resource Storage_storageAccounts_ 'Microsoft.Storage/storageAccounts@2023-01-01'
 		accessTier: 'Hot'
 		allowBlobPublicAccess: false
 		allowCrossTenantReplication: false
-		allowSharedKeyAccess: false
+		allowSharedKeyAccess: allowSharedKeyAccess
 		defaultToOAuthAuthentication: true
 		minimumTlsVersion: 'TLS1_2'
 		supportsHttpsTrafficOnly: false
 	}
 	sku: {
-		name: 'Standard_LRS'
+		name: sku
 	}
 	tags: tags
 }
