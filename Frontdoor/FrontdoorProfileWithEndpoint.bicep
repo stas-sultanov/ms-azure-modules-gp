@@ -11,6 +11,9 @@ metadata author = {
 @description('Id of the OperationalInsights/workspaces resource.')
 param OperationalInsights_workspaces__id string
 
+@description('Collection of the names of the afdEndpoins.')
+param afdEndpointNameList string[]
+
 @description('Name of the resource.')
 param name string
 
@@ -24,6 +27,13 @@ param tags object = {}
 /* variables */
 
 var operationalInsights_workspaces__id_split = split(OperationalInsights_workspaces__id, '/')
+
+var adfEnpointList = [for afdEndpointName in afdEndpointNameList: {
+	key: afdEndpointName
+	value: {
+		id: id('Microsoft.Cdn/profiles/afdEndpoints', name, afdEndpointName)
+	}
+}]
 
 /* existing resources */
 
@@ -44,6 +54,16 @@ resource Cdn_profiles_ 'Microsoft.Cdn/profiles@2023-05-01' = {
 	}
 	tags: tags
 }
+
+// https://learn.microsoft.com/azure/templates/microsoft.cdn/profiles/afdendpoints
+resource Cdn_profiles_afdEndpoints_ 'Microsoft.Cdn/profiles/afdEndpoints@2023-05-01' = [
+for afdEndpointName in afdEndpointNameList: {
+	location: 'global'
+	name: afdEndpointName
+	parent: Cdn_profiles_
+	properties: {}
+	tags: tags
+}]
 
 // https://learn.microsoft.com/azure/templates/microsoft.insights/diagnosticsettings
 resource Insights_diagnosticSettings_ 'Microsoft.Insights/diagnosticSettings@2021-05-01-preview' = {
@@ -70,3 +90,5 @@ resource Insights_diagnosticSettings_ 'Microsoft.Insights/diagnosticSettings@202
 /* outputs */
 
 output id string = Cdn_profiles_.id
+
+output afdEnpoints object = toObject(adfEnpointList, pair => pair.key, pair => pair.value)

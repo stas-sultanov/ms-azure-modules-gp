@@ -134,4 +134,4 @@ resource Sql_servers_databases_auditingSettings_ 'Microsoft.Sql/servers/database
 
 /* outputs */
 
-output resourceId string = Sql_servers_databases_.id
+output id string = Sql_servers_databases_.id

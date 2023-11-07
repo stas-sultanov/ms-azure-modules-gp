@@ -176,4 +176,4 @@ resource Insights_diagnosticSetting_ 'Microsoft.Insights/diagnosticSettings@2021
 
 /* outputs */
 
-output resourceId string = BotService_botServices_.id
+output id string = BotService_botServices_.id

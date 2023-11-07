@@ -109,4 +109,4 @@ resource Insights_diagnosticSettings_ 'Microsoft.Insights/diagnosticSettings@202
 
 output identity object = DataFactory_factories_.identity
 
-output resourceId string = DataFactory_factories_.id
+output id string = DataFactory_factories_.id

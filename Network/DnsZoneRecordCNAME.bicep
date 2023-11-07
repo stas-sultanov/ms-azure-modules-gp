@@ -45,4 +45,4 @@ resource Network_DnsZone_CNAME 'Microsoft.Network/dnsZones/CNAME@2023-07-01-prev
 
 /* outputs */
 
-output resourceId string = Network_DnsZone_CNAME.id
+output id string = Network_DnsZone_CNAME.id

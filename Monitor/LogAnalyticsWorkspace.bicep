@@ -113,4 +113,4 @@ resource Insights_diagnosticSettings_ 'Microsoft.Insights/diagnosticSettings@202
 
 /* outputs */
 
-output resourceId string = OperationalInsights_workspaces_.id
+output id string = OperationalInsights_workspaces_.id

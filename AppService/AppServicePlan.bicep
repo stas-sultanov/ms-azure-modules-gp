@@ -101,4 +101,4 @@ resource Web_serverfarms_ 'Microsoft.Web/serverfarms@2022-09-01' = {
 
 /* outputs */
 
-output resourceId string = Web_serverfarms_.id
+output id string = Web_serverfarms_.id

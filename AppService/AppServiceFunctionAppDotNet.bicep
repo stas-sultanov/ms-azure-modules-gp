@@ -210,4 +210,4 @@ output defaultHostName string = Web_sites_.properties.defaultHostName
 
 output identity object = Web_sites_.identity
 
-output resourceId string = Web_sites_.id
+output id string = Web_sites_.id

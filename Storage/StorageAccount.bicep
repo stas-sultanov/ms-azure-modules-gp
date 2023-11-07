@@ -86,4 +86,4 @@ resource Storage_storageAccounts_ 'Microsoft.Storage/storageAccounts@2023-01-01'
 
 output primaryEndpoints object = Storage_storageAccounts_.properties.primaryEndpoints
 
-output resourceId string = Storage_storageAccounts_.id
+output id string = Storage_storageAccounts_.id

@@ -161,6 +161,6 @@ resource Security_advancedThreatProtectionSettings_ 'Microsoft.Security/advanced
 
 /* outputs */
 
-output resourceId string = DocumentDB_databaseAccounts_.id
+output id string = DocumentDB_databaseAccounts_.id
 
 output restoreId string = '/subscriptions/${subscription().subscriptionId}/providers/Microsoft.DocumentDB/locations/${DocumentDB_databaseAccounts_.location}/restorableDatabaseAccounts/${DocumentDB_databaseAccounts_.properties.instanceId}'

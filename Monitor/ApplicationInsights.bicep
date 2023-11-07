@@ -57,4 +57,4 @@ output connectionString string = Insights_components_.properties.ConnectionStrin
 
 output instrumentationKey string = Insights_components_.properties.InstrumentationKey
 
-output resourceId string = Insights_components_.id
+output id string = Insights_components_.id
