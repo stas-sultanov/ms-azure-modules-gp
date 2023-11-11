@@ -22,7 +22,8 @@ var extraTags = {
 
 /* resources */
 
-resource Network_DnsZone 'Microsoft.Network/dnsZones@2023-07-01-preview' = {
+// https://learn.microsoft.com/azure/templates/microsoft.network/dnszones
+resource Network_DnsZones_ 'Microsoft.Network/dnsZones@2023-07-01-preview' = {
   name: name
   location: 'global'
   tags: union(tags, extraTags)
@@ -33,6 +34,6 @@ resource Network_DnsZone 'Microsoft.Network/dnsZones@2023-07-01-preview' = {
 
 /* outputs */
 
-output id string = Network_DnsZone.id
+output id string = Network_DnsZones_.id
 
-output nameServers array = Network_DnsZone.properties.nameServers
+output nameServers array = Network_DnsZones_.properties.nameServers
