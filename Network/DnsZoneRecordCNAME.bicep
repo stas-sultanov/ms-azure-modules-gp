@@ -26,13 +26,13 @@ var dnsZoneId_split = split(Network_dnsZone__id, '/')
 
 /* existing resources */
 
-resource Network_DnsZone 'Microsoft.Network/dnsZones@2023-07-01-preview' existing = {
+resource Network_DnsZone 'Microsoft.Network/dnsZones@2018-05-01' existing = {
   name: dnsZoneId_split[8]
 }
 
 /* resources */
 
-resource Network_DnsZone_CNAME 'Microsoft.Network/dnsZones/CNAME@2023-07-01-preview' = {
+resource Network_DnsZone_CNAME 'Microsoft.Network/dnsZones/CNAME@2018-05-01' = {
   name: name
   parent: Network_DnsZone
   properties: {

@@ -14,22 +14,16 @@ param name string
 @description('Tags to put on the resource.')
 param tags object
 
-/* variables */
-
-var extraTags = {
-  displayName: name
-}
-
 /* resources */
 
 // https://learn.microsoft.com/azure/templates/microsoft.network/dnszones
-resource Network_DnsZones_ 'Microsoft.Network/dnsZones@2023-07-01-preview' = {
-  name: name
-  location: 'global'
-  tags: union(tags, extraTags)
-  properties: {
-    zoneType: 'Public'
-  }
+resource Network_DnsZones_ 'Microsoft.Network/dnsZones@2018-05-01' = {
+	location: 'global'
+	name: name
+	tags: union(tags, tags)
+	properties: {
+		zoneType: 'Public'
+	}
 }
 
 /* outputs */
