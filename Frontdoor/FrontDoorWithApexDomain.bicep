@@ -113,3 +113,9 @@ resource Network_dnsZones_txt_ 'Microsoft.Network/dnsZones/TXT@2018-05-01' = {
 /* outputs */
 
 output id string = Cdn_profiles_.id
+
+output customDomains array = [
+	{
+		id: Cdn_profiles_customDomains_.id
+	}
+]
