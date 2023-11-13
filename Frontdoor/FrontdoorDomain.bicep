@@ -45,6 +45,9 @@ resource Cdn_profiles_customDomains_ 'Microsoft.Cdn/profiles/customDomains@2023-
 	name: replace(hostName, '.', '-')
 	parent: Cdn_profiles_
 	properties: {
+		azureDnsZone: {
+			id: "/subscriptions/66ef014e-adb6-4868-9182-52fe0deeeb00/resourceGroups/stas-umbraco-dev/providers/Microsoft.Network/dnszones/umbraco.gostas.dev"
+		}
 		hostName: hostName
 		tlsSettings: {
 			certificateType: 'ManagedCertificate'
@@ -52,20 +55,6 @@ resource Cdn_profiles_customDomains_ 'Microsoft.Cdn/profiles/customDomains@2023-
 		}
 	}
 }
-
-// https://learn.microsoft.com/azure/templates/microsoft.network/dnszones/cname
-/*
-resource Network_dnsZones_cname_ 'Microsoft.Network/dnsZones/CNAME@2018-05-01' = {
-	parent: Network_DnsZones_
-	name: cnameRecordName
-	properties: {
-		TTL: dnsRecordTimeToLive
-		CNAMERecord: {
-			cname: endpoint.properties.hostName
-		}
-	}
-}
-*/
 
 // https://learn.microsoft.com/azure/templates/microsoft.network/dnszones/txt
 resource Network_dnsZones_txt_ 'Microsoft.Network/dnsZones/TXT@2018-05-01' = {
