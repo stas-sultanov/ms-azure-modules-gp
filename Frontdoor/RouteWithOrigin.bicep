@@ -16,11 +16,11 @@ param Cdn_profiles_customDomains__id string
 
 param originGroupsName string
 
-param originPath string?
+param originHostHeader string
 
 param originHostName string
 
-param originHostHeader string
+param originPath string?
 
 param patternsToMatch string[]
 
@@ -76,8 +76,8 @@ resource Cdn_profiles_afdEndpoints_routes_ 'Microsoft.Cdn/profiles/afdEndpoints/
 		]
 		patternsToMatch: patternsToMatch
 		forwardingProtocol: 'HttpOnly'
-		linkToDefaultDomain: 'Enabled'
-		httpsRedirect: 'Disabled'
+		linkToDefaultDomain: 'Disabled'
+		httpsRedirect: 'Enabled'
 	}
 }
 
