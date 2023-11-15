@@ -60,7 +60,7 @@ resource Cdn_profiles_afdEndpoints_routes_ 'Microsoft.Cdn/profiles/afdEndpoints/
 	parent: Cdn_profiles_afdEndpoints_
 	properties: {
 		cacheConfiguration: {
-			queryStringCachingBehavior: 'NotSet'
+			queryStringCachingBehavior: null
 		}
 		customDomains: [
 			{
