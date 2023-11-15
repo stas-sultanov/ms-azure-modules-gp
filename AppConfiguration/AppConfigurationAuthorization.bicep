@@ -30,6 +30,8 @@ param authorizationList Authorization[]
 
 /* variables */
 
+var appConfiguration_configurationStores__id_split = split(AppConfiguration_configurationStores__id, '/')
+
 var roleId = {
 	AppConfigurationDataOwner: '5ae67dd6-50cb-40e7-96ff-dc2bfa4b606b'
 	AppConfigurationDataReader: '516239f1-63e1-4d78-a4de-a74fb236a071'
@@ -38,7 +40,7 @@ var roleId = {
 /* existing resources */
 
 resource AppConfiguration_configurationStores_ 'Microsoft.AppConfiguration/configurationStores@2023-03-01' existing = {
-	name: split(AppConfiguration_configurationStores__id, '/')[8]
+	name: appConfiguration_configurationStores__id_split[8]
 }
 
 /* resources */
