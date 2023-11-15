@@ -98,6 +98,6 @@ resource Network_dnsZones_cname_ 'Microsoft.Network/dnsZones/CNAME@2018-05-01' =
 
 /* outputs */
 
-output endpointId string = Cdn_profiles_afdEndpoints_.id
+output afdEndpointId string = Cdn_profiles_afdEndpoints_.id
 
 output customDomainId string = Cdn_profiles_customDomains_.id

@@ -102,7 +102,7 @@ resource Cdn_profiles_originGroups_ 'Microsoft.Cdn/profiles/originGroups@2023-05
 
 // https://learn.microsoft.com/azure/templates/microsoft.cdn/profiles/origingroups/origins
 resource Cdn_profiles_originGroups_origins_ 'Microsoft.Cdn/profiles/originGroups/origins@2023-05-01' = {
-	name: 'Default'
+	name: replace(replace(originHostName, '.', '-'), '_', '-')
 	parent: Cdn_profiles_originGroups_
 	properties: {
 		hostName: originHostName
