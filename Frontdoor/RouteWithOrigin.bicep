@@ -113,3 +113,11 @@ resource Cdn_profiles_originGroups_origins_ 'Microsoft.Cdn/profiles/originGroups
 		weight: 1000
 	}
 }
+
+/* outputs */
+
+output Cdn_profiles_afdEndpoints_routes__id string = Cdn_profiles_afdEndpoints_routes_.id
+
+output Cdn_profiles_originGroups__id string = Cdn_profiles_originGroups_.id
+
+output Cdn_profiles_originGroups_origins__id string = Cdn_profiles_originGroups_origins_.id
