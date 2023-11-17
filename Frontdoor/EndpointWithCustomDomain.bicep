@@ -135,6 +135,12 @@ resource Network_dnsZones_cname_ 'Microsoft.Network/dnsZones/CNAME@2018-05-01' =
 
 /* outputs */
 
-output afdEndpointId string = Cdn_profiles_afdEndpoints_.id
+output Cdn_profiles_afdEndpoints__id string = Cdn_profiles_afdEndpoints_.id
 
-output customDomainId string = Cdn_profiles_customDomains_.id
+output Cdn_profiles_customDomains__id string = Cdn_profiles_customDomains_.id
+
+output Cdn_profiles_securityPolicies__id string = Cdn_profiles_securityPolicies_.id
+
+output Network_dnsZones_cname__id string = Network_dnsZones_cname_.id
+
+output Network_dnsZones_txt_Validation_id string = Network_dnsZones_txt_Validation.id
