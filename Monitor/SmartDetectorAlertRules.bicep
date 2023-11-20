@@ -51,7 +51,7 @@ resource Insights_actionGroup_ 'Microsoft.Insights/actionGroups@2023-01-01' exis
 // https://learn.microsoft.com/azure/templates/microsoft.alertsmanagement/smartdetectoralertrules
 resource alertsManagement_smartDetectorAlertRules_AnomaliesAlert 'microsoft.alertsManagement/smartDetectorAlertRules@2021-04-01' = {
 	location: 'global'
-	name: '${namePrefix}FailureAnomaliesDetector'
+	name: '${namePrefix}failureAnomalies'
 	properties: {
 		actionGroups: actionGroupInformation
 		description: 'Detects an unusual rise in the rate in failed HTTP requests or dependency calls.'
@@ -69,7 +69,7 @@ resource alertsManagement_smartDetectorAlertRules_AnomaliesAlert 'microsoft.aler
 // https://learn.microsoft.com/azure/templates/microsoft.alertsmanagement/smartdetectoralertrules 
 resource alertsManagement_smartDetectorAlertRules_RequestPerformanceDegradation 'microsoft.alertsManagement/smartDetectorAlertRules@2021-04-01' = {
 	location: 'global'
-	name: '${namePrefix}RequestPerformanceDegradationDetector'
+	name: '${namePrefix}requestPerformanceDegradation'
 	properties: {
 		actionGroups: actionGroupInformation
 		description: 'Detects an unusual increase in requests processing time.'
@@ -81,13 +81,18 @@ resource alertsManagement_smartDetectorAlertRules_RequestPerformanceDegradation 
 		severity: 'Sev3'
 		state: 'Enabled'
 	}
-	tags: tags
+	tags: union(
+		tags,
+		{
+			specialization: 'request performance degradation'
+		}
+	)
 }
 
 // https://learn.microsoft.com/azure/templates/microsoft.alertsmanagement/smartdetectoralertrules
 resource alertsManagement_smartDetectorAlertRules_DependencyPerformanceDegradation 'microsoft.alertsManagement/smartDetectorAlertRules@2021-04-01' = {
 	location: 'global'
-	name: '${namePrefix}DependencyPerformanceDegradationDetector'
+	name: '${namePrefix}dependencyPerformanceDegradation'
 	properties: {
 		actionGroups: actionGroupInformation
 		description: 'Detects an unusual increase in dependencies requests processing time.'
@@ -99,13 +104,18 @@ resource alertsManagement_smartDetectorAlertRules_DependencyPerformanceDegradati
 		severity: 'Sev3'
 		state: 'Enabled'
 	}
-	tags: tags
+	tags: union(
+		tags,
+		{
+			specialization: 'dependency performance degradation'
+		}
+	)
 }
 
 // https://learn.microsoft.com/azure/templates/microsoft.alertsmanagement/smartdetectoralertrules
 resource alertsManagement_smartDetectorAlertRules_TraceSeverityDetector 'microsoft.alertsManagement/smartDetectorAlertRules@2021-04-01' = {
 	location: 'global'
-	name: '${namePrefix}TraceSeverityDetector'
+	name: '${namePrefix}traceSeverity'
 	properties: {
 		actionGroups: actionGroupInformation
 		description: 'Detects an unusual increase in the severity of the traces.'
@@ -117,13 +127,18 @@ resource alertsManagement_smartDetectorAlertRules_TraceSeverityDetector 'microso
 		severity: 'Sev3'
 		state: 'Enabled'
 	}
-	tags: tags
+	tags: union(
+		tags,
+		{
+			specialization: 'trace severity'
+		}
+	)
 }
 
 // https://learn.microsoft.com/azure/templates/microsoft.alertsmanagement/smartdetectoralertrules
 resource alertsManagement_smartDetectorAlertRules_ExceptionVolumeChangedDetector 'microsoft.alertsManagement/smartDetectorAlertRules@2021-04-01' = {
 	location: 'global'
-	name: '${namePrefix}ExceptionVolumeChangedDetector'
+	name: '${namePrefix}exceptionVolumeChange'
 	properties: {
 		actionGroups: actionGroupInformation
 		description: 'Detects an unusual increase in the rate of exceptions.'
@@ -135,13 +150,18 @@ resource alertsManagement_smartDetectorAlertRules_ExceptionVolumeChangedDetector
 		severity: 'Sev3'
 		state: 'Enabled'
 	}
-	tags: tags
+	tags: union(
+		tags,
+		{
+			specialization: 'exception volume change'
+		}
+	)
 }
 
 // https://learn.microsoft.com/azure/templates/microsoft.alertsmanagement/smartdetectoralertrules
 resource alertsManagement_smartDetectorAlertRules_MemoryLeakDetector 'microsoft.alertsManagement/smartDetectorAlertRules@2021-04-01' = {
 	location: 'global'
-	name: '${namePrefix}MemoryLeakDetector'
+	name: '${namePrefix}memoryLeak'
 	properties: {
 		actionGroups: actionGroupInformation
 		description: 'Detects an unusual increase in memory consumption pattern.'
@@ -153,5 +173,10 @@ resource alertsManagement_smartDetectorAlertRules_MemoryLeakDetector 'microsoft.
 		severity: 'Sev3'
 		state: 'Enabled'
 	}
-	tags: tags
+	tags: union(
+		tags,
+		{
+			specialization: 'memory leak'
+		}
+	)
 }
