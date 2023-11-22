@@ -18,8 +18,8 @@ param OperationalInsights_workspaces__id string
 @description('Indicates whether the storage account permits requests to be authorized with the account access key via Shared Key.')
 param allowSharedKeyAccess bool = false
 
-@description('Location to deploy the resource.')
-param location string = resourceGroup().location
+@description('Location to deploy the resources.')
+param location string
 
 @description('Name of the resource.')
 param name string

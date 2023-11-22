@@ -65,8 +65,8 @@ param appSettings object = {}
 @description('Managed Service Identity.')
 param identity ManagedServiceIdentity
 
-@description('Location to deploy the resource.')
-param location string = resourceGroup().location
+@description('Location to deploy the resources.')
+param location string
 
 @description('Name of the resource.')
 param name string

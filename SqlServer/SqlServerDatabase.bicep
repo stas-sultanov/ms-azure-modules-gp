@@ -23,8 +23,8 @@ param Sql_servers_databases__sourceId string = ''
 @allowed([ 'Default', 'Copy' ])
 param createMode string = 'Default'
 
-@description('Location to deploy the resource.')
-param location string = resourceGroup().location
+@description('Location to deploy the resources.')
+param location string
 
 @description('Name of the resource.')
 param name string

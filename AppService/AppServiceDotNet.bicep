@@ -14,6 +14,7 @@ import { DotNetVersion, IpSecurityRestriction, ManagedServiceIdentity } from './
 
 @description('AppService parameters.')
 type Parameters = {
+
 	@description('true if Always On is enabled; otherwise, false')
 	alwaysOn: bool
 
@@ -86,8 +87,8 @@ param identity ManagedServiceIdentity
 ])
 param kind string
 
-@description('Location to deploy the resource.')
-param location string = resourceGroup().location
+@description('Location to deploy the resources.')
+param location string
 
 @description('Name of the resource.')
 param name string

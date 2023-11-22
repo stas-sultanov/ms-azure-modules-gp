@@ -25,8 +25,8 @@ type Properties = {
 @description('Id of the OperationalInsights/workspaces resource.')
 param OperationalInsights_workspaces__id string
 
-@description('Location to deploy the resource.')
-param location string = resourceGroup().location
+@description('Location to deploy the resources.')
+param location string
 
 @description('Name of the resource.')
 param name string

@@ -11,8 +11,8 @@ metadata author = {
 @description('Id of the Storage/storageAccounts resource.')
 param Storage_storageAccounts__id string
 
-@description('Location to deploy the resource.')
-param location string = resourceGroup().location
+@description('Location to deploy the resources.')
+param location string
 
 @description('Name of the resource.')
 param name string

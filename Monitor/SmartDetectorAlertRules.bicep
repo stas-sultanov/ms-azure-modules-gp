@@ -17,6 +17,9 @@ param Insights_components__id string
 @description('Common tags to put on the resource.')
 param customWebhookPayload string = ''
 
+@description('Location to deploy the resources.')
+param location string
+
 @description('A prefix to use to generate names of the resources.')
 param namePrefix string
 
@@ -38,7 +41,6 @@ var insights_components__id_split = split(Insights_components__id, '/')
 
 resource Insights_components_ 'Microsoft.Insights/components@2020-02-02' existing = {
 	name: insights_components__id_split[8]
-	scope: resourceGroup(insights_components__id_split[4])
 }
 
 resource Insights_actionGroup_ 'Microsoft.Insights/actionGroups@2023-01-01' existing = {
@@ -48,6 +50,7 @@ resource Insights_actionGroup_ 'Microsoft.Insights/actionGroups@2023-01-01' exis
 
 /* resources */
 
+/*
 // https://learn.microsoft.com/azure/templates/microsoft.alertsmanagement/smartdetectoralertrules
 resource alertsManagement_smartDetectorAlertRules_AnomaliesAlert 'microsoft.alertsManagement/smartDetectorAlertRules@2021-04-01' = {
 	location: 'global'
@@ -65,31 +68,10 @@ resource alertsManagement_smartDetectorAlertRules_AnomaliesAlert 'microsoft.aler
 	}
 	tags: tags
 }
-
-// https://learn.microsoft.com/azure/templates/microsoft.alertsmanagement/smartdetectoralertrules 
-resource alertsManagement_smartDetectorAlertRules_RequestPerformanceDegradation 'microsoft.alertsManagement/smartDetectorAlertRules@2021-04-01' = {
-	location: 'global'
-	name: '${namePrefix}requestPerformanceDegradation'
-	properties: {
-		actionGroups: actionGroupInformation
-		description: 'Detects an unusual increase in requests processing time.'
-		detector: {
-			id: 'RequestPerformanceDegradationDetector'
-		}
-		frequency: 'PT24H'
-		scope: [ Insights_components_.id ]
-		severity: 'Sev3'
-		state: 'Enabled'
-	}
-	tags: union(
-		tags,
-		{
-			specialization: 'request performance degradation'
-		}
-	)
-}
+*/
 
 // https://learn.microsoft.com/azure/templates/microsoft.alertsmanagement/smartdetectoralertrules
+@description('Dependency Performance Degradation')
 resource alertsManagement_smartDetectorAlertRules_DependencyPerformanceDegradation 'microsoft.alertsManagement/smartDetectorAlertRules@2021-04-01' = {
 	location: 'global'
 	name: '${namePrefix}dependencyPerformanceDegradation'
@@ -104,38 +86,11 @@ resource alertsManagement_smartDetectorAlertRules_DependencyPerformanceDegradati
 		severity: 'Sev3'
 		state: 'Enabled'
 	}
-	tags: union(
-		tags,
-		{
-			specialization: 'dependency performance degradation'
-		}
-	)
+	tags: tags
 }
 
 // https://learn.microsoft.com/azure/templates/microsoft.alertsmanagement/smartdetectoralertrules
-resource alertsManagement_smartDetectorAlertRules_TraceSeverityDetector 'microsoft.alertsManagement/smartDetectorAlertRules@2021-04-01' = {
-	location: 'global'
-	name: '${namePrefix}traceSeverity'
-	properties: {
-		actionGroups: actionGroupInformation
-		description: 'Detects an unusual increase in the severity of the traces.'
-		detector: {
-			id: 'TraceSeverityDetector'
-		}
-		frequency: 'PT24H'
-		scope: [ Insights_components_.id ]
-		severity: 'Sev3'
-		state: 'Enabled'
-	}
-	tags: union(
-		tags,
-		{
-			specialization: 'trace severity'
-		}
-	)
-}
-
-// https://learn.microsoft.com/azure/templates/microsoft.alertsmanagement/smartdetectoralertrules
+@description('Exception Volume Changed')
 resource alertsManagement_smartDetectorAlertRules_ExceptionVolumeChangedDetector 'microsoft.alertsManagement/smartDetectorAlertRules@2021-04-01' = {
 	location: 'global'
 	name: '${namePrefix}exceptionVolumeChange'
@@ -159,6 +114,7 @@ resource alertsManagement_smartDetectorAlertRules_ExceptionVolumeChangedDetector
 }
 
 // https://learn.microsoft.com/azure/templates/microsoft.alertsmanagement/smartdetectoralertrules
+@description('Memory Leak')
 resource alertsManagement_smartDetectorAlertRules_MemoryLeakDetector 'microsoft.alertsManagement/smartDetectorAlertRules@2021-04-01' = {
 	location: 'global'
 	name: '${namePrefix}memoryLeak'
@@ -179,4 +135,68 @@ resource alertsManagement_smartDetectorAlertRules_MemoryLeakDetector 'microsoft.
 			specialization: 'memory leak'
 		}
 	)
+}
+
+// https://learn.microsoft.com/azure/templates/microsoft.alertsmanagement/smartdetectoralertrules 
+@description('Request Performance Degradation')
+resource alertsManagement_smartDetectorAlertRules_RequestPerformanceDegradation 'microsoft.alertsManagement/smartDetectorAlertRules@2021-04-01' = {
+	location: 'global'
+	name: '${namePrefix}requestPerformanceDegradation'
+	properties: {
+		actionGroups: actionGroupInformation
+		description: 'Detects an unusual increase in requests processing time.'
+		detector: {
+			id: 'RequestPerformanceDegradationDetector'
+		}
+		frequency: 'PT24H'
+		scope: [ Insights_components_.id ]
+		severity: 'Sev3'
+		state: 'Enabled'
+	}
+	tags: union(
+		tags,
+		{
+			specialization: 'request performance degradation'
+		}
+	)
+}
+
+// https://learn.microsoft.com/azure/templates/microsoft.alertsmanagement/smartdetectoralertrules
+@description('Trace Severity')
+resource alertsManagement_smartDetectorAlertRules_TraceSeverityDetector 'microsoft.alertsManagement/smartDetectorAlertRules@2021-04-01' = {
+	location: 'global'
+	name: '${namePrefix}traceSeverity'
+	properties: {
+		actionGroups: actionGroupInformation
+		description: 'Detects an unusual increase in the severity of the traces.'
+		detector: {
+			id: 'TraceSeverityDetector'
+		}
+		frequency: 'PT24H'
+		scope: [ Insights_components_.id ]
+		severity: 'Sev3'
+		state: 'Enabled'
+	}
+	tags: union(
+		tags,
+		{
+			specialization: 'trace severity'
+		}
+	)
+}
+
+resource Insights_components_ProactiveDetectionConfig_MigrationToAlertRulesCompleted 'Microsoft.Insights/components/ProactiveDetectionConfigs@2018-05-01-preview' = {
+	location: location
+	name: 'migrationToAlertRulesCompleted'
+	parent: Insights_components_
+	properties: {
+		Enabled: true
+	}
+	dependsOn: [
+		alertsManagement_smartDetectorAlertRules_DependencyPerformanceDegradation
+		alertsManagement_smartDetectorAlertRules_ExceptionVolumeChangedDetector
+		alertsManagement_smartDetectorAlertRules_MemoryLeakDetector
+		alertsManagement_smartDetectorAlertRules_RequestPerformanceDegradation
+		alertsManagement_smartDetectorAlertRules_TraceSeverityDetector
+	]
 }
