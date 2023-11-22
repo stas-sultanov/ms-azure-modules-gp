@@ -105,12 +105,7 @@ resource alertsManagement_smartDetectorAlertRules_ExceptionVolumeChangedDetector
 		severity: 'Sev3'
 		state: 'Enabled'
 	}
-	tags: union(
-		tags,
-		{
-			specialization: 'exception volume change'
-		}
-	)
+	tags: tags
 }
 
 // https://learn.microsoft.com/azure/templates/microsoft.alertsmanagement/smartdetectoralertrules
@@ -129,12 +124,7 @@ resource alertsManagement_smartDetectorAlertRules_MemoryLeakDetector 'microsoft.
 		severity: 'Sev3'
 		state: 'Enabled'
 	}
-	tags: union(
-		tags,
-		{
-			specialization: 'memory leak'
-		}
-	)
+	tags: tags
 }
 
 // https://learn.microsoft.com/azure/templates/microsoft.alertsmanagement/smartdetectoralertrules 
@@ -153,12 +143,7 @@ resource alertsManagement_smartDetectorAlertRules_RequestPerformanceDegradation 
 		severity: 'Sev3'
 		state: 'Enabled'
 	}
-	tags: union(
-		tags,
-		{
-			specialization: 'request performance degradation'
-		}
-	)
+	tags: tags
 }
 
 // https://learn.microsoft.com/azure/templates/microsoft.alertsmanagement/smartdetectoralertrules
@@ -177,12 +162,7 @@ resource alertsManagement_smartDetectorAlertRules_TraceSeverityDetector 'microso
 		severity: 'Sev3'
 		state: 'Enabled'
 	}
-	tags: union(
-		tags,
-		{
-			specialization: 'trace severity'
-		}
-	)
+	tags: tags
 }
 
 resource Insights_components_ProactiveDetectionConfig_MigrationToAlertRulesCompleted 'Microsoft.Insights/components/ProactiveDetectionConfigs@2018-05-01-preview' = {
