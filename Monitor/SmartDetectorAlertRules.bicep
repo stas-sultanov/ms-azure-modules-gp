@@ -190,6 +190,7 @@ resource alertsManagement_smartDetectorAlertRules_TraceSeverityDetector 'microso
 	)
 }
 
+// https://learn.microsoft.com/azure/templates/microsoft.insights/components/proactivedetectionconfigs
 resource Insights_components_ProactiveDetectionConfig_MigrationToAlertRulesCompleted 'Microsoft.Insights/components/ProactiveDetectionConfigs@2018-05-01-preview' = {
 	dependsOn: [
 		alertsManagement_smartDetectorAlertRules_DependencyPerformanceDegradation
@@ -202,6 +203,9 @@ resource Insights_components_ProactiveDetectionConfig_MigrationToAlertRulesCompl
 	name: 'migrationToAlertRulesCompleted'
 	parent: Insights_components_
 	properties: {
-		CustomEmails:[]
+		CustomEmails: []
+		Enabled: true
+		RuleDefinitions: null
+		SendEmailsToSubscriptionOwners: false
 	}
 }
