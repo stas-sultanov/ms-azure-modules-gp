@@ -8,9 +8,6 @@ metadata author = {
 
 /* parameters */
 
-@description('Id of the Network/dnsZones resource.')
-param Network_dnsZones__id string
-
 @description('Id of the OperationalInsights/workspaces resource.')
 param OperationalInsights_workspaces__id string
 
@@ -26,15 +23,9 @@ param tags object = {}
 
 /* variables */
 
-var network_dnsZones__id_split = split(Network_dnsZones__id, '/')
-
 var operationalInsights_workspaces__id_split = split(OperationalInsights_workspaces__id, '/')
 
 /* existing resources */
-
-resource Network_DnsZones_ 'Microsoft.Network/dnsZones@2018-05-01' existing = {
-	name: network_dnsZones__id_split[8]
-}
 
 resource OperationalInsights_workspaces_ 'Microsoft.OperationalInsights/workspaces@2022-10-01' existing = {
 	name: operationalInsights_workspaces__id_split[8]
@@ -54,22 +45,6 @@ resource Cdn_profiles_ 'Microsoft.Cdn/profiles@2023-05-01' = {
 		name: 'Standard_AzureFrontDoor'
 	}
 	tags: tags
-}
-
-// https://learn.microsoft.com/azure/templates/microsoft.cdn/profiles/customdomains
-resource Cdn_profiles_customDomains_ 'Microsoft.Cdn/profiles/customDomains@2023-05-01' = {
-	name: replace(Network_DnsZones_.name, '.', '-')
-	parent: Cdn_profiles_
-	properties: {
-		azureDnsZone: {
-			id: Network_DnsZones_.id
-		}
-		hostName: Network_DnsZones_.name
-		tlsSettings: {
-			certificateType: 'ManagedCertificate'
-			minimumTlsVersion: 'TLS12'
-		}
-	}
 }
 
 // https://learn.microsoft.com/azure/templates/microsoft.insights/diagnosticsettings
@@ -94,28 +69,6 @@ resource Insights_diagnosticSettings_ 'Microsoft.Insights/diagnosticSettings@202
 	scope: Cdn_profiles_
 }
 
-// https://learn.microsoft.com/azure/templates/microsoft.network/dnszones/txt
-resource Network_dnsZones_txt_ 'Microsoft.Network/dnsZones/TXT@2018-05-01' = {
-	parent: Network_DnsZones_
-	name: '_dnsauth'
-	properties: {
-		TTL: 3600
-		TXTRecords: [
-			{
-				value: [
-					Cdn_profiles_customDomains_.properties.validationProperties.validationToken
-				]
-			}
-		]
-	}
-}
-
 /* outputs */
 
 output id string = Cdn_profiles_.id
-
-output customDomains array = [
-	{
-		id: Cdn_profiles_customDomains_.id
-	}
-]

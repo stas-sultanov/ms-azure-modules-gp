@@ -50,7 +50,6 @@ resource OperationalInsights_workspaces_ 'Microsoft.OperationalInsights/workspac
 		features: {
 			disableLocalAuth: true
 		}
-		publicNetworkAccessForIngestion: 'Disabled'
 		retentionInDays: retentionInDays
 		sku: {
 			name: sku
