@@ -16,6 +16,8 @@ param Cdn_profiles_customDomains__id string
 
 param originGroupsName string
 
+param originGroupsProbePath string
+
 param originHostHeader string
 
 param originHostName string
@@ -88,7 +90,7 @@ resource Cdn_profiles_originGroups_ 'Microsoft.Cdn/profiles/originGroups@2023-05
 	properties: {
 		healthProbeSettings: {
 			probeIntervalInSeconds: 120
-			probePath: '/'
+			probePath: originGroupsProbePath
 			probeProtocol: 'Http'
 			probeRequestType: 'HEAD'
 		}
