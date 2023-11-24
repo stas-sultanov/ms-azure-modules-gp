@@ -98,7 +98,7 @@ resource Cdn_profiles_securityPolicies_ 'Microsoft.Cdn/profiles/securityPolicies
 				{
 					domains: [
 						{
-							id: Cdn_profiles_afdEndpoints_.id
+							id: Cdn_profiles_customDomains_.id
 						}
 					]
 					patternsToMatch: securityPolicyPatternsToMatch
