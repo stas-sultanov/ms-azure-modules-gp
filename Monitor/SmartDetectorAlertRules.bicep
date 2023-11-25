@@ -74,7 +74,6 @@ resource alertsManagement_smartDetectorAlertRules_Anomalies 'microsoft.alertsMan
 	)
 }
 
-
 // https://learn.microsoft.com/azure/templates/microsoft.alertsmanagement/smartdetectoralertrules
 @description('Dependency Performance Degradation')
 resource alertsManagement_smartDetectorAlertRules_DependencyPerformanceDegradation 'microsoft.alertsManagement/smartDetectorAlertRules@2021-04-01' = {

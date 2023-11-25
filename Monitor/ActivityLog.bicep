@@ -17,10 +17,7 @@ param OperationalInsights_workspaces__id string
 
 /* variables */
 
-var operationalInsights_workspaces__id_split = split(
-	OperationalInsights_workspaces__id,
-	'/'
-)
+var operationalInsights_workspaces__id_split = split(OperationalInsights_workspaces__id, '/')
 
 /* existing resources */
 
@@ -34,6 +31,7 @@ resource OperationalInsights_workspaces_ 'Microsoft.OperationalInsights/workspac
 resource subscriptionActivityLog 'Microsoft.Insights/diagnosticSettings@2021-05-01-preview' = {
 	name: 'Log Analytics'
 	properties: {
+		logAnalyticsDestinationType: 'Dedicated'
 		logs: [
 			{
 				category: 'Administrative'

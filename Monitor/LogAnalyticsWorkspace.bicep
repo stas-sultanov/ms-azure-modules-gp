@@ -17,14 +17,10 @@ param location string
 @description('Name of the resource.')
 param name string
 
-@description('Number of days to keep the logs. -1 for unlimited retention.')
-@minValue(-1)
-@maxValue(730)
+@description('Number of days to keep the logs.')
+@minValue(30)
+@maxValue(365)
 param retentionInDays int = 30
-
-@description('Number of days to keep the logs. -1 for unlimited retention.')
-@allowed([ 'CapacityReservation', 'LACluster', 'PerGB2018' ])
-param sku string = 'PerGB2018'
 
 @description('Tags to put on the resource.')
 param tags object = {}
@@ -52,7 +48,7 @@ resource OperationalInsights_workspaces_ 'Microsoft.OperationalInsights/workspac
 		}
 		retentionInDays: retentionInDays
 		sku: {
-			name: sku
+			name: 'PerGB2018'
 		}
 	}
 	tags: tags
