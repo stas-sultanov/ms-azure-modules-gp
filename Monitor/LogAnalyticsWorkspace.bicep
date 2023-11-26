@@ -46,6 +46,8 @@ resource OperationalInsights_workspaces_ 'Microsoft.OperationalInsights/workspac
 		features: {
 			disableLocalAuth: true
 		}
+		publicNetworkAccessForIngestion: 'Enabled'
+		publicNetworkAccessForQuery: 'Enabled'
 		retentionInDays: retentionInDays
 		sku: {
 			name: 'PerGB2018'
