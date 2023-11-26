@@ -6,6 +6,8 @@ metadata author = {
 	profileUrl: 'https://www.linkedin.com/in/stas-sultanov'
 }
 
+/* scope */
+
 targetScope = 'resourceGroup'
 
 /* parameters */

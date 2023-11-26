@@ -6,6 +6,10 @@ metadata author = {
 	profileUrl: 'https://www.linkedin.com/in/stas-sultanov'
 }
 
+/* scope */
+
+targetScope = 'resourceGroup'
+
 /* parameters */
 
 @description('Id of the OperationalInsights/workspaces resource.')
