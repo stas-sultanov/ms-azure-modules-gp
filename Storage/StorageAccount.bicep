@@ -30,6 +30,9 @@ param sku SKU
 @description('Tags to put on the resource.')
 param tags object
 
+@description('Define if BlobService within the Account must be configured.')
+param useBlobService bool
+
 /* variables */
 
 var operationalInsights_workspaces__id_split = split(
@@ -47,7 +50,7 @@ resource OperationalInsights_workspaces_ 'Microsoft.OperationalInsights/workspac
 /* resources */
 
 // https://learn.microsoft.com/azure/templates/microsoft.insights/diagnosticsettings
-resource Insights_diagnosticSettings_ 'Microsoft.Insights/diagnosticSettings@2021-05-01-preview' = {
+resource Insights_diagnosticSettings_Storage_storageAccounts_ 'Microsoft.Insights/diagnosticSettings@2021-05-01-preview' = {
 	name: 'Log Analytics'
 	properties: {
 		logAnalyticsDestinationType: 'Dedicated'
@@ -60,6 +63,28 @@ resource Insights_diagnosticSettings_ 'Microsoft.Insights/diagnosticSettings@202
 		workspaceId: OperationalInsights_workspaces_.id
 	}
 	scope: Storage_storageAccounts_
+}
+
+// https://learn.microsoft.com/azure/templates/microsoft.insights/diagnosticsettings
+resource Insights_diagnosticSettings_Storage_storageAccounts_blobServices_ 'Microsoft.Insights/diagnosticSettings@2021-05-01-preview' =  if (useBlobService) {
+	name: 'Log Analytics'
+	properties: {
+		logAnalyticsDestinationType: 'Dedicated'
+		logs: [
+			{
+				categoryGroup: 'allLogs'
+				enabled: true
+			}
+		]
+		metrics: [
+			{
+				category: 'Transaction'
+				enabled: true
+			}
+		]
+		workspaceId: OperationalInsights_workspaces_.id
+	}
+	scope: Storage_storageAccounts_blobServices_
 }
 
 // https://learn.microsoft.com/azure/templates/microsoft.storage/storageaccounts
@@ -80,6 +105,12 @@ resource Storage_storageAccounts_ 'Microsoft.Storage/storageAccounts@2023-01-01'
 		name: sku
 	}
 	tags: tags
+}
+
+// https://learn.microsoft.com/azure/templates/microsoft.storage/storageaccounts/blobservices
+resource Storage_storageAccounts_blobServices_ 'Microsoft.Storage/storageAccounts/blobServices@2023-01-01' = if (useBlobService) {
+	parent: Storage_storageAccounts_
+	name: 'default'
 }
 
 /* outputs */
