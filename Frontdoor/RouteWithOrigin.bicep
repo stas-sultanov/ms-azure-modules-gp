@@ -12,6 +12,23 @@ targetScope = 'resourceGroup'
 
 /* types */
 
+@description('Defines how Frontdoor caches requests that include query strings. You can ignore any query strings when caching, ignore specific query strings, cache every request with a unique URL, or cache specific query strings.')
+@export()
+type QueryStringCachingBehavior = 'IgnoreQueryString' | 'IgnoreSpecifiedQueryStrings' | 'IncludeSpecifiedQueryStrings' | 'UseQueryString'
+
+@description('The caching configuration for this route.')
+@export()
+type CacheSettings = {
+	@description('List of content types on which compression applies. The value should be a valid MIME type.')
+	contentTypesToCompress: string[]
+
+	@description('Indicates whether content compression is enabled on AzureFrontDoor. Default value is false. If compression is enabled, content will be served as compressed if user requests for a compressed version. Content won`t be compressed on AzureFrontDoor when requested content is smaller than 1 byte or larger than 1 MB.')
+	isCompressionEnabled: bool
+
+	@description('The unique name of the Origin Group within the CDN profile.')
+	queryStringCachingBehavior: QueryStringCachingBehavior
+}
+
 @export()
 type OriginGroupSettings = {
 	@minValue(1)
@@ -58,6 +75,13 @@ param Cdn_profiles_afdEndpoints__id string
 @description('Id of the Cdn/profiles/customDomains resource.')
 param Cdn_profiles_customDomains__id string
 
+@description('The caching configuration for this route. To disable caching, do not provide a cacheConfiguration object.')
+param cache CacheSettings = {
+	contentTypesToCompress: []
+	isCompressionEnabled: false
+	queryStringCachingBehavior: 'IgnoreQueryString'
+}
+
 @description('Origin group settings.')
 param originGroup OriginGroupSettings
 
@@ -99,8 +123,12 @@ resource Cdn_profiles_afdEndpoints_routes_ 'Microsoft.Cdn/profiles/afdEndpoints/
 	name: route.name
 	parent: Cdn_profiles_afdEndpoints_
 	properties: {
-		cacheConfiguration: {
-			queryStringCachingBehavior: 'IgnoreQueryString'
+		cacheConfiguration: !cache.isCompressionEnabled ? null : {
+			compressionSettings: {
+				contentTypesToCompress: cache.contentTypesToCompress
+				isCompressionEnabled: cache.isCompressionEnabled
+			}
+			queryStringCachingBehavior: cache.queryStringCachingBehavior
 		}
 		customDomains: [
 			{
