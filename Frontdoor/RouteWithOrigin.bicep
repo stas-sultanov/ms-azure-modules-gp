@@ -139,17 +139,17 @@ resource Cdn_profiles_afdEndpoints_routes_ 'Microsoft.Cdn/profiles/afdEndpoints/
 				id: Cdn_profiles_customDomains_.id
 			}
 		]
+		forwardingProtocol: 'HttpOnly'
+		httpsRedirect: 'Enabled'
+		linkToDefaultDomain: 'Disabled'
 		originGroup: {
 			id: Cdn_profiles_originGroups_.id
 		}
 		originPath: route.originPath
+		patternsToMatch: route.patternsToMatch
 		supportedProtocols: [
 			'Https'
 		]
-		patternsToMatch: route.patternsToMatch
-		forwardingProtocol: 'HttpOnly'
-		linkToDefaultDomain: 'Disabled'
-		httpsRedirect: 'Enabled'
 	}
 }
 
