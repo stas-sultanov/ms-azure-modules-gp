@@ -22,17 +22,22 @@ param Network_dnsZones__name string
 param Network_frontDoorWebApplicationFirewallPolicies__id string
 
 @description('List of paths to apply security policy.')
-param securityPolicyPatternsToMatch string[] = [
+param cdn_profiles_securityPolicies__PatternsToMatch string[] = [
 	'/*'
 ]
 
-@description('Tags to put on the resources.')
-param tags object
+@description('Time to live of the A record in seconds.')
+@maxValue(86400)
+@minValue(1)
+param network_dnsZones_a__TTL int = 3600
 
 @description('Time to live of the validation TXT record in seconds.')
 @maxValue(86400)
 @minValue(1)
-param validationRecordTTL int = 3600
+param network_dnsZones_txt__TTL int = 3600
+
+@description('Tags to put on the resources.')
+param tags object
 
 /* variables */
 
@@ -103,7 +108,7 @@ resource Cdn_profiles_securityPolicies_ 'Microsoft.Cdn/profiles/securityPolicies
 							id: Cdn_profiles_customDomains_.id
 						}
 					]
-					patternsToMatch: securityPolicyPatternsToMatch
+					patternsToMatch: cdn_profiles_securityPolicies__PatternsToMatch
 				}
 			]
 			type: 'WebApplicationFirewall'
@@ -115,23 +120,23 @@ resource Cdn_profiles_securityPolicies_ 'Microsoft.Cdn/profiles/securityPolicies
 }
 
 // https://learn.microsoft.com/azure/templates/microsoft.network/dnszones/a
-resource Network_dnsZones_cname_ 'Microsoft.Network/dnsZones/A@2018-05-01' = {
+resource Network_dnsZones_a_ 'Microsoft.Network/dnsZones/A@2018-05-01' = {
 	name: '@'
 	parent: Network_dnsZones_
 	properties: {
 		targetResource: {
 			id: Cdn_profiles_afdEndpoints_.id
 		}
-		TTL: 3600
+		TTL: network_dnsZones_a__TTL
 	}
 }
 
 // https://learn.microsoft.com/azure/templates/microsoft.network/dnszones/txt
-resource Network_dnsZones_txt_Validation 'Microsoft.Network/dnsZones/TXT@2018-05-01' = {
+resource Network_dnsZones_txt_ 'Microsoft.Network/dnsZones/TXT@2018-05-01' = {
 	name: network_dnsZones_txt_Validation_name
 	parent: Network_dnsZones_
 	properties: {
-		TTL: validationRecordTTL
+		TTL: network_dnsZones_txt__TTL
 		TXTRecords: [
 			{
 				value: [
@@ -150,4 +155,6 @@ output Cdn_profiles_customDomains__id string = Cdn_profiles_customDomains_.id
 
 output Cdn_profiles_securityPolicies__id string = Cdn_profiles_securityPolicies_.id
 
-output Network_dnsZones_txt_Validation_id string = Network_dnsZones_txt_Validation.id
+output Network_dnsZones_a__id string = Network_dnsZones_a_.id
+
+output Network_dnsZones_txt__id string = Network_dnsZones_txt_.id
