@@ -114,6 +114,18 @@ resource Cdn_profiles_securityPolicies_ 'Microsoft.Cdn/profiles/securityPolicies
 	}
 }
 
+// https://learn.microsoft.com/azure/templates/microsoft.network/dnszones/a
+resource Network_dnsZones_cname_ 'Microsoft.Network/dnsZones/A@2018-05-01' = {
+	name: '@'
+	parent: Network_dnsZones_
+	properties: {
+		targetResource: {
+			id: Cdn_profiles_afdEndpoints_.id
+		}
+		TTL: 3600
+	}
+}
+
 // https://learn.microsoft.com/azure/templates/microsoft.network/dnszones/txt
 resource Network_dnsZones_txt_Validation 'Microsoft.Network/dnsZones/TXT@2018-05-01' = {
 	name: network_dnsZones_txt_Validation_name
