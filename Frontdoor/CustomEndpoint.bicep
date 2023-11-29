@@ -86,10 +86,10 @@ resource Network_dnsZones_cname_ 'Microsoft.Network/dnsZones/CNAME@2018-05-01' =
 	name: name
 	parent: Network_dnsZones_
 	properties: {
-		CNAMERecord: {
-			cname: Cdn_profiles_afdEndpoints_.properties.hostName
-		}
 		TTL: network_dnsZones_cname__TTL
+		targetResource: {
+			id: Cdn_profiles_afdEndpoints_.id
+		}
 	}
 }
 

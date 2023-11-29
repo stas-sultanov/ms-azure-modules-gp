@@ -124,10 +124,10 @@ resource Network_dnsZones_a_ 'Microsoft.Network/dnsZones/A@2018-05-01' = {
 	name: '@'
 	parent: Network_dnsZones_
 	properties: {
+		TTL: network_dnsZones_a__TTL
 		targetResource: {
 			id: Cdn_profiles_afdEndpoints_.id
 		}
-		TTL: network_dnsZones_a__TTL
 	}
 }
 
