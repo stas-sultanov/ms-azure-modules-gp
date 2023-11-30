@@ -42,12 +42,10 @@ var roleId = {
 	BlobDataReader: '2a2b9908-6ea1-4ae2-8e65-a410df84e7d1'
 }
 
-var storage_StorageAccounts__id_split = split(Storage_storageAccounts__name, '/')
-
 /* existing resources */
 
 resource Storage_storageAccounts_ 'Microsoft.Storage/storageAccounts@2023-01-01' existing = {
-	name: storage_StorageAccounts__id_split[8]
+	name: Storage_storageAccounts__name
 }
 
 resource Storage_storageAccounts_blobServices_ 'Microsoft.Storage/storageAccounts/blobServices@2023-01-01' existing = {

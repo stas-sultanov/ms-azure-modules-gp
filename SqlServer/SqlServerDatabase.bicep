@@ -64,7 +64,7 @@ var databaseProperties = {
 	}
 	Copy: {
 		createMode: 'Copy'
-		sourceDatabaseId: Sql_servers_databases_Source.id
+		sourceDatabaseId: createMode == 'Default' ? '' : Sql_servers_databases_Source.id
 	}
 }
 
@@ -76,16 +76,16 @@ var sql_servers_databases_Source_id_split = split(Sql_servers_databases_Source_i
 
 resource OperationalInsights_workspaces_ 'Microsoft.OperationalInsights/workspaces@2022-10-01' existing = {
 	name: operationalInsights_workspaces__id_split[8]
-	scope: resourceGroup(operationalInsights_workspaces__id_split[4])
+	scope: resourceGroup(operationalInsights_workspaces__id_split[2], operationalInsights_workspaces__id_split[4])
 }
 
 resource Sql_servers_ 'Microsoft.Sql/servers@2023-05-01-preview' existing = {
 	name: Sql_servers__name
 }
 
-resource Sql_servers_databases_Source 'Microsoft.Sql/servers/databases@2023-05-01-preview' existing = if (createMode == 'Copy') {
+resource Sql_servers_databases_Source 'Microsoft.Sql/servers/databases@2023-05-01-preview' existing = if (createMode != 'Default') {
 	name: sql_servers_databases_Source_id_split[8]
-	scope: resourceGroup(sql_servers_databases_Source_id_split[4])
+	scope: resourceGroup(sql_servers_databases_Source_id_split[2], sql_servers_databases_Source_id_split[4])
 }
 
 /* resources */
