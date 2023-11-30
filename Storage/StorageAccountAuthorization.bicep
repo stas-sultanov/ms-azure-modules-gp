@@ -6,6 +6,10 @@ metadata author = {
 	profileUrl: 'https://www.linkedin.com/in/stas-sultanov'
 }
 
+/* scope */
+
+targetScope = 'resourceGroup'
+
 /* imports */
 
 import { AuthorizationPrincipalInfo } from './../types.bicep'
@@ -54,7 +58,8 @@ resource Authorization_roleAssignments_ 'Microsoft.Authorization/roleAssignments
 for authorization in authorizationList: {
 	name: guid(
 		subscription().id,
-		Storage_storageAccounts_.id,
+		resourceGroup().name,
+		Storage_storageAccounts_.name,
 		roleId[authorization.role],
 		authorization.principal.id
 	)

@@ -22,6 +22,8 @@ param allowSharedKeyAccess bool = false
 param location string
 
 @description('Name of the resource.')
+@minLength(3)
+@maxLength(24)
 param name string
 
 @description('Name of the sku.')
@@ -113,5 +115,7 @@ resource Storage_storageAccounts_blobServices_ 'Microsoft.Storage/storageAccount
 /* outputs */
 
 output id string = Storage_storageAccounts_.id
+
+output name string = Storage_storageAccounts_.name
 
 output primaryEndpoints object = Storage_storageAccounts_.properties.primaryEndpoints
