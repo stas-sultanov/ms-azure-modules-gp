@@ -6,6 +6,10 @@ metadata author = {
 	profileUrl: 'https://www.linkedin.com/in/stas-sultanov'
 }
 
+/* scope */
+
+targetScope = 'resourceGroup'
+
 /* imports */
 
 import { ManagedServiceIdentity } from './../types.bicep'
@@ -54,16 +58,13 @@ param tags object
 
 /* variables */
 
-var operationalInsights_workspaces__id_split = split(
-	OperationalInsights_workspaces__id,
-	'/'
-)
+var operationalInsights_workspaces__id_split = split(OperationalInsights_workspaces__id, '/')
 
 /* existing resources */
 
 resource OperationalInsights_workspaces_ 'Microsoft.OperationalInsights/workspaces@2022-10-01' existing = {
 	name: operationalInsights_workspaces__id_split[8]
-	scope: resourceGroup(operationalInsights_workspaces__id_split[4])
+	scope: resourceGroup(operationalInsights_workspaces__id_split[2], operationalInsights_workspaces__id_split[4])
 }
 
 /* resources */
@@ -155,6 +156,6 @@ resource Sql_servers_firewallRules__AllowPublicNetworkAccess 'Microsoft.Sql/serv
 
 output fullyQualifiedDomainName string = Sql_servers_.properties.fullyQualifiedDomainName
 
-output identity object = Sql_servers_.identity
-
 output id string = Sql_servers_.id
+
+output identity object = Sql_servers_.identity

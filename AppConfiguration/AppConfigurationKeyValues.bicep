@@ -6,6 +6,10 @@ metadata author = {
 	profileUrl: 'https://www.linkedin.com/in/stas-sultanov'
 }
 
+/* scope */
+
+targetScope = 'resourceGroup'
+
 /* types */
 
 type KeyValuePair = {
@@ -15,8 +19,8 @@ type KeyValuePair = {
 
 /* parameters */
 
-@description('Id of the AppConfiguration/configurationStores resource.')
-param AppConfiguration_configurationStores__id string
+@description('Name of the AppConfiguration/configurationStores resource.')
+param AppConfiguration_configurationStores__name string
 
 @description('Collection of key-value pairs.')
 param keyValuePairList KeyValuePair[]
@@ -24,7 +28,7 @@ param keyValuePairList KeyValuePair[]
 /* existing resources */
 
 resource AppConfiguration_configurationStores_ 'Microsoft.AppConfiguration/configurationStores@2023-03-01' existing = {
-	name: split(AppConfiguration_configurationStores__id, '/')[8]
+	name: AppConfiguration_configurationStores__name
 }
 
 /* resources */

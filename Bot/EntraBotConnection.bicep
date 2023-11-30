@@ -6,6 +6,10 @@ metadata author = {
 	profileUrl: 'https://www.linkedin.com/in/stas-sultanov'
 }
 
+/* scope */
+
+targetScope = 'resourceGroup'
+
 /* types */
 
 type EntraParameters = {
@@ -28,8 +32,8 @@ type EntraParameters = {
 
 /* parameters */
 
-@description('Id of the BotService/botServices resource.')
-param BotService_botServices__id string
+@description('Name of the BotService/botServices resource.')
+param BotService_botServices__name string
 
 @description('Name of the resource.')
 param name string
@@ -40,15 +44,10 @@ param parameters EntraParameters
 @description('Tags to put on the resource.')
 param tags object = {}
 
-/* variables */
-
-var botService_botServices__id_split = split(BotService_botServices__id, '/')
-
 /* existing resources */
 
 resource BotService_botServices_ 'Microsoft.BotService/botServices@2022-09-15' existing = {
-	name: botService_botServices__id_split[8]
-	//scope: resourceGroup(botService_botServices__id_split[4])
+	name: BotService_botServices__name
 }
 
 /* resources */

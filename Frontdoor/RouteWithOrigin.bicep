@@ -72,11 +72,14 @@ type RouteSettings = {
 
 /* parameters */
 
-@description('Id of the Cdn/profiles/afdEndpoints resource.')
-param Cdn_profiles_afdEndpoints__id string
+@description('Name of the Cdn/profiles resource.')
+param Cdn_profiles__name string
 
-@description('Id of the Cdn/profiles/customDomains resource.')
-param Cdn_profiles_customDomains__id string
+@description('Name of the Cdn/profiles/afdEndpoints resource.')
+param Cdn_profiles_afdEndpoints__name string
+
+@description('Name of the Cdn/profiles/customDomains resource.')
+param Cdn_profiles_customDomains__name string
 
 @description('The caching configuration for this route. To disable caching, do not provide a cacheConfiguration object.')
 param cache CacheSettings = {
@@ -95,25 +98,19 @@ param origin OriginSettings
 @description('Route settings.')
 param route RouteSettings
 
-/* variables */
-
-var cdn_profiles_afdEndpoints__id_split = split(Cdn_profiles_afdEndpoints__id, '/')
-
-var cdn_profiles_customDomains__id_split = split(Cdn_profiles_customDomains__id, '/')
-
 /* existing resources */
 
 resource Cdn_profiles_ 'Microsoft.Cdn/profiles@2023-05-01' existing = {
-	name: cdn_profiles_afdEndpoints__id_split[8]
+	name: Cdn_profiles__name
 }
 
 resource Cdn_profiles_afdEndpoints_ 'Microsoft.Cdn/profiles/afdEndpoints@2023-05-01' existing = {
-	name: cdn_profiles_afdEndpoints__id_split[10]
+	name: Cdn_profiles_afdEndpoints__name
 	parent: Cdn_profiles_
 }
 
 resource Cdn_profiles_customDomains_ 'Microsoft.Cdn/profiles/customDomains@2023-05-01' existing = {
-	name: cdn_profiles_customDomains__id_split[10]
+	name: Cdn_profiles_customDomains__name
 	parent: Cdn_profiles_
 }
 
@@ -188,8 +185,6 @@ resource Cdn_profiles_originGroups_origins_ 'Microsoft.Cdn/profiles/originGroups
 
 /* outputs */
 
-output Cdn_profiles_afdEndpoints_routes__id string = Cdn_profiles_afdEndpoints_routes_.id
+output Cdn_profiles_afdEndpoints_routes__name string = Cdn_profiles_afdEndpoints_routes_.name
 
-output Cdn_profiles_originGroups__id string = Cdn_profiles_originGroups_.id
-
-output Cdn_profiles_originGroups_origins__id string = Cdn_profiles_originGroups_origins_.id
+output Cdn_profiles_originGroups__name string = Cdn_profiles_originGroups_.name

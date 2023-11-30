@@ -6,6 +6,10 @@ metadata author = {
 	profileUrl: 'https://www.linkedin.com/in/stas-sultanov'
 }
 
+/* scope */
+
+targetScope = 'resourceGroup'
+
 /* imports */
 
 import { AuthorizationPrincipalInfo } from './../types.bicep'
@@ -22,15 +26,13 @@ type AuthorizationRoleName = 'AppConfigurationDataOwner' | 'AppConfigurationData
 
 /* parameters */
 
-@description('Id of the AppConfiguration/configurationStores resource.')
-param AppConfiguration_configurationStores__id string
+@description('Name of the AppConfiguration/configurationStores resource.')
+param AppConfiguration_configurationStores__name string
 
 @description('Collection of authorizations.')
 param authorizationList Authorization[]
 
 /* variables */
-
-var appConfiguration_configurationStores__id_split = split(AppConfiguration_configurationStores__id, '/')
 
 var roleId = {
 	AppConfigurationDataOwner: '5ae67dd6-50cb-40e7-96ff-dc2bfa4b606b'
@@ -40,7 +42,7 @@ var roleId = {
 /* existing resources */
 
 resource AppConfiguration_configurationStores_ 'Microsoft.AppConfiguration/configurationStores@2023-03-01' existing = {
-	name: appConfiguration_configurationStores__id_split[8]
+	name: AppConfiguration_configurationStores__name
 }
 
 /* resources */

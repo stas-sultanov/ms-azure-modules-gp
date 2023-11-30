@@ -8,8 +8,8 @@ metadata author = {
 
 /* parameters */
 
-@description('Id of the Microsoft.DocumentDB/databaseAccounts resource.')
-param DocumentDB_databaseAccounts__id string
+@description('Name of the Microsoft.DocumentDB/databaseAccounts resource.')
+param DocumentDB_databaseAccounts__name string
 
 @description('The capacity mode for database operations.')
 @allowed([
@@ -40,8 +40,6 @@ param throughputMax int = 4000
 
 /* variables */
 
-var documentDB_databaseAccounts__id_split = split(DocumentDB_databaseAccounts__id, '/')
-
 var options = {
 	Autoscale: {
 		autoscaleSettings: {
@@ -57,8 +55,7 @@ var options = {
 /* existing resources */
 
 resource DocumentDB_databaseAccounts_ 'Microsoft.DocumentDB/databaseAccounts@2023-09-15' existing = {
-	name: documentDB_databaseAccounts__id_split[8]
-	// scope: resourceGroup(documentDB_databaseAccounts__id_split[4])
+	name: DocumentDB_databaseAccounts__name
 }
 
 /* resources */
@@ -80,5 +77,3 @@ resource DocumentDB_databaseAccounts_sqlDatabases_ 'Microsoft.DocumentDB/databas
 		}
 	)
 }
-
-/* outputs */

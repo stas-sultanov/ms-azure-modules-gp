@@ -6,13 +6,17 @@ metadata author = {
 	profileUrl: 'https://www.linkedin.com/in/stas-sultanov'
 }
 
+/* scope */
+
+targetScope = 'resourceGroup'
+
 /* parameters */
 
 @description('Id of the Insights/actionGroups resource.')
 param Insights_actionGroups__id string
 
-@description('Id of the Insights/components resource.')
-param Insights_components__id string
+@description('Name of the Insights/components resource.')
+param Insights_components__name string
 
 @description('Common tags to put on the resource.')
 param customWebhookPayload string = ''
@@ -23,8 +27,8 @@ param location string
 @description('A prefix to use to generate names of the resources.')
 param namePrefix string
 
-@description('Common tags to put on the resource.')
-param commonTags object = {}
+@description('Tags to put on the resource.')
+param tags object = {}
 
 /* variables */
 
@@ -35,17 +39,15 @@ var actionGroupInformation = {
 
 var insights_actionGroups__id_split = split(Insights_actionGroups__id, '/')
 
-var insights_components__id_split = split(Insights_components__id, '/')
-
 /* existing resources */
 
 resource Insights_components_ 'Microsoft.Insights/components@2020-02-02' existing = {
-	name: insights_components__id_split[8]
+	name: Insights_components__name
 }
 
 resource Insights_actionGroup_ 'Microsoft.Insights/actionGroups@2023-01-01' existing = {
 	name: insights_actionGroups__id_split[8]
-	scope: resourceGroup(insights_actionGroups__id_split[4])
+	scope: resourceGroup(insights_actionGroups__id_split[2], insights_actionGroups__id_split[4])
 }
 
 /* resources */
@@ -67,7 +69,7 @@ resource alertsManagement_smartDetectorAlertRules_Anomalies 'microsoft.alertsMan
 		state: 'Enabled'
 	}
 	tags: union(
-		commonTags,
+		tags,
 		{
 			'hidden-title': 'failure anomalies'
 		}
@@ -91,7 +93,7 @@ resource alertsManagement_smartDetectorAlertRules_DependencyPerformanceDegradati
 		state: 'Enabled'
 	}
 	tags: union(
-		commonTags,
+		tags,
 		{
 			'hidden-title': 'dependency performance degradation'
 		}
@@ -115,7 +117,7 @@ resource alertsManagement_smartDetectorAlertRules_ExceptionVolumeChangedDetector
 		state: 'Enabled'
 	}
 	tags: union(
-		commonTags,
+		tags,
 		{
 			'hidden-title': 'exception volume changed'
 		}
@@ -139,7 +141,7 @@ resource alertsManagement_smartDetectorAlertRules_MemoryLeakDetector 'microsoft.
 		state: 'Enabled'
 	}
 	tags: union(
-		commonTags,
+		tags,
 		{
 			'hidden-title': 'memory leak'
 		}
@@ -163,7 +165,7 @@ resource alertsManagement_smartDetectorAlertRules_RequestPerformanceDegradation 
 		state: 'Enabled'
 	}
 	tags: union(
-		commonTags,
+		tags,
 		{
 			'hidden-title': 'request performance degradation'
 		}
@@ -187,7 +189,7 @@ resource alertsManagement_smartDetectorAlertRules_TraceSeverityDetector 'microso
 		state: 'Enabled'
 	}
 	tags: union(
-		commonTags,
+		tags,
 		{
 			'hidden-title': 'trace severity'
 		}

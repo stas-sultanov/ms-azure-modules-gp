@@ -6,6 +6,10 @@ metadata author = {
 	profileUrl: 'https://www.linkedin.com/in/stas-sultanov'
 }
 
+/* scope */
+
+targetScope = 'resourceGroup'
+
 /* imports */
 
 import { AuthorizationPrincipalInfo } from './../types.bicep'
@@ -22,12 +26,13 @@ type RoleName = 'BlobDataContributor' | 'BlobDataReader'
 
 /* parameters */
 
-@description('Id of the Storage/storageAccounts resource.')
-param Storage_storageAccounts__id string
+@description('Name of the Storage/storageAccounts resource.')
+param Storage_storageAccounts__name string
 
 @description('Collection of authorizations.')
 param authorizationList Authorization[]
 
+@description('Name of the Microsoft.Storage/storageAccounts/blobServices/containers resource.')
 param name string
 
 /* variables */
@@ -37,7 +42,7 @@ var roleId = {
 	BlobDataReader: '2a2b9908-6ea1-4ae2-8e65-a410df84e7d1'
 }
 
-var storage_StorageAccounts__id_split = split(Storage_storageAccounts__id, '/')
+var storage_StorageAccounts__id_split = split(Storage_storageAccounts__name, '/')
 
 /* existing resources */
 

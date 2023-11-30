@@ -8,8 +8,8 @@ metadata author = {
 
 /* parameters */
 
-@description('Id of the Cosmos Account resource.')
-param cosmosAccountId string
+@description('Name of the Microsoft.DocumentDB/databaseAccounts resource.')
+param DocumentDB_databaseAccounts__name string
 
 @description('Collection of the principals.')
 param principals array
@@ -17,12 +17,10 @@ param principals array
 @description('The unique identifier for the associated Role Definition.')
 param roleDefinitionId string
 
-/* variables */
-
 /* existing resources */
 
-resource CosmosAccount 'Microsoft.DocumentDB/databaseAccounts@2023-09-15' existing = {
-  name: split(cosmosAccountId, '/')[8]
+resource DocumentDB_databaseAccounts_ 'Microsoft.DocumentDB/databaseAccounts@2023-09-15' existing = {
+  name: DocumentDB_databaseAccounts__name
 }
 
 /* resources */
@@ -30,16 +28,11 @@ resource CosmosAccount 'Microsoft.DocumentDB/databaseAccounts@2023-09-15' existi
 @batchSize(1)
 resource CosmosAccount_SqlRoleAssignment 'Microsoft.DocumentDB/databaseAccounts/sqlRoleAssignments@2023-09-15' = [
 for principal in principals: {
-  name: guid(
-    subscription().id,
-    CosmosAccount.id,
-    roleDefinitionId,
-    principal.Id
-  )
-  parent: CosmosAccount
+  name: guid(subscription().id, DocumentDB_databaseAccounts_.id, roleDefinitionId, principal.Id)
+  parent: DocumentDB_databaseAccounts_
   properties: {
     principalId: principal.Id
     roleDefinitionId: roleDefinitionId
-    scope: CosmosAccount.id
+    scope: DocumentDB_databaseAccounts_.id
   }
 }]

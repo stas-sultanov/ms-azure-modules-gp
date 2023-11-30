@@ -26,6 +26,9 @@ param cdn_profiles_securityPolicies__PatternsToMatch string[] = [
 	'/*'
 ]
 
+@description('Name of the resource.')
+param name string = 'apex'
+
 @description('Time to live of the A record in seconds.')
 @maxValue(86400)
 @minValue(1)
@@ -45,8 +48,6 @@ var cdn_profiles_customDomains__name = replace(Network_dnsZones_.name, '.', '-')
 
 var cdn_profiles_customDomains__hostName = Network_dnsZones_.name
 
-var name = 'apex'
-
 var network_dnsZones_txt_Validation_name = '_dnsauth'
 
 var network_frontDoorWebApplicationFirewallPolicies__id_split = split(Network_frontDoorWebApplicationFirewallPolicies__id, '/')
@@ -63,7 +64,7 @@ resource Network_dnsZones_ 'Microsoft.Network/dnsZones@2018-05-01' existing = {
 
 resource Network_frontDoorWebApplicationFirewallPolicies_ 'Microsoft.Network/FrontDoorWebApplicationFirewallPolicies@2022-05-01' existing = {
 	name: network_frontDoorWebApplicationFirewallPolicies__id_split[8]
-	scope: resourceGroup(network_frontDoorWebApplicationFirewallPolicies__id_split[4])
+	scope: resourceGroup(network_frontDoorWebApplicationFirewallPolicies__id_split[2], network_frontDoorWebApplicationFirewallPolicies__id_split[4])
 }
 
 /* resources */
@@ -149,12 +150,12 @@ resource Network_dnsZones_txt_ 'Microsoft.Network/dnsZones/TXT@2018-05-01' = {
 
 /* outputs */
 
-output Cdn_profiles_afdEndpoints__id string = Cdn_profiles_afdEndpoints_.id
+output Cdn_profiles_afdEndpoints__name string = Cdn_profiles_afdEndpoints_.name
 
-output Cdn_profiles_customDomains__id string = Cdn_profiles_customDomains_.id
+output Cdn_profiles_customDomains__name string = Cdn_profiles_customDomains_.name
 
 output Cdn_profiles_securityPolicies__id string = Cdn_profiles_securityPolicies_.id
 
-output Network_dnsZones_a__id string = Network_dnsZones_a_.id
+output Network_dnsZones_a__name string = Network_dnsZones_a_.name
 
-output Network_dnsZones_txt__id string = Network_dnsZones_txt_.id
+output Network_dnsZones_txt__name string = Network_dnsZones_txt_.name

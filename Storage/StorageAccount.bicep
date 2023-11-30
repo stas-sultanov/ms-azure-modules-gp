@@ -35,16 +35,13 @@ param useBlobService bool
 
 /* variables */
 
-var operationalInsights_workspaces__id_split = split(
-	OperationalInsights_workspaces__id,
-	'/'
-)
+var operationalInsights_workspaces__id_split = split(OperationalInsights_workspaces__id, '/')
 
 /* existing resources */
 
 resource OperationalInsights_workspaces_ 'Microsoft.OperationalInsights/workspaces@2022-10-01' existing = {
 	name: operationalInsights_workspaces__id_split[8]
-	scope: resourceGroup(operationalInsights_workspaces__id_split[4])
+	scope: resourceGroup(operationalInsights_workspaces__id_split[2], operationalInsights_workspaces__id_split[4])
 }
 
 /* resources */
@@ -66,7 +63,7 @@ resource Insights_diagnosticSettings_Storage_storageAccounts_ 'Microsoft.Insight
 }
 
 // https://learn.microsoft.com/azure/templates/microsoft.insights/diagnosticsettings
-resource Insights_diagnosticSettings_Storage_storageAccounts_blobServices_ 'Microsoft.Insights/diagnosticSettings@2021-05-01-preview' =  if (useBlobService) {
+resource Insights_diagnosticSettings_Storage_storageAccounts_blobServices_ 'Microsoft.Insights/diagnosticSettings@2021-05-01-preview' = if (useBlobService) {
 	name: 'Log Analytics'
 	properties: {
 		logAnalyticsDestinationType: 'Dedicated'
@@ -115,6 +112,6 @@ resource Storage_storageAccounts_blobServices_ 'Microsoft.Storage/storageAccount
 
 /* outputs */
 
-output primaryEndpoints object = Storage_storageAccounts_.properties.primaryEndpoints
-
 output id string = Storage_storageAccounts_.id
+
+output primaryEndpoints object = Storage_storageAccounts_.properties.primaryEndpoints

@@ -6,18 +6,20 @@ metadata author = {
 	profileUrl: 'https://www.linkedin.com/in/stas-sultanov'
 }
 
+/* scope */
+
+targetScope = 'resourceGroup'
+
 /* parameters */
 
 @description('Id of the OperationalInsights/Workspace resource.')
 param OperationalInsights_workspaces__id string
 
-@description('Id of the Sql/servers resource.')
-param Sql_servers__id string
+@description('Name of the Sql/servers resource.')
+param Sql_servers__name string
 
-@description(
-	'Id of the Sql/servers/databases resource which is used by different creation modes.'
-)
-param Sql_servers_databases__sourceId string = ''
+@description('Id of the Sql/servers/databases resource which is used by different creation modes.')
+param Sql_servers_databases_Source_id string = ''
 
 @description('The mode of database creation.')
 @allowed([ 'Default', 'Copy' ])
@@ -62,14 +64,13 @@ var databaseProperties = {
 	}
 	Copy: {
 		createMode: 'Copy'
-		sourceDatabaseId: Sql_servers_databases__sourceId
+		sourceDatabaseId: Sql_servers_databases_Source.id
 	}
 }
 
-var operationalInsights_workspaces__id_split = split(
-	OperationalInsights_workspaces__id,
-	'/'
-)
+var operationalInsights_workspaces__id_split = split(OperationalInsights_workspaces__id, '/')
+
+var sql_servers_databases_Source_id_split = split(Sql_servers_databases_Source_id, '/')
 
 /* existing resources */
 
@@ -78,8 +79,13 @@ resource OperationalInsights_workspaces_ 'Microsoft.OperationalInsights/workspac
 	scope: resourceGroup(operationalInsights_workspaces__id_split[4])
 }
 
-resource Sql_servers_ 'Microsoft.Sql/servers@2023-02-01-preview' existing = {
-	name: split(Sql_servers__id, '/')[8]
+resource Sql_servers_ 'Microsoft.Sql/servers@2023-05-01-preview' existing = {
+	name: Sql_servers__name
+}
+
+resource Sql_servers_databases_Source 'Microsoft.Sql/servers/databases@2023-05-01-preview' existing = if (createMode == 'Copy') {
+	name: sql_servers_databases_Source_id_split[8]
+	scope: resourceGroup(sql_servers_databases_Source_id_split[4])
 }
 
 /* resources */
@@ -111,7 +117,7 @@ resource Insights_diagnosticSettings_ 'Microsoft.Insights/diagnosticSettings@202
 }
 
 // https://learn.microsoft.com/azure/templates/microsoft.sql/servers/databases
-resource Sql_servers_databases_ 'Microsoft.Sql/servers/databases@2021-11-01' = {
+resource Sql_servers_databases_ 'Microsoft.Sql/servers/databases@2023-05-01-preview' = {
 	location: location
 	name: name
 	parent: Sql_servers_

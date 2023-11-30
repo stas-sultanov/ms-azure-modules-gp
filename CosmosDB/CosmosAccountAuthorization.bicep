@@ -6,6 +6,10 @@ metadata author = {
 	profileUrl: 'https://www.linkedin.com/in/stas-sultanov'
 }
 
+/* scope */
+
+targetScope = 'resourceGroup'
+
 /* imports */
 
 import { AuthorizationPrincipalInfo } from './../types.bicep'
@@ -22,8 +26,8 @@ type AuthorizationRoleName = 'CosmosDBAccountReaderRole' | 'CosmosDBOperator' | 
 
 /* parameters */
 
-@description('Id of the Microsoft.DocumentDB/databaseAccounts resource.')
-param DocumentDB_databaseAccounts__id string
+@description('Name of the Microsoft.DocumentDB/databaseAccounts resource.')
+param DocumentDB_databaseAccounts__name string
 
 @description('Collection of authorizations.')
 param authorizationList Authorization[]
@@ -40,7 +44,7 @@ var roleId = {
 /* existing resources */
 
 resource DocumentDB_databaseAccounts_ 'Microsoft.DocumentDB/databaseAccounts@2023-04-15' existing = {
-	name: split(DocumentDB_databaseAccounts__id, '/')[8]
+	name: DocumentDB_databaseAccounts__name
 }
 
 /* resources */

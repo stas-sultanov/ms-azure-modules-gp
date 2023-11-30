@@ -1,39 +1,33 @@
 /* Copyright © 2023 Stas Sultanov */
 
 metadata author = {
-	githubUrl: 'https://github.com/stas-sultanov'
-	name: 'Stas Sultanov'
-	profileUrl: 'https://www.linkedin.com/in/stas-sultanov'
+  githubUrl: 'https://github.com/stas-sultanov'
+  name: 'Stas Sultanov'
+  profileUrl: 'https://www.linkedin.com/in/stas-sultanov'
 }
 
 /* parameters */
 
-@description('Id of the parent Cosmos account.')
-param cosmosAccountId string
+@description('Name of the Microsoft.DocumentDB/databaseAccounts resource.')
+param DocumentDB_databaseAccounts__name string
 
 @description('Name of the resource.')
 param name string
 
-/* variables */
-
 /* existing resources */
 
-resource CosmosAccount 'Microsoft.DocumentDB/databaseAccounts@2023-09-15' existing = {
-  name: split(cosmosAccountId, '/')[8]
+resource DocumentDB_databaseAccounts_ 'Microsoft.DocumentDB/databaseAccounts@2023-09-15' existing = {
+  name: DocumentDB_databaseAccounts__name
 }
 
 /* resources */
 
 resource CosmosAccount_SqlRoleDefinition 'Microsoft.DocumentDB/databaseAccounts/sqlRoleDefinitions@2023-09-15' = {
-  name: guid(
-    subscription().id,
-    CosmosAccount.id,
-    name
-  )
-  parent: CosmosAccount
+  name: guid(subscription().id, DocumentDB_databaseAccounts_.id, name)
+  parent: DocumentDB_databaseAccounts_
   properties: {
     assignableScopes: [
-      CosmosAccount.id
+      DocumentDB_databaseAccounts_.id
     ]
     permissions: [
       {
@@ -49,5 +43,3 @@ resource CosmosAccount_SqlRoleDefinition 'Microsoft.DocumentDB/databaseAccounts/
     type: 'CustomRole'
   }
 }
-
-/* outputs */

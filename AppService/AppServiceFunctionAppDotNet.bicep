@@ -89,17 +89,17 @@ var web_serverfarms__id_split = split(Web_serverFarms__id, '/')
 
 resource OperationalInsights_workspaces_ 'Microsoft.OperationalInsights/workspaces@2022-10-01' existing = {
 	name: operationalInsights_workspaces__id_split[8]
-	scope: resourceGroup(operationalInsights_workspaces__id_split[4])
+	scope: resourceGroup(operationalInsights_workspaces__id_split[2], operationalInsights_workspaces__id_split[4])
 }
 
 resource Storage_storageAccounts_ 'Microsoft.Storage/storageAccounts@2023-01-01' existing = {
 	name: storage_StorageAccounts__id_split[8]
-	scope: resourceGroup(storage_StorageAccounts__id_split[4])
+	scope: resourceGroup(storage_StorageAccounts__id_split[2], storage_StorageAccounts__id_split[4])
 }
 
 resource Web_serverFarms_ 'Microsoft.Web/serverfarms@2022-09-01' existing = {
 	name: web_serverfarms__id_split[8]
-	scope: resourceGroup(web_serverfarms__id_split[4])
+	scope: resourceGroup(web_serverfarms__id_split[2], web_serverfarms__id_split[4])
 }
 
 /* resources */
@@ -208,6 +208,6 @@ resource Web_sites_config__Web 'Microsoft.Web/sites/config@2022-09-01' = {
 
 output defaultHostName string = Web_sites_.properties.defaultHostName
 
-output identity object = Web_sites_.identity
-
 output id string = Web_sites_.id
+
+output identity object = Web_sites_.identity

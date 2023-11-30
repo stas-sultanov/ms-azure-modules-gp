@@ -61,21 +61,18 @@ param tags object = {}
 
 var insights_components__id_split = split(Insights_components__id, '/')
 
-var operationalInsights_workspaces__id_split = split(
-	OperationalInsights_workspaces__id,
-	'/'
-)
+var operationalInsights_workspaces__id_split = split(OperationalInsights_workspaces__id, '/')
 
 /* existing resources */
 
 resource Insights_components_ 'Microsoft.Insights/components@2020-02-02' existing = {
 	name: insights_components__id_split[8]
-	scope: resourceGroup(insights_components__id_split[4])
+	scope: resourceGroup(insights_components__id_split[2], insights_components__id_split[4])
 }
 
 resource OperationalInsights_workspaces_ 'Microsoft.OperationalInsights/workspaces@2022-10-01' existing = {
 	name: operationalInsights_workspaces__id_split[8]
-	scope: resourceGroup(operationalInsights_workspaces__id_split[4])
+	scope: resourceGroup(operationalInsights_workspaces__id_split[2], operationalInsights_workspaces__id_split[4])
 }
 
 /* resources */

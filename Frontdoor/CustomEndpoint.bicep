@@ -34,14 +34,6 @@ param network_dnsZones_txt__TTL int = 3600
 @description('Tags to put on the resources.')
 param tags object
 
-/* variables */
-
-var cdn_profiles_customDomains__hostName = '${name}.${Network_dnsZones_.name}'
-
-var cdn_profiles_customDomains__name = '${name}-${replace(Network_dnsZones_.name, '.', '-')}'
-
-var network_dnsZones_txt__name = '_dnsauth.${name}'
-
 /* existing resources */
 
 resource Cdn_profiles_ 'Microsoft.Cdn/profiles@2023-05-01' existing = {
@@ -67,13 +59,13 @@ resource Cdn_profiles_afdEndpoints_ 'Microsoft.Cdn/profiles/afdEndpoints@2023-05
 
 // https://learn.microsoft.com/azure/templates/microsoft.cdn/profiles/customdomains
 resource Cdn_profiles_customDomains_ 'Microsoft.Cdn/profiles/customDomains@2023-05-01' = {
-	name: cdn_profiles_customDomains__name
+	name: name
 	parent: Cdn_profiles_
 	properties: {
 		azureDnsZone: {
 			id: Network_dnsZones_.id
 		}
-		hostName: cdn_profiles_customDomains__hostName
+		hostName: '${name}.${Network_dnsZones_.name}'
 		tlsSettings: {
 			certificateType: 'ManagedCertificate'
 			minimumTlsVersion: 'TLS12'
@@ -95,7 +87,7 @@ resource Network_dnsZones_cname_ 'Microsoft.Network/dnsZones/CNAME@2018-05-01' =
 
 // https://learn.microsoft.com/azure/templates/microsoft.network/dnszones/txt
 resource Network_dnsZones_txt_ 'Microsoft.Network/dnsZones/TXT@2018-05-01' = {
-	name: network_dnsZones_txt__name
+	name: '_dnsauth.${name}'
 	parent: Network_dnsZones_
 	properties: {
 		TTL: network_dnsZones_txt__TTL
@@ -111,10 +103,10 @@ resource Network_dnsZones_txt_ 'Microsoft.Network/dnsZones/TXT@2018-05-01' = {
 
 /* outputs */
 
-output Cdn_profiles_afdEndpoints__id string = Cdn_profiles_afdEndpoints_.id
+output Cdn_profiles_afdEndpoints__name string = Cdn_profiles_afdEndpoints_.name
 
-output Cdn_profiles_customDomains__id string = Cdn_profiles_customDomains_.id
+output Cdn_profiles_customDomains__name string = Cdn_profiles_customDomains_.name
 
-output Network_dnsZones_cname__id string = Network_dnsZones_cname_.id
+output Network_dnsZones_cname__name string = Network_dnsZones_cname_.name
 
-output Network_dnsZones_txt__id string = Network_dnsZones_txt_.id
+output Network_dnsZones_txt__name string = Network_dnsZones_txt_.name

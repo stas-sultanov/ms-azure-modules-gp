@@ -22,8 +22,8 @@ type AuthorizationRoleName = 'BlobDataContributor' | 'BlobDataReader' | 'QueueDa
 
 /* parameters */
 
-@description('Id of the Storage/storageAccounts resource.')
-param Storage_storageAccounts__id string
+@description('Name of the Storage/storageAccounts resource.')
+param Storage_storageAccounts__name string
 
 @description('Collection of authorizations.')
 param authorizationList Authorization[]
@@ -41,12 +41,10 @@ var roleId = {
 	TableDataReader: '76199698-9eea-4c19-bc75-cec21354c6b6'
 }
 
-var storage_StorageAccounts__id_split = split(Storage_storageAccounts__id, '/')
-
 /* existing resources */
 
 resource Storage_storageAccounts_ 'Microsoft.Storage/storageAccounts@2023-01-01' existing = {
-	name: storage_StorageAccounts__id_split[8]
+	name: Storage_storageAccounts__name
 }
 
 /* resources */

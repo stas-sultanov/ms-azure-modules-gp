@@ -5,6 +5,11 @@ metadata author = {
 	name: 'Stas Sultanov'
 	profileUrl: 'https://www.linkedin.com/in/stas-sultanov'
 }
+
+/* scope */
+
+targetScope = 'resourceGroup'
+
 /* imports */
 
 import { AuthorizationPrincipalInfo } from './../types.bicep'
@@ -21,15 +26,13 @@ type AuthorizationRoleName = 'ApplicationInsightsComponentContributor' | 'Applic
 
 /* parameters */
 
-@description('Id of the Insights/components resource.')
-param Insights_components__id string
+@description('Name of the Insights/components resource.')
+param Insights_components__name string
 
 @description('Collection of authorizations.')
 param authorizationList Authorization[]
 
 /* variables */
-
-var insights_components__id_split = split(Insights_components__id, '/')
 
 var roleId = {
 	ApplicationInsightsComponentContributor: 'ae349356-3a1b-4a5e-921d-050484c6347e' // Can manage Application Insights components.
@@ -44,7 +47,7 @@ var roleId = {
 /* existing resources */
 
 resource Insights_components_ 'Microsoft.Insights/components@2020-02-02' existing = {
-	name: insights_components__id_split[8]
+	name: Insights_components__name
 }
 
 /* resources */
