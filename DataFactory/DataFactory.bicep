@@ -105,3 +105,5 @@ resource Insights_diagnosticSettings_ 'Microsoft.Insights/diagnosticSettings@202
 /* outputs */
 
 output identity object = DataFactory_factories_.identity
+
+output name string = DataFactory_factories_.name

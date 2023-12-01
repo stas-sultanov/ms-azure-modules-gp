@@ -159,3 +159,5 @@ output fullyQualifiedDomainName string = Sql_servers_.properties.fullyQualifiedD
 output id string = Sql_servers_.id
 
 output identity object = Sql_servers_.identity
+
+output name string = Sql_servers_.name

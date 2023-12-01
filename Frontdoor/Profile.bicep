@@ -76,3 +76,5 @@ resource Insights_diagnosticSettings_ 'Microsoft.Insights/diagnosticSettings@202
 /* outputs */
 
 output id string = Cdn_profiles_.id
+
+output name string = Cdn_profiles_.name

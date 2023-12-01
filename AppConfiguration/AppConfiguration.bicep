@@ -77,3 +77,5 @@ resource Insights_diagnosticSettings_ 'Microsoft.Insights/diagnosticSettings@202
 output endpoint string = AppConfiguration_configurationStores_.properties.endpoint
 
 output id string = AppConfiguration_configurationStores_.id
+
+output name string = AppConfiguration_configurationStores_.name
