@@ -1,9 +1,9 @@
 /* Copyright © 2023 Stas Sultanov */
 
 metadata author = {
-  githubUrl: 'https://github.com/stas-sultanov'
-  name: 'Stas Sultanov'
-  profileUrl: 'https://www.linkedin.com/in/stas-sultanov'
+	githubUrl: 'https://github.com/stas-sultanov'
+	name: 'Stas Sultanov'
+	profileUrl: 'https://www.linkedin.com/in/stas-sultanov'
 }
 
 /* parameters */
@@ -16,30 +16,30 @@ param name string
 
 /* existing resources */
 
-resource DocumentDB_databaseAccounts_ 'Microsoft.DocumentDB/databaseAccounts@2023-09-15' existing = {
-  name: DocumentDB_databaseAccounts__name
+resource DocumentDB_databaseAccounts_ 'Microsoft.DocumentDB/databaseAccounts@2023-11-15' existing = {
+	name: DocumentDB_databaseAccounts__name
 }
 
 /* resources */
 
-resource CosmosAccount_SqlRoleDefinition 'Microsoft.DocumentDB/databaseAccounts/sqlRoleDefinitions@2023-09-15' = {
-  name: guid(subscription().id, DocumentDB_databaseAccounts_.id, name)
-  parent: DocumentDB_databaseAccounts_
-  properties: {
-    assignableScopes: [
-      DocumentDB_databaseAccounts_.id
-    ]
-    permissions: [
-      {
-        dataActions: [
-          'Microsoft.DocumentDB/databaseAccounts/readMetadata'
-          'Microsoft.DocumentDB/databaseAccounts/sqlDatabases/containers/items/*'
-          'Microsoft.DocumentDB/databaseAccounts/sqlDatabases/containers/*'
-        ]
-        notDataActions: []
-      }
-    ]
-    roleName: name
-    type: 'CustomRole'
-  }
+resource CosmosAccount_SqlRoleDefinition 'Microsoft.DocumentDB/databaseAccounts/sqlRoleDefinitions@2023-11-15' = {
+	name: guid(subscription().id, DocumentDB_databaseAccounts_.id, name)
+	parent: DocumentDB_databaseAccounts_
+	properties: {
+		assignableScopes: [
+			DocumentDB_databaseAccounts_.id
+		]
+		permissions: [
+			{
+				dataActions: [
+					'Microsoft.DocumentDB/databaseAccounts/readMetadata'
+					'Microsoft.DocumentDB/databaseAccounts/sqlDatabases/containers/items/*'
+					'Microsoft.DocumentDB/databaseAccounts/sqlDatabases/containers/*'
+				]
+				notDataActions: []
+			}
+		]
+		roleName: name
+		type: 'CustomRole'
+	}
 }

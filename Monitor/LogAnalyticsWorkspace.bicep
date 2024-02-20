@@ -39,7 +39,7 @@ resource Storage_storageAccounts_ 'Microsoft.Storage/storageAccounts@2023-01-01'
 /* resources */
 
 // https://learn.microsoft.com/azure/templates/microsoft.operationalinsights/workspaces
-resource OperationalInsights_workspaces_ 'Microsoft.OperationalInsights/workspaces@2022-10-01' = {
+resource OperationalInsights_workspaces_ 'Microsoft.OperationalInsights/workspaces@2023-09-01' = {
 	location: location
 	name: name
 	properties: {
@@ -88,6 +88,7 @@ resource OperationalInsights_workspace_linkedStorageAccounts_Query 'Microsoft.Op
 }
 
 // https://learn.microsoft.com/azure/templates/microsoft.insights/diagnosticsettings
+#disable-next-line use-recent-api-versions
 resource Insights_diagnosticSettings_ 'Microsoft.Insights/diagnosticSettings@2021-05-01-preview' = {
 	name: 'Storage'
 	properties: {

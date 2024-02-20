@@ -87,7 +87,7 @@ var web_serverfarms__id_split = split(Web_serverFarms__id, '/')
 
 /* existing resources */
 
-resource OperationalInsights_workspaces_ 'Microsoft.OperationalInsights/workspaces@2022-10-01' existing = {
+resource OperationalInsights_workspaces_ 'Microsoft.OperationalInsights/workspaces@2023-09-01' existing = {
 	name: operationalInsights_workspaces__id_split[8]
 	scope: resourceGroup(operationalInsights_workspaces__id_split[2], operationalInsights_workspaces__id_split[4])
 }
@@ -97,7 +97,7 @@ resource Storage_storageAccounts_ 'Microsoft.Storage/storageAccounts@2023-01-01'
 	scope: resourceGroup(storage_StorageAccounts__id_split[2], storage_StorageAccounts__id_split[4])
 }
 
-resource Web_serverFarms_ 'Microsoft.Web/serverfarms@2022-09-01' existing = {
+resource Web_serverFarms_ 'Microsoft.Web/serverfarms@2023-01-01' existing = {
 	name: web_serverfarms__id_split[8]
 	scope: resourceGroup(web_serverfarms__id_split[2], web_serverfarms__id_split[4])
 }
@@ -105,6 +105,7 @@ resource Web_serverFarms_ 'Microsoft.Web/serverfarms@2022-09-01' existing = {
 /* resources */
 
 // https://learn.microsoft.com/azure/templates/microsoft.insights/diagnosticsettings
+#disable-next-line use-recent-api-versions
 resource Insights_diagnosticSettings_ 'Microsoft.Insights/diagnosticSettings@2021-05-01-preview' = {
 	name: 'Log Analytics'
 	properties: {
@@ -127,7 +128,7 @@ resource Insights_diagnosticSettings_ 'Microsoft.Insights/diagnosticSettings@202
 }
 
 // https://learn.microsoft.com/azure/templates/microsoft.web/sites
-resource Web_sites_ 'Microsoft.Web/sites@2022-09-01' = {
+resource Web_sites_ 'Microsoft.Web/sites@2023-01-01' = {
 	identity: identity
 	kind: 'functionapp'
 	location: location
@@ -142,7 +143,7 @@ resource Web_sites_ 'Microsoft.Web/sites@2022-09-01' = {
 }
 
 // https://learn.microsoft.com/azure/templates/microsoft.web/sites/basicpublishingcredentialspolicies-ftp
-resource Web_sites_basicPublishingCredentialsPolicies__FTP 'Microsoft.Web/sites/basicPublishingCredentialsPolicies@2022-09-01' = {
+resource Web_sites_basicPublishingCredentialsPolicies__FTP 'Microsoft.Web/sites/basicPublishingCredentialsPolicies@2023-01-01' = {
 	name: 'ftp'
 	parent: Web_sites_
 	properties: {
@@ -151,7 +152,7 @@ resource Web_sites_basicPublishingCredentialsPolicies__FTP 'Microsoft.Web/sites/
 }
 
 // https://learn.microsoft.com/azure/templates/microsoft.web/sites/basicpublishingcredentialspolicies-scm
-resource Web_sites_basicPublishingCredentialsPolicies__SCM 'Microsoft.Web/sites/basicPublishingCredentialsPolicies@2022-09-01' = {
+resource Web_sites_basicPublishingCredentialsPolicies__SCM 'Microsoft.Web/sites/basicPublishingCredentialsPolicies@2023-01-01' = {
 	name: 'scm'
 	parent: Web_sites_
 	properties: {
@@ -160,7 +161,7 @@ resource Web_sites_basicPublishingCredentialsPolicies__SCM 'Microsoft.Web/sites/
 }
 
 // https://learn.microsoft.com/azure/templates/microsoft.web/sites/config-appsettings
-resource Web_sites_config__AppSettings 'Microsoft.Web/sites/config@2022-09-01' = {
+resource Web_sites_config__AppSettings 'Microsoft.Web/sites/config@2023-01-01' = {
 	name: 'appsettings'
 	parent: Web_sites_
 	properties: union(
@@ -175,7 +176,7 @@ resource Web_sites_config__AppSettings 'Microsoft.Web/sites/config@2022-09-01' =
 }
 
 // https://learn.microsoft.com/azure/templates/microsoft.web/sites/config-metadata
-resource Web_sites_config__Metadata 'Microsoft.Web/sites/config@2022-09-01' = {
+resource Web_sites_config__Metadata 'Microsoft.Web/sites/config@2023-01-01' = {
 	name: 'metadata'
 	parent: Web_sites_
 	properties: {
@@ -184,7 +185,7 @@ resource Web_sites_config__Metadata 'Microsoft.Web/sites/config@2022-09-01' = {
 }
 
 // https://learn.microsoft.com/azure/templates/microsoft.web/sites/config-web
-resource Web_sites_config__Web 'Microsoft.Web/sites/config@2022-09-01' = {
+resource Web_sites_config__Web 'Microsoft.Web/sites/config@2023-01-01' = {
 	name: 'web'
 	parent: Web_sites_
 	properties: {

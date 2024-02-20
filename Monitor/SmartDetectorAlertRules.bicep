@@ -54,7 +54,7 @@ resource Insights_actionGroup_ 'Microsoft.Insights/actionGroups@2023-01-01' exis
 
 // https://learn.microsoft.com/azure/templates/microsoft.alertsmanagement/smartdetectoralertrules
 @description('Failure Anomalies')
-resource alertsManagement_smartDetectorAlertRules_Anomalies 'microsoft.alertsManagement/smartDetectorAlertRules@2019-06-01' = {
+resource alertsManagement_smartDetectorAlertRules_Anomalies 'microsoft.alertsManagement/smartDetectorAlertRules@2021-04-01' = {
 	location: 'global'
 	name: '${namePrefix}fa'
 	properties: {
@@ -197,6 +197,7 @@ resource alertsManagement_smartDetectorAlertRules_TraceSeverityDetector 'microso
 }
 
 // https://learn.microsoft.com/azure/templates/microsoft.insights/components/proactivedetectionconfigs
+#disable-next-line use-recent-api-versions
 resource Insights_components_ProactiveDetectionConfig_MigrationToAlertRulesCompleted 'Microsoft.Insights/components/ProactiveDetectionConfigs@2018-05-01-preview' = {
 	dependsOn: [
 		alertsManagement_smartDetectorAlertRules_Anomalies

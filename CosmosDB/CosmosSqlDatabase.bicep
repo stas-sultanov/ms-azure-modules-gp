@@ -54,13 +54,13 @@ var options = {
 
 /* existing resources */
 
-resource DocumentDB_databaseAccounts_ 'Microsoft.DocumentDB/databaseAccounts@2023-09-15' existing = {
+resource DocumentDB_databaseAccounts_ 'Microsoft.DocumentDB/databaseAccounts@2023-11-15' existing = {
 	name: DocumentDB_databaseAccounts__name
 }
 
 /* resources */
 
-resource DocumentDB_databaseAccounts_sqlDatabases_ 'Microsoft.DocumentDB/databaseAccounts/sqlDatabases@2023-09-15' = {
+resource DocumentDB_databaseAccounts_sqlDatabases_ 'Microsoft.DocumentDB/databaseAccounts/sqlDatabases@2023-11-15' = {
 	location: location
 	name: name
 	parent: DocumentDB_databaseAccounts_

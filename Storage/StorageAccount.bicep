@@ -41,7 +41,7 @@ var operationalInsights_workspaces__id_split = split(OperationalInsights_workspa
 
 /* existing resources */
 
-resource OperationalInsights_workspaces_ 'Microsoft.OperationalInsights/workspaces@2022-10-01' existing = {
+resource OperationalInsights_workspaces_ 'Microsoft.OperationalInsights/workspaces@2023-09-01' existing = {
 	name: operationalInsights_workspaces__id_split[8]
 	scope: resourceGroup(operationalInsights_workspaces__id_split[2], operationalInsights_workspaces__id_split[4])
 }
@@ -49,6 +49,7 @@ resource OperationalInsights_workspaces_ 'Microsoft.OperationalInsights/workspac
 /* resources */
 
 // https://learn.microsoft.com/azure/templates/microsoft.insights/diagnosticsettings
+#disable-next-line use-recent-api-versions
 resource Insights_diagnosticSettings_Storage_storageAccounts_ 'Microsoft.Insights/diagnosticSettings@2021-05-01-preview' = {
 	name: 'Log Analytics'
 	properties: {
@@ -65,6 +66,7 @@ resource Insights_diagnosticSettings_Storage_storageAccounts_ 'Microsoft.Insight
 }
 
 // https://learn.microsoft.com/azure/templates/microsoft.insights/diagnosticsettings
+#disable-next-line use-recent-api-versions
 resource Insights_diagnosticSettings_Storage_storageAccounts_blobServices_ 'Microsoft.Insights/diagnosticSettings@2021-05-01-preview' = if (useBlobService) {
 	name: 'Log Analytics'
 	properties: {

@@ -5,7 +5,44 @@
 		{
 			"rules":
 			{
+				"no-conflicting-metadata":
+				{
+					"level": "error"
+				},
+				"no-hardcoded-env-urls":
+				{
+					"level": "error"
+				},
+				"no-hardcoded-location":
+				{
+					"level": "error"
+				},
+				"no-loc-expr-outside-params":
+				{
+					"level": "error"
+				},
+				"no-unused-existing-resources":
+				{
+					"level": "error"
+				},
 				"no-unused-params":
+				{
+					"level": "error"
+				},
+				"no-unused-vars":
+				{
+					"level": "error"
+				},
+				"use-recent-api-versions":
+				{
+					"level": "error",
+					"maxAgeInDays": 0
+				},
+				"use-resource-id-functions":
+				{
+					"level": "error"
+				},
+				"use-stable-resource-identifiers":
 				{
 					"level": "error"
 				}
@@ -14,7 +51,6 @@
 	},
 	"experimentalFeaturesEnabled":
 	{
-		"compileTimeImports": true,
 		"prettyPrinting": false,
 		"sourceMapping": true
 	},

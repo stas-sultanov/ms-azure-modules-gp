@@ -74,16 +74,16 @@ var sql_servers_databases_Source_id_split = split(Sql_servers_databases_Source_i
 
 /* existing resources */
 
-resource OperationalInsights_workspaces_ 'Microsoft.OperationalInsights/workspaces@2022-10-01' existing = {
+resource OperationalInsights_workspaces_ 'Microsoft.OperationalInsights/workspaces@2023-09-01' existing = {
 	name: operationalInsights_workspaces__id_split[8]
 	scope: resourceGroup(operationalInsights_workspaces__id_split[2], operationalInsights_workspaces__id_split[4])
 }
 
-resource Sql_servers_ 'Microsoft.Sql/servers@2023-05-01-preview' existing = {
+resource Sql_servers_ 'Microsoft.Sql/servers@2021-11-01' existing = {
 	name: Sql_servers__name
 }
 
-resource Sql_servers_databases_Source 'Microsoft.Sql/servers/databases@2023-05-01-preview' existing = if (createMode != 'Default') {
+resource Sql_servers_databases_Source 'Microsoft.Sql/servers/databases@2021-11-01' existing = if (createMode != 'Default') {
 	name: sql_servers_databases_Source_id_split[8]
 	scope: resourceGroup(sql_servers_databases_Source_id_split[2], sql_servers_databases_Source_id_split[4])
 }
@@ -91,6 +91,7 @@ resource Sql_servers_databases_Source 'Microsoft.Sql/servers/databases@2023-05-0
 /* resources */
 
 // https://learn.microsoft.com/azure/templates/microsoft.insights/diagnosticsettings
+#disable-next-line use-recent-api-versions
 resource Insights_diagnosticSettings_ 'Microsoft.Insights/diagnosticSettings@2021-05-01-preview' = {
 	name: 'Log Analytics'
 	properties: {
@@ -117,7 +118,7 @@ resource Insights_diagnosticSettings_ 'Microsoft.Insights/diagnosticSettings@202
 }
 
 // https://learn.microsoft.com/azure/templates/microsoft.sql/servers/databases
-resource Sql_servers_databases_ 'Microsoft.Sql/servers/databases@2023-05-01-preview' = {
+resource Sql_servers_databases_ 'Microsoft.Sql/servers/databases@2021-11-01' = {
 	location: location
 	name: name
 	parent: Sql_servers_
