@@ -1,4 +1,4 @@
-/* Copyright © 2023 Stas Sultanov */
+/* Copyright © 2024 Stas Sultanov */
 
 metadata author = {
   name: 'Stas Sultanov'
@@ -29,11 +29,11 @@ resource DataFactory_Factory 'Microsoft.DataFactory/factories@2018-06-01' existi
   name: split(dataFactoryId, '/')[8]
 }
 
-resource Sql_Server 'Microsoft.Sql/servers@2022-08-01-preview' existing = {
+resource Sql_Server 'Microsoft.Sql/servers@2021-11-01' existing = {
   name: split(sqlServerId, '/')[8]
 }
 
-resource Sql_Server_Database 'Microsoft.Sql/servers/databases@2022-08-01-preview' existing = {
+resource Sql_Server_Database 'Microsoft.Sql/servers/databases@2021-11-01' existing = {
   name: split(sqlServerDatabaseId, '/')[10]
   parent: Sql_Server
 }

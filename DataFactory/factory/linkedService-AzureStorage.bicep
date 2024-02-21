@@ -1,4 +1,4 @@
-/* Copyright © 2023 Stas Sultanov */
+/* Copyright © 2024 Stas Sultanov */
 
 metadata author = {
   name: 'Stas Sultanov'

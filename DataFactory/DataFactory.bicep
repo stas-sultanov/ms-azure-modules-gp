@@ -1,4 +1,4 @@
-/* Copyright © 2023 Stas Sultanov */
+/* Copyright © 2024 Stas Sultanov */
 
 metadata author = {
 	githubUrl: 'https://github.com/stas-sultanov'
@@ -65,7 +65,7 @@ resource DataFactory_factories_ 'Microsoft.DataFactory/factories@2018-06-01' = {
 	location: location
 	name: name
 	properties: {
-#disable-next-line BCP078
+		#disable-next-line BCP078
 		repoConfiguration: (repoConfiguration == null) 
 		 ? {} 
 		 : {

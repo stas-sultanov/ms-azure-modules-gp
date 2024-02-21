@@ -1,4 +1,4 @@
-﻿/* Copyright © 2023 Stas Sultanov */
+﻿/* Copyright © 2024 Stas Sultanov */
 
 metadata author = {
 	githubUrl: 'https://github.com/stas-sultanov'
