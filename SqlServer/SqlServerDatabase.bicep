@@ -142,3 +142,5 @@ resource Sql_servers_databases_auditingSettings_ 'Microsoft.Sql/servers/database
 /* outputs */
 
 output id string = Sql_servers_databases_.id
+
+output name string = Sql_servers_databases_.name
