@@ -1,42 +1,55 @@
 /* Copyright © 2024 Stas Sultanov */
 
 metadata author = {
-  name: 'Stas Sultanov'
-  profile: 'https://www.linkedin.com/in/stas-sultanov'
+	githubUrl: 'https://github.com/stas-sultanov'
+	name: 'Stas Sultanov'
+	profileUrl: 'https://www.linkedin.com/in/stas-sultanov'
 }
 
 /* parameters */
 
+@description('Name of the DataFactory/factories resource.')
+param DataFactory_factories__name string
+
+@description('Id of the Storage/storageAccounts resource.')
+param Storage_storageAccounts__id string
+
+@description('Name of the credential to use for authentiaction and authorization.')
+param credentialName string
+
 @description('Name of the resource.')
 param name string
 
-@description('Id of the Data Factory resource.')
-param dataFactoryId string
+/* variables */
 
-@description('Id of the Storage resource.')
-param storageAccountId string
+var storage_storageAccounts__Id_split = split(Storage_storageAccounts__id, '/')
 
 /* existing resources */
 
-resource Factory_DataFactory 'Microsoft.DataFactory/factories@2018-06-01' existing = {
-  name: split(dataFactoryId, '/')[8]
+resource DataFactory_factories_ 'Microsoft.DataFactory/factories@2018-06-01' existing = {
+	name: DataFactory_factories__name
 }
 
-resource Storage_StorageAccount 'Microsoft.Storage/storageAccounts@2023-01-01' existing = {
-  name: split(storageAccountId, '/')[8]
+resource Storage_storageAccounts_ 'Microsoft.Storage/storageAccounts@2023-01-01' existing = {
+	name: storage_storageAccounts__Id_split[8]
+	scope: resourceGroup(storage_storageAccounts__Id_split[2], storage_storageAccounts__Id_split[4])
 }
 
 /* resources */
 
-// 
-resource DataFactory_Factory_LinkedService 'Microsoft.DataFactory/factories/linkedservices@2018-06-01' = {
-  name: name
-  parent: Factory_DataFactory
-  properties: {
-    type: 'AzureBlobStorage'
-    typeProperties: {
-      serviceEndpoint: Storage_StorageAccount.properties.primaryEndpoints.blob
-      accountKind: Storage_StorageAccount.kind
-    }
-  }
+// https://learn.microsoft.com/azure/templates/microsoft.datafactory/factories/linkedservices
+resource DataFactory_factories_linkedService_ 'Microsoft.DataFactory/factories/linkedservices@2018-06-01' = {
+	name: name
+	parent: DataFactory_factories_
+	properties: {
+		type: 'AzureBlobStorage'
+		typeProperties: {
+			accountKind: Storage_storageAccounts_.kind
+			credential: {
+				referenceName: credentialName
+				type: 'CredentialReference'
+			}
+			serviceEndpoint: Storage_storageAccounts_.properties.primaryEndpoints.blob
+		}
+	}
 }
