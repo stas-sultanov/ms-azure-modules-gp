@@ -89,7 +89,7 @@ resource Insights_diagnosticSettings_Storage_storageAccounts_blobServices_ 'Micr
 }
 
 // https://learn.microsoft.com/azure/templates/microsoft.storage/storageaccounts
-resource Storage_storageAccounts_ 'Microsoft.Storage/storageAccounts@2023-01-01' = {
+resource Storage_storageAccounts_ 'Microsoft.Storage/storageAccounts@2023-04-01' = {
 	kind: 'StorageV2'
 	location: location
 	name: name
@@ -109,7 +109,7 @@ resource Storage_storageAccounts_ 'Microsoft.Storage/storageAccounts@2023-01-01'
 }
 
 // https://learn.microsoft.com/azure/templates/microsoft.storage/storageaccounts/blobservices
-resource Storage_storageAccounts_blobServices_ 'Microsoft.Storage/storageAccounts/blobServices@2023-01-01' = if (useBlobService) {
+resource Storage_storageAccounts_blobServices_ 'Microsoft.Storage/storageAccounts/blobServices@2023-04-01' = if (useBlobService) {
 	parent: Storage_storageAccounts_
 	name: 'default'
 }

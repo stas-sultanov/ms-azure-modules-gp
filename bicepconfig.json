@@ -51,7 +51,6 @@
 	},
 	"experimentalFeaturesEnabled":
 	{
-		"prettyPrinting": false,
 		"sourceMapping": true
 	},
 	"formatting":

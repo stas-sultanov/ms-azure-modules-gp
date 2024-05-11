@@ -36,7 +36,7 @@ param tags object
 
 /* existing resources */
 
-resource Cdn_profiles_ 'Microsoft.Cdn/profiles@2023-05-01' existing = {
+resource Cdn_profiles_ 'Microsoft.Cdn/profiles@2024-02-01' existing = {
 	name: Cdn_profiles__name
 }
 
@@ -47,7 +47,7 @@ resource Network_dnsZones_ 'Microsoft.Network/dnsZones@2018-05-01' existing = {
 /* resources */
 
 // https://learn.microsoft.com/azure/templates/microsoft.cdn/profiles/afdendpoints
-resource Cdn_profiles_afdEndpoints_ 'Microsoft.Cdn/profiles/afdEndpoints@2023-05-01' = {
+resource Cdn_profiles_afdEndpoints_ 'Microsoft.Cdn/profiles/afdEndpoints@2024-02-01' = {
 	location: 'global'
 	name: name
 	parent: Cdn_profiles_
@@ -58,7 +58,7 @@ resource Cdn_profiles_afdEndpoints_ 'Microsoft.Cdn/profiles/afdEndpoints@2023-05
 }
 
 // https://learn.microsoft.com/azure/templates/microsoft.cdn/profiles/customdomains
-resource Cdn_profiles_customDomains_ 'Microsoft.Cdn/profiles/customDomains@2023-05-01' = {
+resource Cdn_profiles_customDomains_ 'Microsoft.Cdn/profiles/customDomains@2024-02-01' = {
 	name: name
 	parent: Cdn_profiles_
 	properties: {

@@ -39,9 +39,9 @@ Storage Account Container | Microsoft.Storage/storageAccounts/blobServices/conta
 
 The modules aims to utilize latest security approaches.
 This is why access to Azure Resources with Security Access Keys is disabled.
-The modules uses EntraId as one security provider for all Azure Resources and RBAC for granular Authorizations.
+The modules uses Entra ID as one security provider for all Azure Resources and RBAC for granular Authorizations.
 
-Below is a list of Azure Resource Types which utilize EntraId for clients Authentication and Authorization.
+Below is a list of Azure Resource Types which utilize Entra ID for clients Authentication and Authorization.
 
 - App Configuration
 - Cosmos DB

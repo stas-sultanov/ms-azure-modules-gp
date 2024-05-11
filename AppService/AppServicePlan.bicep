@@ -90,7 +90,7 @@ resource Insights_diagnosticSettings_ 'Microsoft.Insights/diagnosticSettings@202
 }
 
 // https://learn.microsoft.com/azure/templates/microsoft.web/serverfarms
-resource Web_serverfarms_ 'Microsoft.Web/serverfarms@2023-01-01' = {
+resource Web_serverfarms_ 'Microsoft.Web/serverfarms@2023-12-01' = {
 	location: location
 	name: name
 	properties: properties

@@ -47,7 +47,7 @@ var roleId = {
 
 /* existing resources */
 
-resource Storage_storageAccounts_ 'Microsoft.Storage/storageAccounts@2023-01-01' existing = {
+resource Storage_storageAccounts_ 'Microsoft.Storage/storageAccounts@2023-04-01' existing = {
 	name: Storage_storageAccounts__name
 }
 
