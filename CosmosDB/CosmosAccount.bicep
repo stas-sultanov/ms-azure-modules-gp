@@ -105,7 +105,7 @@ resource OperationalInsights_workspaces_ 'Microsoft.OperationalInsights/workspac
 /* resources */
 
 // https://learn.microsoft.com/azure/templates/microsoft.documentdb/databaseaccounts
-resource DocumentDB_databaseAccounts_ 'Microsoft.DocumentDB/databaseAccounts@2023-11-15' = {
+resource DocumentDB_databaseAccounts_ 'Microsoft.DocumentDB/databaseAccounts@2024-05-15' = {
 	kind: 'GlobalDocumentDB'
 	location: location
 	name: name

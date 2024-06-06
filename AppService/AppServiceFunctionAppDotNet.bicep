@@ -92,7 +92,7 @@ resource OperationalInsights_workspaces_ 'Microsoft.OperationalInsights/workspac
 	scope: resourceGroup(operationalInsights_workspaces__id_split[2], operationalInsights_workspaces__id_split[4])
 }
 
-resource Storage_storageAccounts_ 'Microsoft.Storage/storageAccounts@2023-04-01' existing = {
+resource Storage_storageAccounts_ 'Microsoft.Storage/storageAccounts@2023-05-01' existing = {
 	name: storage_StorageAccounts__id_split[8]
 	scope: resourceGroup(storage_StorageAccounts__id_split[2], storage_StorageAccounts__id_split[4])
 }

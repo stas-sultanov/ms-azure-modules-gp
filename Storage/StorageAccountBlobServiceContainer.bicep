@@ -44,11 +44,11 @@ var roleId = {
 
 /* existing resources */
 
-resource Storage_storageAccounts_ 'Microsoft.Storage/storageAccounts@2023-04-01' existing = {
+resource Storage_storageAccounts_ 'Microsoft.Storage/storageAccounts@2023-05-01' existing = {
 	name: Storage_storageAccounts__name
 }
 
-resource Storage_storageAccounts_blobServices_ 'Microsoft.Storage/storageAccounts/blobServices@2023-04-01' existing = {
+resource Storage_storageAccounts_blobServices_ 'Microsoft.Storage/storageAccounts/blobServices@2023-05-01' existing = {
 	name: 'default'
 	parent: Storage_storageAccounts_
 }
@@ -57,7 +57,7 @@ resource Storage_storageAccounts_blobServices_ 'Microsoft.Storage/storageAccount
 
 // provision Container
 // https://learn.microsoft.com/azure/templates/microsoft.storage/storageaccounts/blobservices/containers
-resource Storage_storageAccounts_blobServices_containers_ 'Microsoft.Storage/storageAccounts/blobServices/containers@2023-04-01' = {
+resource Storage_storageAccounts_blobServices_containers_ 'Microsoft.Storage/storageAccounts/blobServices/containers@2023-05-01' = {
 	name: name
 	parent: Storage_storageAccounts_blobServices_
 }
