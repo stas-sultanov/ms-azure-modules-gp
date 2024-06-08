@@ -8,9 +8,6 @@ metadata author = {
 
 /* parameters */
 
-@description('Id of the Storage/storageAccounts resource.')
-param Storage_storageAccounts__id string
-
 @description('Location to deploy the resources.')
 param location string
 
@@ -22,12 +19,15 @@ param name string
 @maxValue(365)
 param retentionInDays int = 30
 
+@description('Id of the Storage/storageAccounts resource.')
+param storageAccountId string
+
 @description('Tags to put on the resource.')
 param tags object = {}
 
 /* variables */
 
-var storage_StorageAccounts__id_split = split(Storage_storageAccounts__id, '/')
+var storage_StorageAccounts__id_split = split(storageAccountId, '/')
 
 /* existing resources */
 

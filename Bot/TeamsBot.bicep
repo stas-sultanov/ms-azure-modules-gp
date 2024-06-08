@@ -8,7 +8,10 @@ metadata author = {
 
 /* types */
 
-type ApplicationType = 'MultiTenant' | 'SingleTenant' | 'UserAssignedMSI'
+type ApplicationType =
+	| 'MultiTenant'
+	| 'SingleTenant'
+	| 'UserAssignedMSI'
 
 type Application = {
 	@description('Application client id.')
@@ -26,17 +29,14 @@ type Application = {
 
 /* parameters */
 
-@description('Api Key of the Insights/components resource.')
-param Insights_components__apiKey string = ''
-
-@description('Id of the Insights/components resource.')
-param Insights_components__id string
-
-@description('Id of the OperationalInsights/workspaces resource.')
-param OperationalInsights_workspaces__id string
-
 @description('Application settings.')
 param application Application
+
+@description('Api Key of the Insights/components resource.')
+param componentApiKey string = ''
+
+@description('Id of the Insights/components resource.')
+param componentId string
 
 @description('The description of the bot.')
 param descriptionText string
@@ -51,28 +51,46 @@ param endpoint string
 param name string
 
 @description('SKU of the resource.')
-@allowed([ 'F0', 'S1' ])
+@allowed([
+	'F0'
+	'S1'
+])
 param sku string = 'F0'
 
 @description('Tags to put on the resource.')
 param tags object = {}
 
+@description('Id of the OperationalInsights/workspaces resource.')
+param workspaceId string
+
 /* variables */
 
-var insights_components__id_split = split(Insights_components__id, '/')
+var insights_components__id_split = split(
+	componentId,
+	'/'
+)
 
-var operationalInsights_workspaces__id_split = split(OperationalInsights_workspaces__id, '/')
+var operationalInsights_workspaces__id_split = split(
+	workspaceId,
+	'/'
+)
 
 /* existing resources */
 
 resource Insights_components_ 'Microsoft.Insights/components@2020-02-02' existing = {
 	name: insights_components__id_split[8]
-	scope: resourceGroup(insights_components__id_split[2], insights_components__id_split[4])
+	scope: resourceGroup(
+		insights_components__id_split[2],
+		insights_components__id_split[4]
+	)
 }
 
 resource OperationalInsights_workspaces_ 'Microsoft.OperationalInsights/workspaces@2023-09-01' existing = {
 	name: operationalInsights_workspaces__id_split[8]
-	scope: resourceGroup(operationalInsights_workspaces__id_split[2], operationalInsights_workspaces__id_split[4])
+	scope: resourceGroup(
+		operationalInsights_workspaces__id_split[2],
+		operationalInsights_workspaces__id_split[4]
+	)
 }
 
 /* resources */
@@ -84,7 +102,7 @@ resource BotService_botServices_ 'Microsoft.BotService/botServices@2022-09-15' =
 	name: name
 	properties: {
 		developerAppInsightKey: Insights_components_.properties.InstrumentationKey
-		developerAppInsightsApiKey: Insights_components__apiKey
+		developerAppInsightsApiKey: componentApiKey
 		developerAppInsightsApplicationId: Insights_components_.properties.AppId
 		displayName: displayName
 		disableLocalAuth: true
@@ -93,12 +111,18 @@ resource BotService_botServices_ 'Microsoft.BotService/botServices@2022-09-15' =
 		#disable-next-line use-resource-id-functions
 		msaAppId: application.clientId
 		msaAppType: application.type
-		msaAppTenantId: contains(application, 'tenantId') 
-		 ? application.tenantId 
-		 : null
-		msaAppMSIResourceId: contains(application, 'MSIResourceId') 
-		 ? application.MSIResourceId 
-		 : null
+		msaAppTenantId: contains(
+				application,
+				'tenantId'
+			)
+			? application.tenantId
+			: null
+		msaAppMSIResourceId: contains(
+				application,
+				'MSIResourceId'
+			)
+			? application.MSIResourceId
+			: null
 	}
 	sku: {
 		name: sku

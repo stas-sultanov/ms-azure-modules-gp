@@ -13,11 +13,11 @@ targetScope = 'subscription'
 /* parameters */
 
 @description('Id of the OperationalInsights/Workspace resource.')
-param OperationalInsights_workspaces__id string
+param workspaceId string
 
 /* variables */
 
-var operationalInsights_workspaces__id_split = split(OperationalInsights_workspaces__id, '/')
+var operationalInsights_workspaces__id_split = split(workspaceId, '/')
 
 /* existing resources */
 

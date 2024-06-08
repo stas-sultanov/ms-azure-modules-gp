@@ -8,13 +8,16 @@ metadata author = {
 
 /* imports */
 
-import { DotNetVersion, IpSecurityRestriction, ManagedServiceIdentity } from './../types.bicep'
+import {
+	DotNetVersion
+	IpSecurityRestriction
+	ManagedServiceIdentity
+} from './../types.bicep'
 
 /* types */
 
 @description('FunctionApp properties.')
 type Properties = {
-
 	@description('OpenApi definition path')
 	apiDefinition: string?
 
@@ -47,15 +50,6 @@ type Properties = {
 
 /* parameters */
 
-@description('Id of the OperationalInsights/workspaces resource.')
-param OperationalInsights_workspaces__id string
-
-@description('Id of the Storage/storageAccounts resource.')
-param Storage_storageAccounts__id string
-
-@description('Id of the Web/serverfarms resource.')
-param Web_serverFarms__id string
-
 @description('Application package path within the storage.')
 param appPackPath string
 
@@ -74,32 +68,59 @@ param name string
 @description('Service properties.')
 param properties Properties
 
+@description('Id of the Web/serverfarms resource.')
+param serverFarmId string
+
+@description('Id of the Storage/storageAccounts resource.')
+param storageAccountId string
+
 @description('Tags to put on the resource.')
 param tags object = {}
 
+@description('Id of the OperationalInsights/workspaces resource.')
+param workspaceId string
+
 /* variables */
 
-var operationalInsights_workspaces__id_split = split(OperationalInsights_workspaces__id, '/')
+var operationalInsights_workspaces__id_split = split(
+	workspaceId,
+	'/'
+)
 
-var storage_StorageAccounts__id_split = split(Storage_storageAccounts__id, '/')
+var storage_StorageAccounts__id_split = split(
+	storageAccountId,
+	'/'
+)
 
-var web_serverfarms__id_split = split(Web_serverFarms__id, '/')
+var web_serverfarms__id_split = split(
+	serverFarmId,
+	'/'
+)
 
 /* existing resources */
 
 resource OperationalInsights_workspaces_ 'Microsoft.OperationalInsights/workspaces@2023-09-01' existing = {
 	name: operationalInsights_workspaces__id_split[8]
-	scope: resourceGroup(operationalInsights_workspaces__id_split[2], operationalInsights_workspaces__id_split[4])
+	scope: resourceGroup(
+		operationalInsights_workspaces__id_split[2],
+		operationalInsights_workspaces__id_split[4]
+	)
 }
 
 resource Storage_storageAccounts_ 'Microsoft.Storage/storageAccounts@2023-05-01' existing = {
 	name: storage_StorageAccounts__id_split[8]
-	scope: resourceGroup(storage_StorageAccounts__id_split[2], storage_StorageAccounts__id_split[4])
+	scope: resourceGroup(
+		storage_StorageAccounts__id_split[2],
+		storage_StorageAccounts__id_split[4]
+	)
 }
 
 resource Web_serverFarms_ 'Microsoft.Web/serverfarms@2023-12-01' existing = {
 	name: web_serverfarms__id_split[8]
-	scope: resourceGroup(web_serverfarms__id_split[2], web_serverfarms__id_split[4])
+	scope: resourceGroup(
+		web_serverfarms__id_split[2],
+		web_serverfarms__id_split[4]
+	)
 }
 
 /* resources */
@@ -190,7 +211,12 @@ resource Web_sites_config__Web 'Microsoft.Web/sites/config@2023-12-01' = {
 	parent: Web_sites_
 	properties: {
 		apiDefinition: {
-			url: (!contains(properties, 'apiDefinition') || empty(properties.apiDefinition)) ? null : 'https://${Web_sites_.properties.defaultHostName}${properties.apiDefinition}'
+			url: (!contains(
+					properties,
+					'apiDefinition'
+				) || empty(properties.apiDefinition))
+				? null
+				: 'https://${Web_sites_.properties.defaultHostName}${properties.apiDefinition}'
 		}
 		cors: {
 			allowedOrigins: properties.corsAllowedOrigins

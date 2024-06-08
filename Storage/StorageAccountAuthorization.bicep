@@ -12,7 +12,9 @@ targetScope = 'resourceGroup'
 
 /* imports */
 
-import { AuthorizationPrincipalInfo } from './../types.bicep'
+import {
+	AuthorizationPrincipalInfo
+} from './../types.bicep'
 
 /* types */
 
@@ -22,15 +24,22 @@ type Authorization = {
 	role: AuthorizationRoleName
 }
 
-type AuthorizationRoleName = 'BlobDataContributor' | 'BlobDataReader' | 'QueueDataContributor' | 'QueueDataMessageProcessor' | 'QueueDataMessageSender' | 'QueueDataReader' | 'TableDataReader'
+type AuthorizationRoleName =
+	| 'BlobDataContributor'
+	| 'BlobDataReader'
+	| 'QueueDataContributor'
+	| 'QueueDataMessageProcessor'
+	| 'QueueDataMessageSender'
+	| 'QueueDataReader'
+	| 'TableDataReader'
 
 /* parameters */
 
-@description('Name of the Storage/storageAccounts resource.')
-param Storage_storageAccounts__name string
-
 @description('Collection of authorizations.')
 param authorizationList Authorization[]
+
+@description('Name of the Storage/storageAccounts resource.')
+param storageAccountName string
 
 /* variables */
 
@@ -48,29 +57,35 @@ var roleId = {
 /* existing resources */
 
 resource Storage_storageAccounts_ 'Microsoft.Storage/storageAccounts@2023-05-01' existing = {
-	name: Storage_storageAccounts__name
+	name: storageAccountName
 }
 
 /* resources */
 
 // https://learn.microsoft.com/azure/templates/microsoft.authorization/roleassignments
 resource Authorization_roleAssignments_ 'Microsoft.Authorization/roleAssignments@2022-04-01' = [
-for authorization in authorizationList: {
-	name: guid(
-		subscription().id,
-		resourceGroup().name,
-		Storage_storageAccounts_.name,
-		roleId[authorization.role],
-		authorization.principal.id
-	)
-	properties: {
-		description: (!contains(authorization, 'description') || empty(authorization.description)) 
-		 ? '${authorization.role} role for ${(!contains(authorization.principal, 'name') || empty(authorization.principal.name)) ? authorization.principal.id : authorization.principal.name}.' 
-		 : authorization.description
-		principalId: authorization.principal.id
-		principalType: authorization.principal.type
-		roleDefinitionId: subscriptionResourceId('Microsoft.Authorization/roleDefinitions', roleId[authorization.role])
+	for authorization in authorizationList: {
+		name: guid(
+			subscription().id,
+			resourceGroup().name,
+			Storage_storageAccounts_.name,
+			roleId[authorization.role],
+			authorization.principal.id
+		)
+		properties: {
+			description: (!contains(
+					authorization,
+					'description'
+				) || empty(authorization.description))
+				? '${authorization.role} role for ${(!contains(authorization.principal, 'name') || empty(authorization.principal.name)) ? authorization.principal.id : authorization.principal.name}.'
+				: authorization.description
+			principalId: authorization.principal.id
+			principalType: authorization.principal.type
+			roleDefinitionId: subscriptionResourceId(
+				'Microsoft.Authorization/roleDefinitions',
+				roleId[authorization.role]
+			)
+		}
+		scope: Storage_storageAccounts_
 	}
-	scope: Storage_storageAccounts_
-}
 ]

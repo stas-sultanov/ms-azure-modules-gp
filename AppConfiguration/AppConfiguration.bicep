@@ -8,9 +8,6 @@ metadata author = {
 
 /* parameters */
 
-@description('Id of the OperationalInsights/Workspace resource.')
-param OperationalInsights_workspaces__id string
-
 @description('Location to deploy the resources.')
 param location string
 
@@ -18,21 +15,33 @@ param location string
 param name string
 
 @description('The SKU name.')
-@allowed([ 'Free', 'Standard' ])
+@allowed([
+	'Free'
+	'Standard'
+])
 param skuName string = 'Free'
 
 @description('Tags to put on the resource.')
 param tags object
 
+@description('Id of the OperationalInsights/Workspace resource.')
+param workspaceId string
+
 /* variables */
 
-var operationalInsights_workspaces__id_split = split(OperationalInsights_workspaces__id, '/')
+var operationalInsights_workspaces__id_split = split(
+	workspaceId,
+	'/'
+)
 
 /* existing resources */
 
 resource OperationalInsights_workspaces_ 'Microsoft.OperationalInsights/workspaces@2023-09-01' existing = {
 	name: operationalInsights_workspaces__id_split[8]
-	scope: resourceGroup(operationalInsights_workspaces__id_split[2], operationalInsights_workspaces__id_split[4])
+	scope: resourceGroup(
+		operationalInsights_workspaces__id_split[2],
+		operationalInsights_workspaces__id_split[4]
+	)
 }
 
 /* resources */

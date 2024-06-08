@@ -12,7 +12,9 @@ targetScope = 'resourceGroup'
 
 /* imports */
 
-import { AuthorizationPrincipalInfo } from './../types.bicep'
+import {
+	AuthorizationPrincipalInfo
+} from './../types.bicep'
 
 /* types */
 
@@ -22,15 +24,17 @@ type Authorization = {
 	role: AuthorizationRoleName
 }
 
-type AuthorizationRoleName = 'AppConfigurationDataOwner' | 'AppConfigurationDataReader'
+type AuthorizationRoleName =
+	| 'AppConfigurationDataOwner'
+	| 'AppConfigurationDataReader'
 
 /* parameters */
 
-@description('Name of the AppConfiguration/configurationStores resource.')
-param AppConfiguration_configurationStores__name string
-
 @description('Collection of authorizations.')
 param authorizationList Authorization[]
+
+@description('Name of the AppConfiguration/configurationStores resource.')
+param storeName string
 
 /* variables */
 
@@ -42,28 +46,34 @@ var roleId = {
 /* existing resources */
 
 resource AppConfiguration_configurationStores_ 'Microsoft.AppConfiguration/configurationStores@2023-03-01' existing = {
-	name: AppConfiguration_configurationStores__name
+	name: storeName
 }
 
 /* resources */
 
 // https://learn.microsoft.com/azure/templates/microsoft.authorization/roleassignments
 resource Authorization_roleAssignments_ 'Microsoft.Authorization/roleAssignments@2022-04-01' = [
-for authorization in authorizationList: {
-	name: guid(
-		subscription().id,
-		AppConfiguration_configurationStores_.id,
-		roleId[authorization.role],
-		authorization.principal.id
-	)
-	properties: {
-		description: (!contains(authorization, 'description') || empty(authorization.description)) 
-		 ? '${authorization.role} role for ${(!contains(authorization.principal, 'name') || empty(authorization.principal.name)) ? authorization.principal.id : authorization.principal.name}.' 
-		 : authorization.description
-		principalId: authorization.principal.id
-		principalType: authorization.principal.type
-		roleDefinitionId: subscriptionResourceId('Microsoft.Authorization/roleDefinitions', roleId[authorization.role])
+	for authorization in authorizationList: {
+		name: guid(
+			subscription().id,
+			AppConfiguration_configurationStores_.id,
+			roleId[authorization.role],
+			authorization.principal.id
+		)
+		properties: {
+			description: (!contains(
+					authorization,
+					'description'
+				) || empty(authorization.description))
+				? '${authorization.role} role for ${(!contains(authorization.principal, 'name') || empty(authorization.principal.name)) ? authorization.principal.id : authorization.principal.name}.'
+				: authorization.description
+			principalId: authorization.principal.id
+			principalType: authorization.principal.type
+			roleDefinitionId: subscriptionResourceId(
+				'Microsoft.Authorization/roleDefinitions',
+				roleId[authorization.role]
+			)
+		}
+		scope: AppConfiguration_configurationStores_
 	}
-	scope: AppConfiguration_configurationStores_
-}
 ]

@@ -22,9 +22,6 @@ type Properties = {
 
 /* parameters */
 
-@description('Id of the OperationalInsights/workspaces resource.')
-param OperationalInsights_workspaces__id string
-
 @description('Location to deploy the resources.')
 param location string
 
@@ -39,35 +36,42 @@ param properties Properties = {
 }
 
 @description('The SKU capability.')
-@allowed(
-	[
-		'B1' // Basic
-		'D1' // Shared
-		'EP1' // ElasticPremium
-		'F1' // Free
-		'P0V3' // Premium:v3 vCPU:1 RAM:4
-		'P1' // Premium:v1 vCPU:1 RAM:1.75
-		'P1V2' // Premium:v2 vCPU:1 RAM:3.5
-		'P1V3' // Premium:v3 vCPU:2 RAM:8
-		'S1' // Standard
-		'U1' // Compute
-		'Y1' // Dynamic
-	]
-)
+@allowed([
+	'B1' // Basic
+	'D1' // Shared
+	'EP1' // ElasticPremium
+	'F1' // Free
+	'P0V3' // Premium:v3 vCPU:1 RAM:4
+	'P1' // Premium:v1 vCPU:1 RAM:1.75
+	'P1V2' // Premium:v2 vCPU:1 RAM:3.5
+	'P1V3' // Premium:v3 vCPU:2 RAM:8
+	'S1' // Standard
+	'U1' // Compute
+	'Y1' // Dynamic
+])
 param sku string
 
 @description('Tags to put on the resource.')
 param tags object
 
+@description('Id of the OperationalInsights/workspaces resource.')
+param workspaceId string
+
 /* variables */
 
-var operationalInsights_workspaces__id_split = split(OperationalInsights_workspaces__id, '/')
+var operationalInsights_workspaces__id_split = split(
+	workspaceId,
+	'/'
+)
 
 /* existing resources */
 
 resource OperationalInsights_workspaces_ 'Microsoft.OperationalInsights/workspaces@2023-09-01' existing = {
 	name: operationalInsights_workspaces__id_split[8]
-	scope: resourceGroup(operationalInsights_workspaces__id_split[2], operationalInsights_workspaces__id_split[4])
+	scope: resourceGroup(
+		operationalInsights_workspaces__id_split[2],
+		operationalInsights_workspaces__id_split[4]
+	)
 }
 
 /* resources */

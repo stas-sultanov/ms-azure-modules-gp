@@ -13,10 +13,10 @@ targetScope = 'resourceGroup'
 /* parameters */
 
 @description('Id of the Insights/actionGroups resource.')
-param Insights_actionGroups__id string
+param actionGroupId string
 
 @description('Name of the Insights/components resource.')
-param Insights_components__name string
+param componentName string
 
 @description('Common tags to put on the resource.')
 param customWebhookPayload string = ''
@@ -37,12 +37,12 @@ var actionGroupInformation = {
 	groupIds: [ Insights_actionGroup_.id ]
 }
 
-var insights_actionGroups__id_split = split(Insights_actionGroups__id, '/')
+var insights_actionGroups__id_split = split(actionGroupId, '/')
 
 /* existing resources */
 
 resource Insights_components_ 'Microsoft.Insights/components@2020-02-02' existing = {
-	name: Insights_components__name
+	name: componentName
 }
 
 resource Insights_actionGroup_ 'Microsoft.Insights/actionGroups@2023-01-01' existing = {
@@ -148,7 +148,7 @@ resource alertsManagement_smartDetectorAlertRules_MemoryLeakDetector 'microsoft.
 	)
 }
 
-// https://learn.microsoft.com/azure/templates/microsoft.alertsmanagement/smartdetectoralertrules 
+// https://learn.microsoft.com/azure/templates/microsoft.alertsmanagement/smartdetectoralertrules
 @description('Request Performance Degradation')
 resource alertsManagement_smartDetectorAlertRules_RequestPerformanceDegradation 'microsoft.alertsManagement/smartDetectorAlertRules@2021-04-01' = {
 	location: 'global'

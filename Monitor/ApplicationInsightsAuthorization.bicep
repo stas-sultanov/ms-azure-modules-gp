@@ -26,11 +26,11 @@ type AuthorizationRoleName = 'ApplicationInsightsComponentContributor' | 'Applic
 
 /* parameters */
 
-@description('Name of the Insights/components resource.')
-param Insights_components__name string
-
 @description('Collection of authorizations.')
 param authorizationList Authorization[]
+
+@description('Name of the Insights/components resource.')
+param componentName string
 
 /* variables */
 
@@ -47,7 +47,7 @@ var roleId = {
 /* existing resources */
 
 resource Insights_components_ 'Microsoft.Insights/components@2020-02-02' existing = {
-	name: Insights_components__name
+	name: componentName
 }
 
 /* resources */
@@ -62,8 +62,8 @@ for authorization in authorizationList: {
 		authorization.principal.id
 	)
 	properties: {
-		description: (!contains(authorization, 'description') || empty(authorization.description)) 
-		 ? '${authorization.role} role for ${(!contains(authorization.principal, 'name') || empty(authorization.principal.name)) ? authorization.principal.id : authorization.principal.name}.' 
+		description: (!contains(authorization, 'description') || empty(authorization.description))
+		 ? '${authorization.role} role for ${(!contains(authorization.principal, 'name') || empty(authorization.principal.name)) ? authorization.principal.id : authorization.principal.name}.'
 		 : authorization.description
 		principalId: authorization.principal.id
 		principalType: authorization.principal.type

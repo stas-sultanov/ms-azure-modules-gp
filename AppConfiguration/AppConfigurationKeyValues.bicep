@@ -19,27 +19,27 @@ type KeyValuePair = {
 
 /* parameters */
 
-@description('Name of the AppConfiguration/configurationStores resource.')
-param AppConfiguration_configurationStores__name string
-
 @description('Collection of key-value pairs.')
 param keyValuePairList KeyValuePair[]
+
+@description('Name of the AppConfiguration/configurationStores resource.')
+param storeName string
 
 /* existing resources */
 
 resource AppConfiguration_configurationStores_ 'Microsoft.AppConfiguration/configurationStores@2023-03-01' existing = {
-	name: AppConfiguration_configurationStores__name
+	name: storeName
 }
 
 /* resources */
 
 // https://learn.microsoft.com/azure/templates/microsoft.appconfiguration/configurationstores/keyvalues
 resource AppConfiguration_configurationStores_keyValues_ 'Microsoft.AppConfiguration/configurationStores/keyValues@2023-03-01' = [
-for keyValuePair in keyValuePairList: {
-	name: keyValuePair.key
-	parent: AppConfiguration_configurationStores_
-	properties: {
-		value: keyValuePair.value
+	for keyValuePair in keyValuePairList: {
+		name: keyValuePair.key
+		parent: AppConfiguration_configurationStores_
+		properties: {
+			value: keyValuePair.value
+		}
 	}
-}
 ]

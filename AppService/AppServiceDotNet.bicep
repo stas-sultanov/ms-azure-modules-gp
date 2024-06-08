@@ -8,13 +8,16 @@ metadata author = {
 
 /* imports */
 
-import { DotNetVersion, IpSecurityRestriction, ManagedServiceIdentity } from './../types.bicep'
+import {
+	DotNetVersion
+	IpSecurityRestriction
+	ManagedServiceIdentity
+} from './../types.bicep'
 
 /* types */
 
 @description('AppService parameters.')
 type Parameters = {
-
 	@description('true if Always On is enabled; otherwise, false')
 	alwaysOn: bool
 
@@ -68,12 +71,6 @@ type Parameters = {
 
 /* parameters */
 
-@description('Id of the OperationalInsights/workspaces resource.')
-param OperationalInsights_workspaces__id string
-
-@description('Id of the Web/serverfarms resource.')
-param Web_serverFarms__id string
-
 @description('Application settings to be used as Environment Variables.')
 param appSettings object = {}
 
@@ -96,25 +93,43 @@ param name string
 @description('Configuration parameters.')
 param parameters Parameters
 
+@description('Id of the Web/serverfarms resource.')
+param serverFarmId string
+
 @description('Tags to put on the resource.')
 param tags object = {}
 
+@description('Id of the OperationalInsights/workspaces resource.')
+param workspaceId string
+
 /* variables */
 
-var operationalInsights_workspaces__id_split = split(OperationalInsights_workspaces__id, '/')
+var operationalInsights_workspaces__id_split = split(
+	workspaceId,
+	'/'
+)
 
-var web_serverfarms__id_split = split(Web_serverFarms__id, '/')
+var web_serverfarms__id_split = split(
+	serverFarmId,
+	'/'
+)
 
 /* existing resources */
 
 resource OperationalInsights_workspaces_ 'Microsoft.OperationalInsights/workspaces@2023-09-01' existing = {
 	name: operationalInsights_workspaces__id_split[8]
-	scope: resourceGroup(operationalInsights_workspaces__id_split[2], operationalInsights_workspaces__id_split[4])
+	scope: resourceGroup(
+		operationalInsights_workspaces__id_split[2],
+		operationalInsights_workspaces__id_split[4]
+	)
 }
 
 resource Web_serverFarms_ 'Microsoft.Web/serverfarms@2023-12-01' existing = {
 	name: web_serverfarms__id_split[8]
-	scope: resourceGroup(web_serverfarms__id_split[2], web_serverfarms__id_split[4])
+	scope: resourceGroup(
+		web_serverfarms__id_split[2],
+		web_serverfarms__id_split[4]
+	)
 }
 
 /* resources */
@@ -219,23 +234,53 @@ resource Web_sites_config__Web 'Microsoft.Web/sites/config@2023-12-01' = {
 	properties: {
 		alwaysOn: parameters.alwaysOn
 		apiDefinition: {
-			url: (!contains(parameters, 'apiDefinition') || empty(parameters.apiDefinition)) ? null : 'https://${Web_sites_.properties.defaultHostName}${parameters.apiDefinition}'
+			url: (!contains(
+					parameters,
+					'apiDefinition'
+				) || empty(parameters.apiDefinition))
+				? null
+				: 'https://${Web_sites_.properties.defaultHostName}${parameters.apiDefinition}'
 		}
 		cors: {
 			allowedOrigins: parameters.corsAllowedOrigins
 		}
 		defaultDocuments: []
 		ftpsState: 'Disabled'
-		functionAppScaleLimit: contains(parameters, 'functionAppScaleLimit') ? parameters.functionAppScaleLimit : 0
-		healthCheckPath: contains(parameters, 'healthCheckPath') ? parameters.healthCheckPath : null
+		functionAppScaleLimit: contains(
+				parameters,
+				'functionAppScaleLimit'
+			)
+			? parameters.functionAppScaleLimit
+			: 0
+		healthCheckPath: contains(
+				parameters,
+				'healthCheckPath'
+			)
+			? parameters.healthCheckPath
+			: null
 		http20Enabled: parameters.http20Enabled
 		ipSecurityRestrictions: parameters.ipSecurityRestrictions
-		minimumElasticInstanceCount: contains(parameters, 'minimumElasticInstanceCount') ? parameters.minimumElasticInstanceCount : 0
-		preWarmedInstanceCount: contains(parameters, 'preWarmedInstanceCount') ? parameters.preWarmedInstanceCount : 0
+		minimumElasticInstanceCount: contains(
+				parameters,
+				'minimumElasticInstanceCount'
+			)
+			? parameters.minimumElasticInstanceCount
+			: 0
+		preWarmedInstanceCount: contains(
+				parameters,
+				'preWarmedInstanceCount'
+			)
+			? parameters.preWarmedInstanceCount
+			: 0
 		remoteDebuggingEnabled: parameters.remoteDebuggingEnabled
 		remoteDebuggingVersion: 'VS2022'
 		netFrameworkVersion: parameters.netFrameworkVersion
-		numberOfWorkers: contains(parameters, 'numberOfWorkers') ? parameters.numberOfWorkers : null
+		numberOfWorkers: contains(
+				parameters,
+				'numberOfWorkers'
+			)
+			? parameters.numberOfWorkers
+			: null
 		use32BitWorkerProcess: parameters.use32BitWorkerProcess
 		webSocketsEnabled: parameters.webSocketsEnabled
 	}

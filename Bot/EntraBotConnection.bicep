@@ -33,7 +33,7 @@ type EntraParameters = {
 /* parameters */
 
 @description('Name of the BotService/botServices resource.')
-param BotService_botServices__name string
+param botServiceName string
 
 @description('Name of the resource.')
 param name string
@@ -47,7 +47,7 @@ param tags object = {}
 /* existing resources */
 
 resource BotService_botServices_ 'Microsoft.BotService/botServices@2022-09-15' existing = {
-	name: BotService_botServices__name
+	name: botServiceName
 }
 
 /* resources */
@@ -63,9 +63,12 @@ resource BotService_botServices_connections_ 'Microsoft.BotService/botServices/c
 		parameters: [
 			{
 				key: 'tokenExchangeUrl'
-				value: contains(parameters, 'applicationTokenExchangeUrl') 
-				 ? parameters.applicationTokenExchangeUrl 
-				 : null
+				value: contains(
+						parameters,
+						'applicationTokenExchangeUrl'
+					)
+					? parameters.applicationTokenExchangeUrl
+					: null
 			}
 			{
 				key: 'tenantId'
