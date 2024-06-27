@@ -226,6 +226,7 @@ resource Web_sites_config__Web 'Microsoft.Web/sites/config@2023-12-01' = {
 		functionAppScaleLimit: properties.functionAppScaleLimit
 		http20Enabled: properties.http20Enabled
 		ipSecurityRestrictions: properties.ipSecurityRestrictions
+		minTlsVersion: '1.3'
 		netFrameworkVersion: properties.netFrameworkVersion
 		use32BitWorkerProcess: properties.use32BitWorkerProcess
 	}
