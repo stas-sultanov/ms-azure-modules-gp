@@ -188,6 +188,7 @@ resource Web_sites_config__AppSettings 'Microsoft.Web/sites/config@2023-12-01' =
 	properties: union(
 		appSettings,
 		{
+			AzureWebJobsStorage__accountname: Storage_storageAccounts_.name
 			FUNCTIONS_EXTENSION_VERSION: '~4'
 			FUNCTIONS_WORKER_RUNTIME: 'dotnet-isolated'
 			WEBSITE_RUN_FROM_PACKAGE: '${Storage_storageAccounts_.properties.primaryEndpoints.blob}${appPackPath}'
