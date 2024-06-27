@@ -29,6 +29,9 @@ type Properties = {
 	@maxValue(200)
 	functionAppScaleLimit: int?
 
+	@description('Health check path.')
+	healthCheckPath: string
+
 	@description('Allow clients to connect over http2.0')
 	http20Enabled: bool
 
@@ -50,9 +53,6 @@ type Properties = {
 
 /* parameters */
 
-@description('Application package path within the storage.')
-param appPackPath string
-
 @description('Application settings to be used as Environment Variables.')
 param appSettings object = {}
 
@@ -71,9 +71,6 @@ param properties Properties
 @description('Id of the Web/serverfarms resource.')
 param serverFarmId string
 
-@description('Id of the Storage/storageAccounts resource.')
-param storageAccountId string
-
 @description('Tags to put on the resource.')
 param tags object = {}
 
@@ -84,11 +81,6 @@ param workspaceId string
 
 var operationalInsights_workspaces__id_split = split(
 	workspaceId,
-	'/'
-)
-
-var storage_StorageAccounts__id_split = split(
-	storageAccountId,
 	'/'
 )
 
@@ -104,14 +96,6 @@ resource OperationalInsights_workspaces_ 'Microsoft.OperationalInsights/workspac
 	scope: resourceGroup(
 		operationalInsights_workspaces__id_split[2],
 		operationalInsights_workspaces__id_split[4]
-	)
-}
-
-resource Storage_storageAccounts_ 'Microsoft.Storage/storageAccounts@2023-05-01' existing = {
-	name: storage_StorageAccounts__id_split[8]
-	scope: resourceGroup(
-		storage_StorageAccounts__id_split[2],
-		storage_StorageAccounts__id_split[4]
 	)
 }
 
@@ -188,11 +172,8 @@ resource Web_sites_config__AppSettings 'Microsoft.Web/sites/config@2023-12-01' =
 	properties: union(
 		appSettings,
 		{
-			AzureWebJobsStorage__accountname: Storage_storageAccounts_.name
 			FUNCTIONS_EXTENSION_VERSION: '~4'
 			FUNCTIONS_WORKER_RUNTIME: 'dotnet-isolated'
-			WEBSITE_RUN_FROM_PACKAGE: '${Storage_storageAccounts_.properties.primaryEndpoints.blob}${appPackPath}'
-			WEBSITE_RUN_FROM_PACKAGE_BLOB_MI_RESOURCE_ID: 'SystemAssigned'
 		}
 	)
 }
@@ -225,6 +206,12 @@ resource Web_sites_config__Web 'Microsoft.Web/sites/config@2023-12-01' = {
 		defaultDocuments: []
 		ftpsState: 'Disabled'
 		functionAppScaleLimit: properties.functionAppScaleLimit
+		healthCheckPath: contains(
+			properties,
+			'healthCheckPath'
+		)
+		? properties.healthCheckPath
+		: null
 		http20Enabled: properties.http20Enabled
 		ipSecurityRestrictions: properties.ipSecurityRestrictions
 		minTlsVersion: '1.3'
