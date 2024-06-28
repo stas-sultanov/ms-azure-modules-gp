@@ -16,12 +16,15 @@ import {
 
 /* types */
 
+@description('Version of TLS required for SSL requests.')
+type TlsVersion = '1.1' | '1.2' | '1.3'
+
 @description('FunctionApp properties.')
 type Properties = {
-	@description('OpenApi definition path')
+	@description('OpenApi definition path.')
 	apiDefinition: string?
 
-	@description('List of origins that should be allowed to make cross-origin calls. Use "*" to allow all')
+	@description('List of origins that should be allowed to make cross-origin calls. Use "*" to allow all.')
 	corsAllowedOrigins: string[]
 
 	@description('Maximum number of workers that a site can scale out to.')
@@ -35,11 +38,14 @@ type Properties = {
 	@description('Allow clients to connect over http2.0')
 	http20Enabled: bool
 
-	@description('HttpsOnly: configures a web site to accept only https requests. Issues redirect for http requests')
+	@description('HttpsOnly: configures a web site to accept only https requests. Issues redirect for http requests.')
 	httpsOnly: bool
 
-	@description('List of allowed IP addresses')
+	@description('List of allowed IP addresses.')
 	ipSecurityRestrictions: IpSecurityRestriction[]
+
+	@description('Minimum version of TLS required for SSL requests.')
+	minTlsVersion: TlsVersion
 
 	@description('dotNet Framework version.')
 	netFrameworkVersion: DotNetVersion
@@ -214,7 +220,7 @@ resource Web_sites_config__Web 'Microsoft.Web/sites/config@2023-12-01' = {
 		: null
 		http20Enabled: properties.http20Enabled
 		ipSecurityRestrictions: properties.ipSecurityRestrictions
-		minTlsVersion: '1.3'
+		minTlsVersion: properties.minTlsVersion
 		netFrameworkVersion: properties.netFrameworkVersion
 		use32BitWorkerProcess: properties.use32BitWorkerProcess
 	}
