@@ -22,7 +22,10 @@ param name string
 
 /* variables */
 
-var storage_storageAccounts__Id_split = split(Storage_storageAccounts__id, '/')
+var storage_storageAccounts__Id_split = split(
+	Storage_storageAccounts__id,
+	'/'
+)
 
 /* existing resources */
 
@@ -32,7 +35,10 @@ resource DataFactory_factories_ 'Microsoft.DataFactory/factories@2018-06-01' exi
 
 resource Storage_storageAccounts_ 'Microsoft.Storage/storageAccounts@2023-05-01' existing = {
 	name: storage_storageAccounts__Id_split[8]
-	scope: resourceGroup(storage_storageAccounts__Id_split[2], storage_storageAccounts__Id_split[4])
+	scope: resourceGroup(
+		storage_storageAccounts__Id_split[2],
+		storage_storageAccounts__Id_split[4]
+	)
 }
 
 /* resources */

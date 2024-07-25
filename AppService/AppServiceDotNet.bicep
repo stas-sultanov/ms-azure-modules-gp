@@ -246,41 +246,16 @@ resource Web_sites_config__Web 'Microsoft.Web/sites/config@2023-12-01' = {
 		}
 		defaultDocuments: []
 		ftpsState: 'Disabled'
-		functionAppScaleLimit: contains(
-				parameters,
-				'functionAppScaleLimit'
-			)
-			? parameters.functionAppScaleLimit
-			: 0
-		healthCheckPath: contains(
-				parameters,
-				'healthCheckPath'
-			)
-			? parameters.healthCheckPath
-			: null
+		functionAppScaleLimit: parameters.?functionAppScaleLimit ?? 0
+		healthCheckPath: parameters.?healthCheckPath
 		http20Enabled: parameters.http20Enabled
 		ipSecurityRestrictions: parameters.ipSecurityRestrictions
-		minimumElasticInstanceCount: contains(
-				parameters,
-				'minimumElasticInstanceCount'
-			)
-			? parameters.minimumElasticInstanceCount
-			: 0
-		preWarmedInstanceCount: contains(
-				parameters,
-				'preWarmedInstanceCount'
-			)
-			? parameters.preWarmedInstanceCount
-			: 0
+		minimumElasticInstanceCount: parameters.?minimumElasticInstanceCount ?? 0
+		preWarmedInstanceCount: parameters.?preWarmedInstanceCount ?? 0
 		remoteDebuggingEnabled: parameters.remoteDebuggingEnabled
 		remoteDebuggingVersion: 'VS2022'
 		netFrameworkVersion: parameters.netFrameworkVersion
-		numberOfWorkers: contains(
-				parameters,
-				'numberOfWorkers'
-			)
-			? parameters.numberOfWorkers
-			: null
+		numberOfWorkers: parameters.?numberOfWorkers
 		use32BitWorkerProcess: parameters.use32BitWorkerProcess
 		webSocketsEnabled: parameters.webSocketsEnabled
 	}

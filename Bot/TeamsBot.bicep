@@ -111,18 +111,10 @@ resource BotService_botServices_ 'Microsoft.BotService/botServices@2022-09-15' =
 		#disable-next-line use-resource-id-functions
 		msaAppId: application.clientId
 		msaAppType: application.type
-		msaAppTenantId: contains(
-				application,
-				'tenantId'
-			)
-			? application.tenantId
-			: null
-		msaAppMSIResourceId: contains(
-				application,
-				'MSIResourceId'
-			)
-			? application.MSIResourceId
-			: null
+		#disable-next-line use-resource-id-functions
+		msaAppTenantId: application.?tenantId
+		#disable-next-line use-resource-id-functions
+		msaAppMSIResourceId: application.?MSIResourceId
 	}
 	sku: {
 		name: sku

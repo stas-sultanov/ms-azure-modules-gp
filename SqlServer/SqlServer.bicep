@@ -12,11 +12,16 @@ targetScope = 'resourceGroup'
 
 /* imports */
 
-import { ManagedServiceIdentity } from './../types.bicep'
+import {
+	ManagedServiceIdentity
+} from './../types.bicep'
 
 /* types */
 
-type EntraPrincipalType = 'Application' | 'Group' | 'User'
+type EntraPrincipalType =
+	| 'Application'
+	| 'Group'
+	| 'User'
 
 type EntraPrincipal = {
 	@description('Name of the principal within the Entra tenant.')
@@ -50,7 +55,10 @@ param location string
 param name string
 
 @description('Define if access from Public Network is allowed.')
-@allowed([ 'Enabled', 'Disabled' ])
+@allowed([
+	'Enabled'
+	'Disabled'
+])
 param publicNetworkAccess string = 'Disabled'
 
 @description('Common tags to put on the resource.')
@@ -58,13 +66,19 @@ param tags object
 
 /* variables */
 
-var operationalInsights_workspaces__id_split = split(OperationalInsights_workspaces__id, '/')
+var operationalInsights_workspaces__id_split = split(
+	OperationalInsights_workspaces__id,
+	'/'
+)
 
 /* existing resources */
 
 resource OperationalInsights_workspaces_ 'Microsoft.OperationalInsights/workspaces@2023-09-01' existing = {
 	name: operationalInsights_workspaces__id_split[8]
-	scope: resourceGroup(operationalInsights_workspaces__id_split[2], operationalInsights_workspaces__id_split[4])
+	scope: resourceGroup(
+		operationalInsights_workspaces__id_split[2],
+		operationalInsights_workspaces__id_split[4]
+	)
 }
 
 /* resources */
@@ -98,7 +112,7 @@ resource Sql_servers_ 'Microsoft.Sql/servers@2021-11-01' = {
 			login: adminPrincipal.name
 			principalType: adminPrincipal.type
 			sid: adminPrincipal.objectId
-			tenantId: contains(adminPrincipal, 'tenantId') ? adminPrincipal.tenantId : subscription().tenantId
+			tenantId: adminPrincipal.?tenantId ?? subscription().tenantId
 		}
 		minimalTlsVersion: '1.2'
 		publicNetworkAccess: publicNetworkAccess

@@ -44,13 +44,20 @@ param tags object
 
 /* variables */
 
-var cdn_profiles_customDomains__name = replace(Network_dnsZones_.name, '.', '-')
+var cdn_profiles_customDomains__name = replace(
+	Network_dnsZones_.name,
+	'.',
+	'-'
+)
 
 var cdn_profiles_customDomains__hostName = Network_dnsZones_.name
 
 var network_dnsZones_txt_Validation_name = '_dnsauth'
 
-var network_frontDoorWebApplicationFirewallPolicies__id_split = split(Network_frontDoorWebApplicationFirewallPolicies__id, '/')
+var network_frontDoorWebApplicationFirewallPolicies__id_split = split(
+	Network_frontDoorWebApplicationFirewallPolicies__id,
+	'/'
+)
 
 /* existing resources */
 
@@ -64,7 +71,10 @@ resource Network_dnsZones_ 'Microsoft.Network/dnsZones@2018-05-01' existing = {
 
 resource Network_frontDoorWebApplicationFirewallPolicies_ 'Microsoft.Network/FrontDoorWebApplicationFirewallPolicies@2024-02-01' existing = {
 	name: network_frontDoorWebApplicationFirewallPolicies__id_split[8]
-	scope: resourceGroup(network_frontDoorWebApplicationFirewallPolicies__id_split[2], network_frontDoorWebApplicationFirewallPolicies__id_split[4])
+	scope: resourceGroup(
+		network_frontDoorWebApplicationFirewallPolicies__id_split[2],
+		network_frontDoorWebApplicationFirewallPolicies__id_split[4]
+	)
 }
 
 /* resources */

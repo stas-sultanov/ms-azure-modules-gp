@@ -17,7 +17,10 @@ import {
 /* types */
 
 @description('Version of TLS required for SSL requests.')
-type TlsVersion = '1.1' | '1.2' | '1.3'
+type TlsVersion =
+	| '1.1'
+	| '1.2'
+	| '1.3'
 
 @description('FunctionApp properties.')
 type Properties = {
@@ -212,12 +215,7 @@ resource Web_sites_config__Web 'Microsoft.Web/sites/config@2023-12-01' = {
 		defaultDocuments: []
 		ftpsState: 'Disabled'
 		functionAppScaleLimit: properties.functionAppScaleLimit
-		healthCheckPath: contains(
-			properties,
-			'healthCheckPath'
-		)
-		? properties.healthCheckPath
-		: null
+		healthCheckPath: properties.?healthCheckPath
 		http20Enabled: properties.http20Enabled
 		ipSecurityRestrictions: properties.ipSecurityRestrictions
 		minTlsVersion: properties.minTlsVersion

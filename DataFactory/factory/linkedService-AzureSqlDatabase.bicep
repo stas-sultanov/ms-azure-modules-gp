@@ -27,15 +27,24 @@ param connectionTimeout int = 30
 /* existing resources */
 
 resource DataFactory_Factory 'Microsoft.DataFactory/factories@2018-06-01' existing = {
-	name: split(dataFactoryId, '/')[8]
+	name: split(
+		dataFactoryId,
+		'/'
+	)[8]
 }
 
 resource Sql_Server 'Microsoft.Sql/servers@2021-11-01' existing = {
-	name: split(sqlServerId, '/')[8]
+	name: split(
+		sqlServerId,
+		'/'
+	)[8]
 }
 
 resource Sql_Server_Database 'Microsoft.Sql/servers/databases@2021-11-01' existing = {
-	name: split(sqlServerDatabaseId, '/')[10]
+	name: split(
+		sqlServerDatabaseId,
+		'/'
+	)[10]
 	parent: Sql_Server
 }
 

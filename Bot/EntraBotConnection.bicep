@@ -63,12 +63,7 @@ resource BotService_botServices_connections_ 'Microsoft.BotService/botServices/c
 		parameters: [
 			{
 				key: 'tokenExchangeUrl'
-				value: contains(
-						parameters,
-						'applicationTokenExchangeUrl'
-					)
-					? parameters.applicationTokenExchangeUrl
-					: null
+				value: parameters.?applicationTokenExchangeUrl
 			}
 			{
 				key: 'tenantId'

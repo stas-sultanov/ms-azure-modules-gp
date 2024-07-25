@@ -27,13 +27,19 @@ param tags object = {}
 
 /* variables */
 
-var storage_StorageAccounts__id_split = split(storageAccountId, '/')
+var storage_StorageAccounts__id_split = split(
+	storageAccountId,
+	'/'
+)
 
 /* existing resources */
 
 resource Storage_storageAccounts_ 'Microsoft.Storage/storageAccounts@2023-05-01' existing = {
 	name: storage_StorageAccounts__id_split[8]
-	scope: resourceGroup(storage_StorageAccounts__id_split[2], storage_StorageAccounts__id_split[4])
+	scope: resourceGroup(
+		storage_StorageAccounts__id_split[2],
+		storage_StorageAccounts__id_split[4]
+	)
 }
 
 /* resources */
@@ -61,7 +67,9 @@ resource OperationalInsights_workspaces_linkedStorageAccounts_Alerts 'Microsoft.
 	name: 'Alerts'
 	parent: OperationalInsights_workspaces_
 	properties: {
-		storageAccountIds: [ Storage_storageAccounts_.id ]
+		storageAccountIds: [
+			Storage_storageAccounts_.id
+		]
 	}
 }
 

@@ -16,13 +16,23 @@ type AuthorizationPrincipalInfo = {
 }
 
 @export()
-type AuthorizationPrincipalType = 'Device' | 'ForeignGroup' | 'Group' | 'ServicePrincipal' | 'User'
+type AuthorizationPrincipalType =
+	| 'Device'
+	| 'ForeignGroup'
+	| 'Group'
+	| 'ServicePrincipal'
+	| 'User'
 
 @export()
 @description('dotNet Framework version.')
-type DotNetVersion = 'v6.0' | 'v7.0' | 'v8.0'
+type DotNetVersion =
+	| 'v6.0'
+	| 'v7.0'
+	| 'v8.0'
 
-type IpSecurityRestrictionAction = 'Allow' | 'Deny'
+type IpSecurityRestrictionAction =
+	| 'Allow'
+	| 'Deny'
 
 @export()
 type IpSecurityRestriction = {
@@ -41,7 +51,11 @@ type IpSecurityRestriction = {
 
 @description('Type of Azure Resource Identity.')
 @export()
-type ManagedServiceIdentityType = 'None' | 'SystemAssigned' | 'SystemAssigned,UserAssigned' | 'UserAssigned'
+type ManagedServiceIdentityType =
+	| 'None'
+	| 'SystemAssigned'
+	| 'SystemAssigned,UserAssigned'
+	| 'UserAssigned'
 
 @description('Managed Service Identity via Entra.')
 @export()

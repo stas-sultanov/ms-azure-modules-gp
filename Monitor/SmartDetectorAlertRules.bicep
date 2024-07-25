@@ -33,11 +33,18 @@ param tags object = {}
 /* variables */
 
 var actionGroupInformation = {
-	customWebhookPayload: empty(customWebhookPayload) ? null : customWebhookPayload
-	groupIds: [ Insights_actionGroup_.id ]
+	customWebhookPayload: empty(customWebhookPayload)
+		? null
+		: customWebhookPayload
+	groupIds: [
+		Insights_actionGroup_.id
+	]
 }
 
-var insights_actionGroups__id_split = split(actionGroupId, '/')
+var insights_actionGroups__id_split = split(
+	actionGroupId,
+	'/'
+)
 
 /* existing resources */
 
@@ -47,7 +54,10 @@ resource Insights_components_ 'Microsoft.Insights/components@2020-02-02' existin
 
 resource Insights_actionGroup_ 'Microsoft.Insights/actionGroups@2023-01-01' existing = {
 	name: insights_actionGroups__id_split[8]
-	scope: resourceGroup(insights_actionGroups__id_split[2], insights_actionGroups__id_split[4])
+	scope: resourceGroup(
+		insights_actionGroups__id_split[2],
+		insights_actionGroups__id_split[4]
+	)
 }
 
 /* resources */
@@ -64,7 +74,9 @@ resource alertsManagement_smartDetectorAlertRules_Anomalies 'microsoft.alertsMan
 			id: 'FailureAnomaliesDetector'
 		}
 		frequency: 'PT1M'
-		scope: [ Insights_components_.id ]
+		scope: [
+			Insights_components_.id
+		]
 		severity: 'Sev3'
 		state: 'Enabled'
 	}
@@ -88,7 +100,9 @@ resource alertsManagement_smartDetectorAlertRules_DependencyPerformanceDegradati
 			id: 'DependencyPerformanceDegradationDetector'
 		}
 		frequency: 'PT24H'
-		scope: [ Insights_components_.id ]
+		scope: [
+			Insights_components_.id
+		]
 		severity: 'Sev3'
 		state: 'Enabled'
 	}
@@ -112,7 +126,9 @@ resource alertsManagement_smartDetectorAlertRules_ExceptionVolumeChangedDetector
 			id: 'ExceptionVolumeChangedDetector'
 		}
 		frequency: 'PT24H'
-		scope: [ Insights_components_.id ]
+		scope: [
+			Insights_components_.id
+		]
 		severity: 'Sev3'
 		state: 'Enabled'
 	}
@@ -136,7 +152,9 @@ resource alertsManagement_smartDetectorAlertRules_MemoryLeakDetector 'microsoft.
 			id: 'MemoryLeakDetector'
 		}
 		frequency: 'PT24H'
-		scope: [ Insights_components_.id ]
+		scope: [
+			Insights_components_.id
+		]
 		severity: 'Sev3'
 		state: 'Enabled'
 	}
@@ -160,7 +178,9 @@ resource alertsManagement_smartDetectorAlertRules_RequestPerformanceDegradation 
 			id: 'RequestPerformanceDegradationDetector'
 		}
 		frequency: 'PT24H'
-		scope: [ Insights_components_.id ]
+		scope: [
+			Insights_components_.id
+		]
 		severity: 'Sev3'
 		state: 'Enabled'
 	}
@@ -184,7 +204,9 @@ resource alertsManagement_smartDetectorAlertRules_TraceSeverityDetector 'microso
 			id: 'TraceSeverityDetector'
 		}
 		frequency: 'PT24H'
-		scope: [ Insights_components_.id ]
+		scope: [
+			Insights_components_.id
+		]
 		severity: 'Sev3'
 		state: 'Enabled'
 	}

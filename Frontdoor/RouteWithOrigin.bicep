@@ -14,7 +14,11 @@ targetScope = 'resourceGroup'
 
 @description('Defines how FrontDoor caches requests that include query strings. You can ignore any query strings when caching, ignore specific query strings, cache every request with a unique URL, or cache specific query strings.')
 @export()
-type QueryStringCachingBehavior = 'IgnoreQueryString' | 'IgnoreSpecifiedQueryStrings' | 'IncludeSpecifiedQueryStrings' | 'UseQueryString'
+type QueryStringCachingBehavior =
+	| 'IgnoreQueryString'
+	| 'IgnoreSpecifiedQueryStrings'
+	| 'IncludeSpecifiedQueryStrings'
+	| 'UseQueryString'
 
 @description('The caching configuration for this route.')
 @export()
@@ -124,13 +128,15 @@ resource Cdn_profiles_afdEndpoints_routes_ 'Microsoft.Cdn/profiles/afdEndpoints/
 	name: route.name
 	parent: Cdn_profiles_afdEndpoints_
 	properties: {
-		cacheConfiguration: !cache.cachingEnabled ? null : {
-			compressionSettings: {
-				contentTypesToCompress: cache.contentCompressionTypes
-				isCompressionEnabled: cache.contentCompressionEnabled
-			}
-			queryStringCachingBehavior: cache.cachingQueryStringBehavior
-		}
+		cacheConfiguration: !cache.cachingEnabled
+			? null
+			: {
+					compressionSettings: {
+						contentTypesToCompress: cache.contentCompressionTypes
+						isCompressionEnabled: cache.contentCompressionEnabled
+					}
+					queryStringCachingBehavior: cache.cachingQueryStringBehavior
+				}
 		customDomains: [
 			{
 				id: Cdn_profiles_customDomains_.id

@@ -22,7 +22,10 @@ param Sql_servers__name string
 param Sql_servers_databases_Source_id string = ''
 
 @description('The mode of database creation.')
-@allowed([ 'Default', 'Copy' ])
+@allowed([
+	'Default'
+	'Copy'
+])
 param createMode string = 'Default'
 
 @description('Location to deploy the resources.')
@@ -32,25 +35,23 @@ param location string
 param name string
 
 @description('Specifies the SKU of the sql database.')
-@allowed(
-	[
-		'Basic'
-		'S0'
-		'S1'
-		'S2'
-		'S3'
-		'GP_Gen5_2'
-		'GP_Gen5_4'
-		'GP_Gen5_6'
-		'GP_Gen5_8'
-		'GP_Gen5_10'
-		'GP_S_Gen5_1'
-		'GP_S_Gen5_2'
-		'GP_S_Gen5_4'
-		'GP_S_Gen5_6'
-		'GP_S_Gen5_8'
-	]
-)
+@allowed([
+	'Basic'
+	'S0'
+	'S1'
+	'S2'
+	'S3'
+	'GP_Gen5_2'
+	'GP_Gen5_4'
+	'GP_Gen5_6'
+	'GP_Gen5_8'
+	'GP_Gen5_10'
+	'GP_S_Gen5_1'
+	'GP_S_Gen5_2'
+	'GP_S_Gen5_4'
+	'GP_S_Gen5_6'
+	'GP_S_Gen5_8'
+])
 param sku string = 'Basic'
 
 @description('Tags to put on the resource.')
@@ -64,19 +65,30 @@ var databaseProperties = {
 	}
 	Copy: {
 		createMode: 'Copy'
-		sourceDatabaseId: createMode == 'Default' ? '' : Sql_servers_databases_Source.id
+		sourceDatabaseId: createMode == 'Default'
+			? ''
+			: Sql_servers_databases_Source.id
 	}
 }
 
-var operationalInsights_workspaces__id_split = split(OperationalInsights_workspaces__id, '/')
+var operationalInsights_workspaces__id_split = split(
+	OperationalInsights_workspaces__id,
+	'/'
+)
 
-var sql_servers_databases_Source_id_split = split(Sql_servers_databases_Source_id, '/')
+var sql_servers_databases_Source_id_split = split(
+	Sql_servers_databases_Source_id,
+	'/'
+)
 
 /* existing resources */
 
 resource OperationalInsights_workspaces_ 'Microsoft.OperationalInsights/workspaces@2023-09-01' existing = {
 	name: operationalInsights_workspaces__id_split[8]
-	scope: resourceGroup(operationalInsights_workspaces__id_split[2], operationalInsights_workspaces__id_split[4])
+	scope: resourceGroup(
+		operationalInsights_workspaces__id_split[2],
+		operationalInsights_workspaces__id_split[4]
+	)
 }
 
 resource Sql_servers_ 'Microsoft.Sql/servers@2021-11-01' existing = {
@@ -85,7 +97,10 @@ resource Sql_servers_ 'Microsoft.Sql/servers@2021-11-01' existing = {
 
 resource Sql_servers_databases_Source 'Microsoft.Sql/servers/databases@2021-11-01' existing = if (createMode != 'Default') {
 	name: sql_servers_databases_Source_id_split[8]
-	scope: resourceGroup(sql_servers_databases_Source_id_split[2], sql_servers_databases_Source_id_split[4])
+	scope: resourceGroup(
+		sql_servers_databases_Source_id_split[2],
+		sql_servers_databases_Source_id_split[4]
+	)
 }
 
 /* resources */

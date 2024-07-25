@@ -12,7 +12,9 @@ targetScope = 'resourceGroup'
 
 /* imports */
 
-import { AuthorizationPrincipalInfo } from './../types.bicep'
+import {
+	AuthorizationPrincipalInfo
+} from './../types.bicep'
 
 /* types */
 
@@ -22,7 +24,14 @@ type Authorization = {
 	role: AuthorizationRoleName
 }
 
-type AuthorizationRoleName = 'ApplicationInsightsComponentContributor' | 'ApplicationInsightsSnapshotDebugger' | 'MonitoringContributor' | 'MonitoringMetricsPublisher' | 'MonitoringReader' | 'WorkbookContributor' | 'WorkbookReader'
+type AuthorizationRoleName =
+	| 'ApplicationInsightsComponentContributor'
+	| 'ApplicationInsightsSnapshotDebugger'
+	| 'MonitoringContributor'
+	| 'MonitoringMetricsPublisher'
+	| 'MonitoringReader'
+	| 'WorkbookContributor'
+	| 'WorkbookReader'
 
 /* parameters */
 
@@ -54,21 +63,27 @@ resource Insights_components_ 'Microsoft.Insights/components@2020-02-02' existin
 
 // https://learn.microsoft.com/azure/templates/microsoft.authorization/roleassignments
 resource Authorization_roleAssignments_ 'Microsoft.Authorization/roleAssignments@2022-04-01' = [
-for authorization in authorizationList: {
-	name: guid(
-		subscription().id,
-		Insights_components_.id,
-		roleId[authorization.role],
-		authorization.principal.id
-	)
-	properties: {
-		description: (!contains(authorization, 'description') || empty(authorization.description))
-		 ? '${authorization.role} role for ${(!contains(authorization.principal, 'name') || empty(authorization.principal.name)) ? authorization.principal.id : authorization.principal.name}.'
-		 : authorization.description
-		principalId: authorization.principal.id
-		principalType: authorization.principal.type
-		roleDefinitionId: subscriptionResourceId('Microsoft.Authorization/roleDefinitions', roleId[authorization.role])
+	for authorization in authorizationList: {
+		name: guid(
+			subscription().id,
+			Insights_components_.id,
+			roleId[authorization.role],
+			authorization.principal.id
+		)
+		properties: {
+			description: (!contains(
+					authorization,
+					'description'
+				) || empty(authorization.description))
+				? '${authorization.role} role for ${(!contains(authorization.principal, 'name') || empty(authorization.principal.name)) ? authorization.principal.id : authorization.principal.name}.'
+				: authorization.description
+			principalId: authorization.principal.id
+			principalType: authorization.principal.type
+			roleDefinitionId: subscriptionResourceId(
+				'Microsoft.Authorization/roleDefinitions',
+				roleId[authorization.role]
+			)
+		}
+		scope: Insights_components_
 	}
-	scope: Insights_components_
-}
 ]

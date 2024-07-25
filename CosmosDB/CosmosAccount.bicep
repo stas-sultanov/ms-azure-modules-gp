@@ -84,7 +84,10 @@ var ipRules = {
 	]
 }
 
-var operationalInsights_workspaces__id_split = split(OperationalInsights_workspaces__id, '/')
+var operationalInsights_workspaces__id_split = split(
+	OperationalInsights_workspaces__id,
+	'/'
+)
 
 var restoreParameters = {
 	Default: {}
@@ -99,7 +102,10 @@ var restoreParameters = {
 
 resource OperationalInsights_workspaces_ 'Microsoft.OperationalInsights/workspaces@2023-09-01' existing = {
 	name: operationalInsights_workspaces__id_split[8]
-	scope: resourceGroup(operationalInsights_workspaces__id_split[2], operationalInsights_workspaces__id_split[4])
+	scope: resourceGroup(
+		operationalInsights_workspaces__id_split[2],
+		operationalInsights_workspaces__id_split[4]
+	)
 }
 
 /* resources */
@@ -125,7 +131,8 @@ resource DocumentDB_databaseAccounts_ 'Microsoft.DocumentDB/databaseAccounts@202
 		publicNetworkAccess: publicNetworkAccess
 		restoreParameters: restoreParameters[createMode]
 	}
-	tags: union(tags,
+	tags: union(
+		tags,
 		{
 			capacityMode: capacityMode
 		}

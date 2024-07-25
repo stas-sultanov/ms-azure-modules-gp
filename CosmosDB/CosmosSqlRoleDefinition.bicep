@@ -23,7 +23,11 @@ resource DocumentDB_databaseAccounts_ 'Microsoft.DocumentDB/databaseAccounts@202
 /* resources */
 
 resource CosmosAccount_SqlRoleDefinition 'Microsoft.DocumentDB/databaseAccounts/sqlRoleDefinitions@2024-05-15' = {
-	name: guid(subscription().id, DocumentDB_databaseAccounts_.id, name)
+	name: guid(
+		subscription().id,
+		DocumentDB_databaseAccounts_.id,
+		name
+	)
 	parent: DocumentDB_databaseAccounts_
 	properties: {
 		assignableScopes: [

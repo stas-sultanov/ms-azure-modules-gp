@@ -8,7 +8,9 @@ metadata author = {
 
 /* imports */
 
-import { ManagedServiceIdentity } from './../types.bicep'
+import {
+	ManagedServiceIdentity
+} from './../types.bicep'
 
 /* types */
 
@@ -48,13 +50,19 @@ param tags object
 
 /* variables */
 
-var operationalInsights_workspaces__id_split = split(OperationalInsights_workspaces__id, '/')
+var operationalInsights_workspaces__id_split = split(
+	OperationalInsights_workspaces__id,
+	'/'
+)
 
 /* existing resources */
 
 resource OperationalInsights_Workspace 'Microsoft.OperationalInsights/workspaces@2023-09-01' existing = {
 	name: operationalInsights_workspaces__id_split[8]
-	scope: resourceGroup(operationalInsights_workspaces__id_split[2], operationalInsights_workspaces__id_split[4])
+	scope: resourceGroup(
+		operationalInsights_workspaces__id_split[2],
+		operationalInsights_workspaces__id_split[4]
+	)
 }
 
 /* resources */
@@ -66,17 +74,17 @@ resource DataFactory_factories_ 'Microsoft.DataFactory/factories@2018-06-01' = {
 	name: name
 	properties: {
 		#disable-next-line BCP078
-		repoConfiguration: (repoConfiguration == null) 
-		 ? {} 
-		 : {
-			accountName: repoConfiguration.organizationName
-			collaborationBranch: 'main'
-			disablePublish: true
-			projectName: repoConfiguration.projectName
-			repositoryName: repoConfiguration.repositoryName
-			rootFolder: repoConfiguration.rootFolder
-			type: 'FactoryVSTSConfiguration'
-		}
+		repoConfiguration: (repoConfiguration == null)
+			? {}
+			: {
+					accountName: repoConfiguration.organizationName
+					collaborationBranch: 'main'
+					disablePublish: true
+					projectName: repoConfiguration.projectName
+					repositoryName: repoConfiguration.repositoryName
+					rootFolder: repoConfiguration.rootFolder
+					type: 'FactoryVSTSConfiguration'
+				}
 	}
 	tags: tags
 }
