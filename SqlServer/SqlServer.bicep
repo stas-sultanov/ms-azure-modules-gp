@@ -39,9 +39,6 @@ type EntraPrincipal = {
 
 /* parameters */
 
-@description('Id of the OperationalInsights/Workspace resource.')
-param OperationalInsights_workspaces__id string
-
 @description('Administrator principal.')
 param adminPrincipal EntraPrincipal
 
@@ -64,10 +61,13 @@ param publicNetworkAccess string = 'Disabled'
 @description('Common tags to put on the resource.')
 param tags object
 
+@description('Id of the OperationalInsights/Workspace resource.')
+param workspaceId string
+
 /* variables */
 
 var operationalInsights_workspaces__id_split = split(
-	OperationalInsights_workspaces__id,
+	workspaceId,
 	'/'
 )
 

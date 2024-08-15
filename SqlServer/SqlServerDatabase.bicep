@@ -12,15 +12,6 @@ targetScope = 'resourceGroup'
 
 /* parameters */
 
-@description('Id of the OperationalInsights/Workspace resource.')
-param OperationalInsights_workspaces__id string
-
-@description('Name of the Sql/servers resource.')
-param Sql_servers__name string
-
-@description('Id of the Sql/servers/databases resource which is used by different creation modes.')
-param Sql_servers_databases_Source_id string = ''
-
 @description('The mode of database creation.')
 @allowed([
 	'Default'
@@ -54,8 +45,17 @@ param name string
 ])
 param sku string = 'Basic'
 
+@description('Id of the Sql/servers/databases resource which is used by different creation modes.')
+param sourceDatabaseId string = ''
+
+@description('Name of the Sql/servers resource.')
+param sqlServerName string
+
 @description('Tags to put on the resource.')
 param tags object
+
+@description('Id of the OperationalInsights/Workspace resource.')
+param workspaceId string
 
 /* variables */
 
@@ -72,12 +72,12 @@ var databaseProperties = {
 }
 
 var operationalInsights_workspaces__id_split = split(
-	OperationalInsights_workspaces__id,
+	workspaceId,
 	'/'
 )
 
 var sql_servers_databases_Source_id_split = split(
-	Sql_servers_databases_Source_id,
+	sourceDatabaseId,
 	'/'
 )
 
@@ -92,7 +92,7 @@ resource OperationalInsights_workspaces_ 'Microsoft.OperationalInsights/workspac
 }
 
 resource Sql_servers_ 'Microsoft.Sql/servers@2021-11-01' existing = {
-	name: Sql_servers__name
+	name: sqlServerName
 }
 
 resource Sql_servers_databases_Source 'Microsoft.Sql/servers/databases@2021-11-01' existing = if (createMode != 'Default') {

@@ -12,9 +12,6 @@ targetScope = 'resourceGroup'
 
 /* parameters */
 
-@description('Id of the OperationalInsights/workspaces resource.')
-param OperationalInsights_workspaces__id string
-
 @description('Name of the resource.')
 param name string
 
@@ -25,10 +22,13 @@ param originResponseTimeoutSeconds int
 @description('Tags to put on the resource.')
 param tags object = {}
 
+@description('Id of the OperationalInsights/workspaces resource.')
+param workspaceId string
+
 /* variables */
 
 var operationalInsights_workspaces__id_split = split(
-	OperationalInsights_workspaces__id,
+	workspaceId,
 	'/'
 )
 

@@ -30,9 +30,6 @@ type AzureDevOpsRepoConfiguration = {
 
 /* parameters */
 
-@description('Id of the OperationalInsights/workspaces resource.')
-param OperationalInsights_workspaces__id string
-
 @description('Managed Service Identity.')
 param identity ManagedServiceIdentity
 
@@ -48,10 +45,13 @@ param repoConfiguration AzureDevOpsRepoConfiguration
 @description('Tags to put on the resource.')
 param tags object
 
+@description('Id of the OperationalInsights/workspaces resource.')
+param workspaceId string
+
 /* variables */
 
 var operationalInsights_workspaces__id_split = split(
-	OperationalInsights_workspaces__id,
+	workspaceId,
 	'/'
 )
 
