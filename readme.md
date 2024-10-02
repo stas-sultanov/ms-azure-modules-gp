@@ -7,7 +7,6 @@ Collection of Microsoft Azure Bicep modules.
 The modules are designed to be used for:
 - Azure Bicep templates.
 - general purpose IT solutions.
-- IT solutions, which do not require network isolation.
 
 The modules are designed to create templates to provision full functional environments within Azure for DEVelopment and OPerationS purposes.
 
