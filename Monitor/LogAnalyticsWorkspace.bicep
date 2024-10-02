@@ -103,7 +103,7 @@ resource Insights_diagnosticSettings_ 'Microsoft.Insights/diagnosticSettings@202
 		storageAccountId: Storage_storageAccounts_.id
 		logs: [
 			{
-				category: 'Audit'
+				categoryGroup: 'allLogs'
 				enabled: true
 			}
 		]
