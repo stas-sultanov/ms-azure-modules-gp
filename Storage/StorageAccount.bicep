@@ -128,4 +128,6 @@ output id string = Storage_storageAccounts_.id
 
 output name string = Storage_storageAccounts_.name
 
-output primaryEndpoints object = Storage_storageAccounts_.properties.primaryEndpoints
+output properties object = {
+	primaryEndpoints: Storage_storageAccounts_.properties.primaryEndpoints
+}

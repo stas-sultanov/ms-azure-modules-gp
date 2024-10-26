@@ -263,8 +263,10 @@ resource Web_sites_config__Web 'Microsoft.Web/sites/config@2023-12-01' = {
 
 /* outputs */
 
-output defaultHostName string = Web_sites_.properties.defaultHostName
-
 output id string = Web_sites_.id
 
 output identity object = Web_sites_.identity
+
+output properties object = {
+	defaultHostName: Web_sites_.properties.defaultHostName
+}

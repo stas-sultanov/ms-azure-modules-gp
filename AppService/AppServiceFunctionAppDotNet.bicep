@@ -240,11 +240,7 @@ resource ManagedIdentity_identities_ 'Microsoft.ManagedIdentity/identities@2023-
 	name: 'default'
 }
 
-output webAppIdentityClientId string = ManagedIdentity_identities_.properties.clientId
-
 /* outputs */
-
-output defaultHostName string = Web_sites_.properties.defaultHostName
 
 output id string = Web_sites_.id
 
@@ -254,3 +250,7 @@ output identity object = union(
 		clientId: ManagedIdentity_identities_.?properties.?clientId
 	}
 )
+
+output properties object = {
+	defaultHostName: Web_sites_.properties.defaultHostName
+}

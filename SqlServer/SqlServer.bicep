@@ -169,10 +169,12 @@ resource Sql_servers_firewallRules__AllowPublicNetworkAccess 'Microsoft.Sql/serv
 
 /* outputs */
 
-output fullyQualifiedDomainName string = Sql_servers_.properties.fullyQualifiedDomainName
-
 output id string = Sql_servers_.id
 
 output identity object = Sql_servers_.identity
 
 output name string = Sql_servers_.name
+
+output properties object = {
+	fullyQualifiedDomainName: Sql_servers_.properties.fullyQualifiedDomainName
+}
