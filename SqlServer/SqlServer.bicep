@@ -13,7 +13,7 @@ targetScope = 'resourceGroup'
 /* imports */
 
 import {
-	ManagedServiceIdentity
+	ManagedIdentity
 } from './../types.bicep'
 
 /* types */
@@ -43,7 +43,7 @@ type EntraPrincipal = {
 param adminPrincipal EntraPrincipal
 
 @description('Managed Service Identity.')
-param identity ManagedServiceIdentity
+param identity ManagedIdentity
 
 @description('Location to deploy the resources.')
 param location string

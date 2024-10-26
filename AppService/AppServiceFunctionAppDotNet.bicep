@@ -11,7 +11,7 @@ metadata author = {
 import {
 	DotNetVersion
 	IpSecurityRestriction
-	ManagedServiceIdentity
+	ManagedIdentity
 } from './../types.bicep'
 
 /* types */
@@ -23,9 +23,12 @@ type TlsVersion =
 	| '1.3'
 
 @description('FunctionApp properties.')
-type Properties = {
+type SiteConfig = {
 	@description('OpenApi definition path.')
 	apiDefinition: string?
+
+	@description('Application settings to be used as Environment Variables.')
+	appSettings: object
 
 	@description('List of origins that should be allowed to make cross-origin calls. Use "*" to allow all.')
 	corsAllowedOrigins: string[]
@@ -36,13 +39,10 @@ type Properties = {
 	functionAppScaleLimit: int?
 
 	@description('Health check path.')
-	healthCheckPath: string
+	healthCheckPath: string?
 
 	@description('Allow clients to connect over http2.0')
 	http20Enabled: bool
-
-	@description('HttpsOnly: configures a web site to accept only https requests. Issues redirect for http requests.')
-	httpsOnly: bool
 
 	@description('List of allowed IP addresses.')
 	ipSecurityRestrictions: IpSecurityRestriction[]
@@ -60,13 +60,21 @@ type Properties = {
 	use32BitWorkerProcess: bool
 }
 
+@description('FunctionApp properties.')
+type Properties = {
+	@description('Enable administrative endpoints for functions.')
+	functionsRuntimeAdminIsolationEnabled: bool
+
+	@description('HttpsOnly: configures a web site to accept only https requests. Issues redirect for http requests.')
+	httpsOnly: bool
+
+	siteConfig: SiteConfig
+}
+
 /* parameters */
 
-@description('Application settings to be used as Environment Variables.')
-param appSettings object = {}
-
 @description('Managed Service Identity.')
-param identity ManagedServiceIdentity
+param identity ManagedIdentity
 
 @description('Location to deploy the resources.')
 param location string
@@ -148,6 +156,8 @@ resource Web_sites_ 'Microsoft.Web/sites@2023-12-01' = {
 	location: location
 	name: name
 	properties: {
+		#disable-next-line BCP037 // bicep has only old api
+		functionsRuntimeAdminIsolationEnabled: properties.functionsRuntimeAdminIsolationEnabled
 		httpsOnly: properties.httpsOnly
 		serverFarmId: Web_serverFarms_.id
 		#disable-next-line BCP073 // in API definition this property is read only
@@ -179,7 +189,7 @@ resource Web_sites_config__AppSettings 'Microsoft.Web/sites/config@2023-12-01' =
 	name: 'appsettings'
 	parent: Web_sites_
 	properties: union(
-		appSettings,
+		properties.siteConfig.appSettings,
 		{
 			FUNCTIONS_EXTENSION_VERSION: '~4'
 			FUNCTIONS_WORKER_RUNTIME: 'dotnet-isolated'
@@ -205,24 +215,32 @@ resource Web_sites_config__Web 'Microsoft.Web/sites/config@2023-12-01' = {
 			url: (!contains(
 					properties,
 					'apiDefinition'
-				) || empty(properties.apiDefinition))
+				) || empty(properties.siteConfig.apiDefinition))
 				? null
-				: 'https://${Web_sites_.properties.defaultHostName}${properties.apiDefinition}'
+				: 'https://${Web_sites_.properties.defaultHostName}${properties.siteConfig.apiDefinition}'
 		}
 		cors: {
-			allowedOrigins: properties.corsAllowedOrigins
+			allowedOrigins: properties.siteConfig.corsAllowedOrigins
 		}
 		defaultDocuments: []
 		ftpsState: 'Disabled'
-		functionAppScaleLimit: properties.functionAppScaleLimit
-		healthCheckPath: properties.?healthCheckPath
-		http20Enabled: properties.http20Enabled
-		ipSecurityRestrictions: properties.ipSecurityRestrictions
-		minTlsVersion: properties.minTlsVersion
-		netFrameworkVersion: properties.netFrameworkVersion
-		use32BitWorkerProcess: properties.use32BitWorkerProcess
+		functionAppScaleLimit: properties.siteConfig.functionAppScaleLimit
+		healthCheckPath: properties.siteConfig.?healthCheckPath
+		http20Enabled: properties.siteConfig.http20Enabled
+		ipSecurityRestrictions: properties.siteConfig.ipSecurityRestrictions
+		minTlsVersion: properties.siteConfig.minTlsVersion
+		netFrameworkVersion: properties.siteConfig.netFrameworkVersion
+		remoteDebuggingEnabled: properties.siteConfig.remoteDebuggingEnabled
+		use32BitWorkerProcess: properties.siteConfig.use32BitWorkerProcess
 	}
 }
+
+resource ManagedIdentity_identities_ 'Microsoft.ManagedIdentity/identities@2023-01-31' existing = {
+	scope: Web_sites_
+	name: 'default'
+}
+
+output webAppIdentityClientId string = ManagedIdentity_identities_.properties.clientId
 
 /* outputs */
 
@@ -230,4 +248,9 @@ output defaultHostName string = Web_sites_.properties.defaultHostName
 
 output id string = Web_sites_.id
 
-output identity object = Web_sites_.identity
+output identity object = union(
+	Web_sites_.identity,
+	{
+		clientId: ManagedIdentity_identities_.?properties.?clientId
+	}
+)

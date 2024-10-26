@@ -11,7 +11,7 @@ metadata author = {
 import {
 	DotNetVersion
 	IpSecurityRestriction
-	ManagedServiceIdentity
+	ManagedIdentity
 } from './../types.bicep'
 
 /* types */
@@ -75,7 +75,7 @@ type Parameters = {
 param appSettings object = {}
 
 @description('Managed Service Identity.')
-param identity ManagedServiceIdentity
+param identity ManagedIdentity
 
 @description('Type of site to deploy.')
 @allowed([

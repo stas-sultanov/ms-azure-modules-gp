@@ -51,17 +51,18 @@ type IpSecurityRestriction = {
 
 @description('Type of Azure Resource Identity.')
 @export()
-type ManagedServiceIdentityType =
+type ManagedIdentityType =
 	| 'None'
 	| 'SystemAssigned'
-	| 'SystemAssigned,UserAssigned'
+	| 'SystemAssigned, UserAssigned'
 	| 'UserAssigned'
+	| null
 
 @description('Managed Service Identity via Entra.')
 @export()
-type ManagedServiceIdentity = {
+type ManagedIdentity = {
 	@description('The identity type.')
-	type: ManagedServiceIdentityType
+	type: ManagedIdentityType
 
 	@description('Identifiers of the user assigned identities to use.')
 	userAssignedIdentities: object?

@@ -9,7 +9,7 @@ metadata author = {
 /* imports */
 
 import {
-	ManagedServiceIdentity
+	ManagedIdentity
 } from './../types.bicep'
 
 /* types */
@@ -31,7 +31,7 @@ type AzureDevOpsRepoConfiguration = {
 /* parameters */
 
 @description('Managed Service Identity.')
-param identity ManagedServiceIdentity
+param identity ManagedIdentity
 
 @description('Location to deploy the resources.')
 param location string
