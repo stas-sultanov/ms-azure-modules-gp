@@ -6,10 +6,6 @@ metadata author = {
 	}
 }
 
-/* scope */
-
-targetScope = 'resourceGroup'
-
 /* types */
 
 @description('Defines how FrontDoor caches requests that include query strings. You can ignore any query strings when caching, ignore specific query strings, cache every request with a unique URL, or cache specific query strings.')

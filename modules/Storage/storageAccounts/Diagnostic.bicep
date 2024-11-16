@@ -6,10 +6,6 @@ metadata author = {
 	}
 }
 
-/* scope */
-
-targetScope = 'resourceGroup'
-
 /* parameters */
 
 @description('Name of the Storage/storageAccounts resource.')

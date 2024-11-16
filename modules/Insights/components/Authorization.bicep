@@ -6,16 +6,12 @@ metadata author = {
 	}
 }
 
-/* scope */
-
-targetScope = 'resourceGroup'
-
 /* imports */
 
 import {
 	Authorization
 	ConvertToRoleAssignmentProperties
-} from './../common.bicep'
+} from './../../common.bicep'
 
 /* parameters */
 

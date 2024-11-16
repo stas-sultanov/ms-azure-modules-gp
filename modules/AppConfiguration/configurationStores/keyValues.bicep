@@ -6,10 +6,6 @@ metadata author = {
 	}
 }
 
-/* scope */
-
-targetScope = 'resourceGroup'
-
 /* types */
 
 type KeyValuePair = {

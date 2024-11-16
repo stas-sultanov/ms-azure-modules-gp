@@ -6,10 +6,6 @@ metadata author = {
 	}
 }
 
-/* scope */
-
-targetScope = 'resourceGroup'
-
 /* parameters */
 
 @description('Id of the Insights/actionGroups resource.')

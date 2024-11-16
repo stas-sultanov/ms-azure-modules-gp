@@ -6,10 +6,6 @@
 	}
 }
 
-/* scope */
-
-targetScope = 'resourceGroup'
-
 /* parameters */
 
 @description('The mode of database creation.')

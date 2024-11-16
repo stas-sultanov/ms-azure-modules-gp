@@ -1,4 +1,3 @@
-
 metadata author = {
 	name: 'Stas Sultanov'
 	urls: {

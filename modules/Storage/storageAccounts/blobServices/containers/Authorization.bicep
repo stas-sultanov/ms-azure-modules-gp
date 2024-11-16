@@ -6,10 +6,6 @@ metadata author = {
 	}
 }
 
-/* scope */
-
-targetScope = 'resourceGroup'
-
 /* imports */
 
 import {

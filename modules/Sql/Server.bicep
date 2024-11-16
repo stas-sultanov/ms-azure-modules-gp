@@ -6,10 +6,6 @@
 	}
 }
 
-/* scope */
-
-targetScope = 'resourceGroup'
-
 /* imports */
 
 import {
