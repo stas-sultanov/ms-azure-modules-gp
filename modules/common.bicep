@@ -13,7 +13,7 @@ type Authorization = {
 	description: string?
 	principalId: string
 	principalName: string?
-	principalType: AuthorizationPrincipalType?
+	principalType: AuthorizationPrincipalType
 	roleName: string
 }
 
@@ -33,7 +33,7 @@ func ConvertToRoleAssignmentProperties(
 	map(
 		authorizationList,
 		authorization => {
-			description: authorization.description ?? '${authorization.roleName} role assignment for ${authorization.principalName ?? authorization.principalId}.'
+			description: authorization.?description ?? '${authorization.roleName} role assignment for ${authorization.?principalName ?? authorization.principalId}.'
 			principalId: authorization.principalId
 			principalType: authorization.principalType
 			roleDefinitionId: subscriptionResourceId(
