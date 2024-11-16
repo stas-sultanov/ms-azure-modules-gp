@@ -1,60 +1,46 @@
 {
-	"analyzers":
-	{
-		"core":
-		{
-			"rules":
-			{
-				"no-conflicting-metadata":
-				{
+	"analyzers": {
+		"core": {
+			"rules": {
+				"prefer-unquoted-property-names": {
+					"level": "off"
+				},
+				"no-conflicting-metadata": {
 					"level": "error"
 				},
-				"no-hardcoded-env-urls":
-				{
+				"no-hardcoded-env-urls": {
 					"level": "error"
 				},
-				"no-hardcoded-location":
-				{
+				"no-hardcoded-location": {
 					"level": "error"
 				},
-				"no-loc-expr-outside-params":
-				{
+				"no-loc-expr-outside-params": {
 					"level": "error"
 				},
-				"no-unused-existing-resources":
-				{
+				"no-unused-existing-resources": {
 					"level": "error"
 				},
-				"no-unused-params":
-				{
+				"no-unused-params": {
 					"level": "error"
 				},
-				"no-unused-vars":
-				{
+				"no-unused-vars": {
 					"level": "error"
 				},
-				"use-recent-api-versions":
-				{
+				"use-recent-api-versions": {
 					"level": "error",
 					"maxAgeInDays": 0
 				},
-				"use-resource-id-functions":
-				{
+				"use-resource-id-functions": {
 					"level": "error"
 				},
-				"use-stable-resource-identifiers":
-				{
+				"use-stable-resource-identifiers": {
 					"level": "error"
 				}
 			}
 		}
 	},
-	"experimentalFeaturesEnabled":
-	{
-		"sourceMapping": true
-	},
-	"formatting":
-	{
+	"formatting": {
+		"indentSize": 0,
 		"indentKind": "Tab",
 		"insertFinalNewline": true,
 		"newlineKind": "CRLF",
