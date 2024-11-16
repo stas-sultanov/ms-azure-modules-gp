@@ -10,7 +10,7 @@ metadata author = {
 
 import {
 	ManagedIdentity
-} from './../common.bicep'
+} from './../../common.bicep'
 
 /* types */
 

@@ -15,7 +15,7 @@ targetScope = 'resourceGroup'
 import {
 	Authorization
 	ConvertToRoleAssignmentProperties
-} from './../common.bicep'
+} from './../../common.bicep'
 
 /* parameters */
 
