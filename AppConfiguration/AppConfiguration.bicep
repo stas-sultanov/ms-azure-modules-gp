@@ -47,7 +47,7 @@ resource OperationalInsights_workspaces_ 'Microsoft.OperationalInsights/workspac
 /* resources */
 
 // https://learn.microsoft.com/azure/templates/microsoft.appconfiguration/configurationstores
-resource AppConfiguration_configurationStores_ 'Microsoft.AppConfiguration/configurationStores@2023-03-01' = {
+resource AppConfiguration_configurationStores_ 'Microsoft.AppConfiguration/configurationStores@2024-05-01' = {
 	location: location
 	name: name
 	properties: {

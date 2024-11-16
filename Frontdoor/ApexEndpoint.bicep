@@ -61,7 +61,7 @@ var network_frontDoorWebApplicationFirewallPolicies__id_split = split(
 
 /* existing resources */
 
-resource Cdn_profiles_ 'Microsoft.Cdn/profiles@2024-02-01' existing = {
+resource Cdn_profiles_ 'Microsoft.Cdn/profiles@2024-09-01' existing = {
 	name: Cdn_profiles__name
 }
 
@@ -80,7 +80,7 @@ resource Network_frontDoorWebApplicationFirewallPolicies_ 'Microsoft.Network/Fro
 /* resources */
 
 // https://learn.microsoft.com/azure/templates/microsoft.cdn/profiles/afdendpoints
-resource Cdn_profiles_afdEndpoints_ 'Microsoft.Cdn/profiles/afdEndpoints@2024-02-01' = {
+resource Cdn_profiles_afdEndpoints_ 'Microsoft.Cdn/profiles/afdEndpoints@2024-09-01' = {
 	location: 'global'
 	name: name
 	parent: Cdn_profiles_
@@ -91,7 +91,7 @@ resource Cdn_profiles_afdEndpoints_ 'Microsoft.Cdn/profiles/afdEndpoints@2024-02
 }
 
 // https://learn.microsoft.com/azure/templates/microsoft.cdn/profiles/customdomains
-resource Cdn_profiles_customDomains_ 'Microsoft.Cdn/profiles/customDomains@2024-02-01' = {
+resource Cdn_profiles_customDomains_ 'Microsoft.Cdn/profiles/customDomains@2024-09-01' = {
 	name: cdn_profiles_customDomains__name
 	parent: Cdn_profiles_
 	properties: {
@@ -107,7 +107,7 @@ resource Cdn_profiles_customDomains_ 'Microsoft.Cdn/profiles/customDomains@2024-
 }
 
 // https://learn.microsoft.com/azure/templates/microsoft.cdn/profiles/securitypolicies
-resource Cdn_profiles_securityPolicies_ 'Microsoft.Cdn/profiles/securityPolicies@2024-02-01' = {
+resource Cdn_profiles_securityPolicies_ 'Microsoft.Cdn/profiles/securityPolicies@2024-09-01' = {
 	name: name
 	parent: Cdn_profiles_
 	properties: {

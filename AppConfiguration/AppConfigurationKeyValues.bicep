@@ -27,14 +27,14 @@ param storeName string
 
 /* existing resources */
 
-resource AppConfiguration_configurationStores_ 'Microsoft.AppConfiguration/configurationStores@2023-03-01' existing = {
+resource AppConfiguration_configurationStores_ 'Microsoft.AppConfiguration/configurationStores@2024-05-01' existing = {
 	name: storeName
 }
 
 /* resources */
 
 // https://learn.microsoft.com/azure/templates/microsoft.appconfiguration/configurationstores/keyvalues
-resource AppConfiguration_configurationStores_keyValues_ 'Microsoft.AppConfiguration/configurationStores/keyValues@2023-03-01' = [
+resource AppConfiguration_configurationStores_keyValues_ 'Microsoft.AppConfiguration/configurationStores/keyValues@2024-05-01' = [
 	for keyValuePair in keyValuePairList: {
 		name: keyValuePair.key
 		parent: AppConfiguration_configurationStores_

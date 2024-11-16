@@ -104,16 +104,16 @@ param route RouteSettings
 
 /* existing resources */
 
-resource Cdn_profiles_ 'Microsoft.Cdn/profiles@2024-02-01' existing = {
+resource Cdn_profiles_ 'Microsoft.Cdn/profiles@2024-09-01' existing = {
 	name: Cdn_profiles__name
 }
 
-resource Cdn_profiles_afdEndpoints_ 'Microsoft.Cdn/profiles/afdEndpoints@2024-02-01' existing = {
+resource Cdn_profiles_afdEndpoints_ 'Microsoft.Cdn/profiles/afdEndpoints@2024-09-01' existing = {
 	name: Cdn_profiles_afdEndpoints__name
 	parent: Cdn_profiles_
 }
 
-resource Cdn_profiles_customDomains_ 'Microsoft.Cdn/profiles/customDomains@2024-02-01' existing = {
+resource Cdn_profiles_customDomains_ 'Microsoft.Cdn/profiles/customDomains@2024-09-01' existing = {
 	name: Cdn_profiles_customDomains__name
 	parent: Cdn_profiles_
 }
@@ -121,7 +121,7 @@ resource Cdn_profiles_customDomains_ 'Microsoft.Cdn/profiles/customDomains@2024-
 /* resources */
 
 // https://learn.microsoft.com/azure/templates/microsoft.cdn/profiles/afdendpoints/routes
-resource Cdn_profiles_afdEndpoints_routes_ 'Microsoft.Cdn/profiles/afdEndpoints/routes@2024-02-01' = {
+resource Cdn_profiles_afdEndpoints_routes_ 'Microsoft.Cdn/profiles/afdEndpoints/routes@2024-09-01' = {
 	dependsOn: [
 		Cdn_profiles_originGroups_origins_
 	]
@@ -157,7 +157,7 @@ resource Cdn_profiles_afdEndpoints_routes_ 'Microsoft.Cdn/profiles/afdEndpoints/
 }
 
 // https://learn.microsoft.com/azure/templates/microsoft.cdn/profiles/origingroups
-resource Cdn_profiles_originGroups_ 'Microsoft.Cdn/profiles/originGroups@2024-02-01' = {
+resource Cdn_profiles_originGroups_ 'Microsoft.Cdn/profiles/originGroups@2024-09-01' = {
 	name: originGroup.name
 	parent: Cdn_profiles_
 	properties: {
@@ -176,7 +176,7 @@ resource Cdn_profiles_originGroups_ 'Microsoft.Cdn/profiles/originGroups@2024-02
 }
 
 // https://learn.microsoft.com/azure/templates/microsoft.cdn/profiles/origingroups/origins
-resource Cdn_profiles_originGroups_origins_ 'Microsoft.Cdn/profiles/originGroups/origins@2024-02-01' = {
+resource Cdn_profiles_originGroups_origins_ 'Microsoft.Cdn/profiles/originGroups/origins@2024-09-01' = {
 	name: origin.name
 	parent: Cdn_profiles_originGroups_
 	properties: {

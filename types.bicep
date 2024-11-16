@@ -9,10 +9,12 @@ metadata author = {
 /* types */
 
 @export()
-type AuthorizationPrincipalInfo = {
-	id: string
-	name: string?
-	type: AuthorizationPrincipalType?
+type Authorization = {
+	description: string?
+	principalId: string
+	principalName: string?
+	principalType: AuthorizationPrincipalType?
+	roleName: string
 }
 
 @export()
@@ -29,6 +31,7 @@ type DotNetVersion =
 	| 'v6.0'
 	| 'v7.0'
 	| 'v8.0'
+	| 'v9.0'
 
 type IpSecurityRestrictionAction =
 	| 'Allow'
@@ -52,11 +55,9 @@ type IpSecurityRestriction = {
 @description('Type of Azure Resource Identity.')
 @export()
 type ManagedIdentityType =
-	| 'None'
 	| 'SystemAssigned'
-	| 'SystemAssigned, UserAssigned'
+	| 'SystemAssigned,UserAssigned'
 	| 'UserAssigned'
-	| null
 
 @description('Managed Service Identity via Entra.')
 @export()
