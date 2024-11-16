@@ -25,7 +25,6 @@ Application Insights | Microsoft.Insights/components
 Bot | Microsoft.BotService/botServices
 Cosmos DB | Microsoft.DocumentDB/databaseAccounts
 DataFactory | Microsoft.DataFactory/factories
-DnsZone | Microsoft.Network/dnsZones
 Function | Microsoft.Web/sites
 LogAnalytics workspace | Microsoft.OperationalInsights/workspaces
 SQL Server | Microsoft.Sql/servers
