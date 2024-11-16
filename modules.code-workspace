@@ -1,0 +1,35 @@
+{
+	"folders": [
+		{
+			"path": "."
+		}
+	],
+	"settings": {
+		"editor.detectIndentation": false,
+		"editor.tabSize": 4,
+		"editor.insertSpaces": false,
+		"[bicep]": {
+			"editor.tabSize": 4,
+			"editor.insertSpaces": false,
+			"editor.suggestSelection": "first",
+			"editor.suggest.snippetsPreventQuickSuggestions": false,
+			"editor.suggest.showWords": false,
+			"files.insertFinalNewline": true
+		},
+		"cSpell.enableFiletypes": [
+			"bicep"
+		],
+		"cSpell.words": [
+			"appsettings",
+			"Autoscale",
+			"azurebot",
+			"dnsauth",
+			"Entra",
+			"functionapp",
+			"serverfarms",
+			"Stas",
+			"Sultanov",
+			"VSTS"
+		]
+	}
+}
