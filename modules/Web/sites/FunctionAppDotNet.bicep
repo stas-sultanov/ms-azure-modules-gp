@@ -213,6 +213,8 @@ output identity object = union(
 	}
 )
 
+output name string = Web_sites_.name
+
 output properties object = {
 	defaultHostName: Web_sites_.properties.defaultHostName
 }

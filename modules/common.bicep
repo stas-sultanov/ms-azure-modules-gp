@@ -53,6 +53,7 @@ type RoleAssignmentProperties = {
 @export()
 @description('dotNet Framework version.')
 type DotNetVersion =
+	| 'v4.0'
 	| 'v6.0'
 	| 'v7.0'
 	| 'v8.0'
