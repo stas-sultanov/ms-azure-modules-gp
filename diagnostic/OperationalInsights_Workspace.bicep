@@ -41,7 +41,7 @@ resource OperationalInsights_workspaces_ 'Microsoft.OperationalInsights/workspac
 // https://learn.microsoft.com/azure/templates/microsoft.insights/diagnosticsettings
 #disable-next-line use-recent-api-versions
 resource Insights_diagnosticSettings_ 'Microsoft.Insights/diagnosticSettings@2021-05-01-preview' = {
-	name: 'Storage'
+	name: Storage_storageAccounts_.name
 	properties: {
 		storageAccountId: Storage_storageAccounts_.id
 		logs: [

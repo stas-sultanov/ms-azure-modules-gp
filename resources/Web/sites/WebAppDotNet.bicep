@@ -137,7 +137,7 @@ resource Web_serverFarms_ 'Microsoft.Web/serverfarms@2024-04-01' existing = {
 // https://learn.microsoft.com/azure/templates/microsoft.insights/diagnosticsettings
 #disable-next-line use-recent-api-versions
 resource Insights_diagnosticSettings_ 'Microsoft.Insights/diagnosticSettings@2021-05-01-preview' = {
-	name: 'Log Analytics'
+	name: OperationalInsights_workspaces_.name
 	properties: {
 		logAnalyticsDestinationType: 'Dedicated'
 		logs: [

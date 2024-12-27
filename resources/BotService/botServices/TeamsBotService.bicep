@@ -168,7 +168,7 @@ resource BotService_botServices_channels_WebChatChannel 'Microsoft.BotService/bo
 // https://learn.microsoft.com/azure/templates/microsoft.insights/diagnosticsettings
 #disable-next-line use-recent-api-versions
 resource Insights_diagnosticSetting_ 'Microsoft.Insights/diagnosticSettings@2021-05-01-preview' = {
-	name: 'Log Analytics'
+	name: OperationalInsights_workspaces_.name
 	properties: {
 		logAnalyticsDestinationType: 'Dedicated'
 		logs: [

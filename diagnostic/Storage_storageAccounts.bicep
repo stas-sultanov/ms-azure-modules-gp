@@ -40,7 +40,7 @@ resource Storage_storageAccounts_ 'Microsoft.Storage/storageAccounts@2023-05-01'
 // https://learn.microsoft.com/azure/templates/microsoft.insights/diagnosticsettings
 #disable-next-line use-recent-api-versions
 resource Insights_diagnosticSettings_Storage_storageAccounts_ 'Microsoft.Insights/diagnosticSettings@2021-05-01-preview' = {
-	name: 'Log Analytics'
+	name: OperationalInsights_workspaces_.name
 	properties: {
 		logAnalyticsDestinationType: 'Dedicated'
 		metrics: [
