@@ -9,7 +9,7 @@ metadata author = {
 /* types */
 
 @export()
-type Authorization = {
+type RoleAssignment = {
 	description: string?
 	principalId: string
 	principalName: string?
@@ -27,7 +27,7 @@ type AuthorizationPrincipalType =
 
 @export()
 func ConvertToRoleAssignmentProperties(
-	authorizations Authorization[],
+	authorizations RoleAssignment[],
 	roleIdDictionary object
 ) RoleAssignmentProperties[] =>
 	map(

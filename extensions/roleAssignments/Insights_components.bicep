@@ -9,31 +9,31 @@ metadata author = {
 /* imports */
 
 import {
-	Authorization
+	RoleAssignment
 	ConvertToRoleAssignmentProperties
 } from 'common.bicep'
 
 /* parameters */
 
-@description('Collection of authorizations.')
-param authorizations Authorization[]
+@description('Collection of roles assignments.')
+param assignments RoleAssignment[]
 
-@description('Name of the Microsoft.DocumentDB/databaseAccounts resource.')
+@description('Name of the Microsoft.Insights/components resource.')
 param name string
 
 /* variables */
 
+/* variables */
+
 var roleIdDictionary = {
-	'Cosmos DB Account Reader Role': 'fbdf93bf-df7d-467e-a4d2-9458aa1360c8'
-	'Cosmos DB Operator': '230815da-be43-4aae-9cb4-875f7bd000aa'
-	'CosmosBackupOperator': '5432c526-bc82-444a-b7ba-57c5b0b5b34f'
-	'CosmosRestoreOperator': '5432c526-bc82-444a-b7ba-57c5b0b5b34f'
-	'DocumentDB Account Contributor': '5bd9cd88-fe45-4216-938b-f97437e15450'
+	'Application Insights Component Contributor': 'ae349356-3a1b-4a5e-921d-050484c6347e'
+	'Application Insights Snapshot Debugger': '08954f03-6346-4c2e-81c0-ec3a5cfae23b'
+	'Monitoring Metrics Publisher': '3913510d-42f4-4e42-8a64-420c390055eb'
 }
 
 /* existing resources */
 
-resource DocumentDB_databaseAccounts_ 'Microsoft.DocumentDB/databaseAccounts@2024-11-15' existing = {
+resource Insights_components_ 'Microsoft.Insights/components@2020-02-02' existing = {
 	name: name
 }
 
@@ -42,15 +42,15 @@ resource DocumentDB_databaseAccounts_ 'Microsoft.DocumentDB/databaseAccounts@202
 // https://learn.microsoft.com/azure/templates/microsoft.authorization/roleassignments
 resource Authorization_roleAssignments_ 'Microsoft.Authorization/roleAssignments@2022-04-01' = [
 	for authorization in ConvertToRoleAssignmentProperties(
-		authorizations,
+		assignments,
 		roleIdDictionary
 	): {
 		name: guid(
-			DocumentDB_databaseAccounts_.id,
+			Insights_components_.id,
 			authorization.principalId,
 			authorization.roleDefinitionId
 		)
 		properties: authorization
-		scope: DocumentDB_databaseAccounts_
+		scope: Insights_components_
 	}
 ]

@@ -9,14 +9,14 @@ metadata author = {
 /* imports */
 
 import {
-	Authorization
+	RoleAssignment
 	ConvertToRoleAssignmentProperties
 } from 'common.bicep'
 
 /* parameters */
 
-@description('Collection of authorizations.')
-param authorizations Authorization[]
+@description('Collection of roles assignments.')
+param assignments RoleAssignment[]
 
 @description('Name of the Microsoft.AppConfiguration/configurationStores resource.')
 param name string
@@ -40,16 +40,16 @@ resource AppConfiguration_configurationStores_ 'Microsoft.AppConfiguration/confi
 
 // https://learn.microsoft.com/azure/templates/microsoft.authorization/roleassignments
 resource Authorization_roleAssignments_ 'Microsoft.Authorization/roleAssignments@2022-04-01' = [
-	for authorization in ConvertToRoleAssignmentProperties(
-		authorizations,
+	for roleAssignment in ConvertToRoleAssignmentProperties(
+		assignments,
 		roleIdDictionary
 	): {
 		name: guid(
 			AppConfiguration_configurationStores_.id,
-			authorization.principalId,
-			authorization.roleDefinitionId
+			roleAssignment.principalId,
+			roleAssignment.roleDefinitionId
 		)
-		properties: authorization
+		properties: roleAssignment
 		scope: AppConfiguration_configurationStores_
 	}
 ]
