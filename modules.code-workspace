@@ -5,7 +5,6 @@
 		}
 	],
 	"settings": {
-		"editor.detectIndentation": false,
 		"editor.tabSize": 4,
 		"editor.insertSpaces": false,
 		"[bicep]": {
@@ -30,6 +29,8 @@
 			"Stas",
 			"Sultanov",
 			"VSTS"
-		]
+		],
+		"explorer.sortOrderLexicographicOptions": "unicode",
+		"editor.renderWhitespace": "all"
 	}
 }
