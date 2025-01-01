@@ -55,9 +55,6 @@ type SiteConfig = {
 
 	@description('true if remote debugging is enabled; otherwise, false.')
 	remoteDebuggingEnabled: bool
-
-	@description('true to use 32-bit worker process; otherwise, false')
-	use32BitWorkerProcess: bool
 }
 
 @description('FunctionApp properties.')
@@ -193,7 +190,6 @@ resource Web_sites_config__Web 'Microsoft.Web/sites/config@2024-04-01' = {
 		minTlsVersion: properties.siteConfig.minTlsVersion
 		netFrameworkVersion: properties.siteConfig.netFrameworkVersion
 		remoteDebuggingEnabled: properties.siteConfig.remoteDebuggingEnabled
-		use32BitWorkerProcess: properties.siteConfig.use32BitWorkerProcess
 	}
 }
 
