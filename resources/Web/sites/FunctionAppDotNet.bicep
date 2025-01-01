@@ -190,6 +190,7 @@ resource Web_sites_config__Web 'Microsoft.Web/sites/config@2024-04-01' = {
 		minTlsVersion: properties.siteConfig.minTlsVersion
 		netFrameworkVersion: properties.siteConfig.netFrameworkVersion
 		remoteDebuggingEnabled: properties.siteConfig.remoteDebuggingEnabled
+		use32BitWorkerProcess: false
 	}
 }
 
