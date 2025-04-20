@@ -237,9 +237,9 @@ resource Web_sites_config__Web 'Microsoft.Web/sites/config@2024-04-01' = {
 			url: (!contains(
 					parameters,
 					'apiDefinition'
-				) || empty(parameters.apiDefinition))
+				) || empty(parameters.?apiDefinition))
 				? null
-				: 'https://${Web_sites_.properties.defaultHostName}${parameters.apiDefinition}'
+				: 'https://${Web_sites_.properties.defaultHostName}${parameters.?apiDefinition}'
 		}
 		cors: {
 			allowedOrigins: parameters.corsAllowedOrigins

@@ -63,7 +63,7 @@ type RouteSettings = {
 	@description('The unique name of the Route within the CDN profile.')
 	name: string
 
-	@description('A  path on the Origin to retrieve content from, e.g. contoso.cloudapp.net/originpath.')
+	@description('A  path on the Origin to retrieve content from.')
 	originPath: string
 
 	@description('The route patterns of the rule.')

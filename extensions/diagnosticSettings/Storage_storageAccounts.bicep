@@ -31,7 +31,7 @@ resource OperationalInsights_workspaces_ 'Microsoft.OperationalInsights/workspac
 	)
 }
 
-resource Storage_storageAccounts_ 'Microsoft.Storage/storageAccounts@2023-05-01' existing = {
+resource Storage_storageAccounts_ 'Microsoft.Storage/storageAccounts@2024-01-01' existing = {
 	name: name
 }
 

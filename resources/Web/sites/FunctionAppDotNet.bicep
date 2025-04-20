@@ -174,7 +174,7 @@ resource Web_sites_config__Web 'Microsoft.Web/sites/config@2024-04-01' = {
 			url: (!contains(
 					properties,
 					'apiDefinition'
-				) || empty(properties.siteConfig.apiDefinition))
+				) || empty(properties.siteConfig.?apiDefinition))
 				? null
 				: 'https://${Web_sites_.properties.defaultHostName}${properties.siteConfig.apiDefinition}'
 		}
@@ -183,7 +183,7 @@ resource Web_sites_config__Web 'Microsoft.Web/sites/config@2024-04-01' = {
 		}
 		defaultDocuments: []
 		ftpsState: 'Disabled'
-		functionAppScaleLimit: properties.siteConfig.functionAppScaleLimit
+		functionAppScaleLimit: properties.siteConfig.?functionAppScaleLimit
 		healthCheckPath: properties.siteConfig.?healthCheckPath
 		http20Enabled: properties.siteConfig.http20Enabled
 		ipSecurityRestrictions: properties.siteConfig.ipSecurityRestrictions
@@ -194,7 +194,7 @@ resource Web_sites_config__Web 'Microsoft.Web/sites/config@2024-04-01' = {
 	}
 }
 
-resource ManagedIdentity_identities_ 'Microsoft.ManagedIdentity/identities@2023-01-31' existing = {
+resource ManagedIdentity_identities_ 'Microsoft.ManagedIdentity/identities@2024-11-30' existing = {
 	scope: Web_sites_
 	name: 'default'
 }

@@ -229,9 +229,9 @@ resource Insights_components_ProactiveDetectionConfig_MigrationToAlertRulesCompl
 	name: 'migrationToAlertRulesCompleted'
 	parent: Insights_components_
 	properties: {
-		CustomEmails: []
-		Enabled: true
-		RuleDefinitions: null
-		SendEmailsToSubscriptionOwners: false
+		customEmails: []
+		enabled: true
+		ruleDefinitions: null
+		sendEmailsToSubscriptionOwners: false
 	}
 }
