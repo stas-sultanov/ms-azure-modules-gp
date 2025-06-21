@@ -57,7 +57,7 @@ var network_frontDoorWebApplicationFirewallPolicies__id_split = split(
 
 /* existing resources */
 
-resource Cdn_profiles_ 'Microsoft.Cdn/profiles@2024-09-01' existing = {
+resource Cdn_profiles_ 'Microsoft.Cdn/profiles@2025-04-15' existing = {
 	name: Cdn_profiles__name
 }
 
@@ -65,7 +65,7 @@ resource Network_dnsZones_ 'Microsoft.Network/dnsZones@2018-05-01' existing = {
 	name: Network_dnsZones__name
 }
 
-resource Network_frontDoorWebApplicationFirewallPolicies_ 'Microsoft.Network/FrontDoorWebApplicationFirewallPolicies@2024-02-01' existing = {
+resource Network_frontDoorWebApplicationFirewallPolicies_ 'Microsoft.Network/FrontDoorWebApplicationFirewallPolicies@2025-03-01' existing = {
 	name: network_frontDoorWebApplicationFirewallPolicies__id_split[8]
 	scope: resourceGroup(
 		network_frontDoorWebApplicationFirewallPolicies__id_split[2],
@@ -76,7 +76,7 @@ resource Network_frontDoorWebApplicationFirewallPolicies_ 'Microsoft.Network/Fro
 /* resources */
 
 // https://learn.microsoft.com/azure/templates/microsoft.cdn/profiles/afdendpoints
-resource Cdn_profiles_afdEndpoints_ 'Microsoft.Cdn/profiles/afdEndpoints@2024-09-01' = {
+resource Cdn_profiles_afdEndpoints_ 'Microsoft.Cdn/profiles/afdEndpoints@2025-04-15' = {
 	location: 'global'
 	name: name
 	parent: Cdn_profiles_
@@ -87,7 +87,7 @@ resource Cdn_profiles_afdEndpoints_ 'Microsoft.Cdn/profiles/afdEndpoints@2024-09
 }
 
 // https://learn.microsoft.com/azure/templates/microsoft.cdn/profiles/customdomains
-resource Cdn_profiles_customDomains_ 'Microsoft.Cdn/profiles/customDomains@2024-09-01' = {
+resource Cdn_profiles_customDomains_ 'Microsoft.Cdn/profiles/customDomains@2025-04-15' = {
 	name: cdn_profiles_customDomains__name
 	parent: Cdn_profiles_
 	properties: {
@@ -103,7 +103,7 @@ resource Cdn_profiles_customDomains_ 'Microsoft.Cdn/profiles/customDomains@2024-
 }
 
 // https://learn.microsoft.com/azure/templates/microsoft.cdn/profiles/securitypolicies
-resource Cdn_profiles_securityPolicies_ 'Microsoft.Cdn/profiles/securityPolicies@2024-09-01' = {
+resource Cdn_profiles_securityPolicies_ 'Microsoft.Cdn/profiles/securityPolicies@2025-04-15' = {
 	name: name
 	parent: Cdn_profiles_
 	properties: {

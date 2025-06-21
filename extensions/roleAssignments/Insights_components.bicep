@@ -23,8 +23,6 @@ param name string
 
 /* variables */
 
-/* variables */
-
 var roleIdDictionary = {
 	'Application Insights Component Contributor': 'ae349356-3a1b-4a5e-921d-050484c6347e'
 	'Application Insights Snapshot Debugger': '08954f03-6346-4c2e-81c0-ec3a5cfae23b'

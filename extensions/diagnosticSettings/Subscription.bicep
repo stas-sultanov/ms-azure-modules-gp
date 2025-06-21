@@ -24,7 +24,7 @@ var operationalInsights_workspaces__id_split = split(
 
 /* existing resources */
 
-resource OperationalInsights_workspaces_ 'Microsoft.OperationalInsights/workspaces@2023-09-01' existing = {
+resource OperationalInsights_workspaces_ 'Microsoft.OperationalInsights/workspaces@2025-02-01' existing = {
 	name: operationalInsights_workspaces__id_split[8]
 	scope: resourceGroup(
 		operationalInsights_workspaces__id_split[2],

@@ -32,7 +32,7 @@ var roleIdDictionary = {
 
 /* existing resources */
 
-resource AppConfiguration_configurationStores_ 'Microsoft.AppConfiguration/configurationStores@2024-05-01' existing = {
+resource AppConfiguration_configurationStores_ 'Microsoft.AppConfiguration/configurationStores@2024-06-01' existing = {
 	name: name
 }
 

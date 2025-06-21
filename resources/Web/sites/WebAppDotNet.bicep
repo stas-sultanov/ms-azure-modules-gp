@@ -116,7 +116,7 @@ var web_serverfarms__id_split = split(
 
 /* existing resources */
 
-resource OperationalInsights_workspaces_ 'Microsoft.OperationalInsights/workspaces@2023-09-01' existing = {
+resource OperationalInsights_workspaces_ 'Microsoft.OperationalInsights/workspaces@2025-02-01' existing = {
 	name: operationalInsights_workspaces__id_split[8]
 	scope: resourceGroup(
 		operationalInsights_workspaces__id_split[2],
@@ -124,7 +124,7 @@ resource OperationalInsights_workspaces_ 'Microsoft.OperationalInsights/workspac
 	)
 }
 
-resource Web_serverFarms_ 'Microsoft.Web/serverfarms@2024-04-01' existing = {
+resource Web_serverFarms_ 'Microsoft.Web/serverfarms@2024-11-01' existing = {
 	name: web_serverfarms__id_split[8]
 	scope: resourceGroup(
 		web_serverfarms__id_split[2],
@@ -178,7 +178,7 @@ resource Insights_diagnosticSettings_ 'Microsoft.Insights/diagnosticSettings@202
 }
 
 // https://learn.microsoft.com/azure/templates/microsoft.web/sites
-resource Web_sites_ 'Microsoft.Web/sites@2024-04-01' = {
+resource Web_sites_ 'Microsoft.Web/sites@2024-11-01' = {
 	identity: identity
 	kind: kind
 	location: location
@@ -194,7 +194,7 @@ resource Web_sites_ 'Microsoft.Web/sites@2024-04-01' = {
 }
 
 // https://learn.microsoft.com/azure/templates/microsoft.web/sites/basicpublishingcredentialspolicies-ftp
-resource Web_sites_basicPublishingCredentialsPolicies__FTP 'Microsoft.Web/sites/basicPublishingCredentialsPolicies@2024-04-01' = {
+resource Web_sites_basicPublishingCredentialsPolicies__FTP 'Microsoft.Web/sites/basicPublishingCredentialsPolicies@2024-11-01' = {
 	name: 'ftp'
 	parent: Web_sites_
 	properties: {
@@ -203,7 +203,7 @@ resource Web_sites_basicPublishingCredentialsPolicies__FTP 'Microsoft.Web/sites/
 }
 
 // https://learn.microsoft.com/azure/templates/microsoft.web/sites/basicpublishingcredentialspolicies-scm
-resource Web_sites_basicPublishingCredentialsPolicies__SCM 'Microsoft.Web/sites/basicPublishingCredentialsPolicies@2024-04-01' = {
+resource Web_sites_basicPublishingCredentialsPolicies__SCM 'Microsoft.Web/sites/basicPublishingCredentialsPolicies@2024-11-01' = {
 	name: 'scm'
 	parent: Web_sites_
 	properties: {
@@ -212,14 +212,14 @@ resource Web_sites_basicPublishingCredentialsPolicies__SCM 'Microsoft.Web/sites/
 }
 
 // https://learn.microsoft.com/azure/templates/microsoft.web/sites/config-appsettings
-resource Web_sites_config__AppSettings 'Microsoft.Web/sites/config@2024-04-01' = {
+resource Web_sites_config__AppSettings 'Microsoft.Web/sites/config@2024-11-01' = {
 	name: 'appsettings'
 	parent: Web_sites_
 	properties: appSettings
 }
 
 // https://learn.microsoft.com/azure/templates/microsoft.web/sites/config-metadata
-resource Web_sites_config__Metadata 'Microsoft.Web/sites/config@2024-04-01' = {
+resource Web_sites_config__Metadata 'Microsoft.Web/sites/config@2024-11-01' = {
 	name: 'metadata'
 	parent: Web_sites_
 	properties: {
@@ -228,7 +228,7 @@ resource Web_sites_config__Metadata 'Microsoft.Web/sites/config@2024-04-01' = {
 }
 
 // https://learn.microsoft.com/azure/templates/microsoft.web/sites/config-web
-resource Web_sites_config__Web 'Microsoft.Web/sites/config@2024-04-01' = {
+resource Web_sites_config__Web 'Microsoft.Web/sites/config@2024-11-01' = {
 	name: 'web'
 	parent: Web_sites_
 	properties: {

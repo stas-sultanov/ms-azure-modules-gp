@@ -34,7 +34,7 @@ resource Storage_storageAccounts_ 'Microsoft.Storage/storageAccounts@2024-01-01'
 /* resources */
 
 // https://learn.microsoft.com/azure/templates/microsoft.operationalinsights/workspaces
-resource OperationalInsights_workspaces_ 'Microsoft.OperationalInsights/workspaces@2023-09-01' existing = {
+resource OperationalInsights_workspaces_ 'Microsoft.OperationalInsights/workspaces@2025-02-01' existing = {
 	name: name
 }
 

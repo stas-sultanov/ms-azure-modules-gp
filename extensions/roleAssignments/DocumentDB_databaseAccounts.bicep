@@ -33,7 +33,7 @@ var roleIdDictionary = {
 
 /* existing resources */
 
-resource DocumentDB_databaseAccounts_ 'Microsoft.DocumentDB/databaseAccounts@2024-11-15' existing = {
+resource DocumentDB_databaseAccounts_ 'Microsoft.DocumentDB/databaseAccounts@2025-04-15' existing = {
 	name: name
 }
 
