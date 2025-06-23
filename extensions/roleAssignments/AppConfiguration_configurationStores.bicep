@@ -9,8 +9,9 @@ metadata author = {
 /* imports */
 
 import {
-	RoleAssignment
 	ConvertToRoleAssignmentProperties
+	RoleAssignment
+	StandardRoleDictionary
 } from 'common.bicep'
 
 /* parameters */
@@ -23,12 +24,15 @@ param name string
 
 /* variables */
 
-var roleIdDictionary = {
-	'App Configuration Contributor': 'fe86443c-f201-4fc4-9d2a-ac61149fbda0'
-	'App Configuration Data Owner': '5ae67dd6-50cb-40e7-96ff-dc2bfa4b606b'
-	'App Configuration Data Reader': '516239f1-63e1-4d78-a4de-a74fb236a071'
-	'App Configuration Reader': '175b81b9-6e0d-490a-85e4-0d422273c10c'
-}
+var roleIdDictionary = union(
+	StandardRoleDictionary,
+	{
+		'App Configuration Contributor': 'fe86443c-f201-4fc4-9d2a-ac61149fbda0'
+		'App Configuration Data Owner': '5ae67dd6-50cb-40e7-96ff-dc2bfa4b606b'
+		'App Configuration Data Reader': '516239f1-63e1-4d78-a4de-a74fb236a071'
+		'App Configuration Reader': '175b81b9-6e0d-490a-85e4-0d422273c10c'
+	}
+)
 
 /* existing resources */
 

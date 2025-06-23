@@ -9,8 +9,8 @@ metadata author = {
 /* imports */
 
 import {
-	RoleAssignment
 	ConvertToRoleAssignmentProperties
+	RoleAssignment
 } from 'common.bicep'
 
 /* parameters */

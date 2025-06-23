@@ -11,7 +11,6 @@ metadata author = {
 import {
 	ConvertToRoleAssignmentProperties
 	RoleAssignment
-	StandardRoleDictionary
 } from 'common.bicep'
 
 /* parameters */
@@ -19,24 +18,25 @@ import {
 @description('Collection of roles assignments.')
 param assignments RoleAssignment[]
 
-@description('Name of the Microsoft.Insights/components resource.')
-param name string
+@description('Name of the Microsoft.Network/virtualNetworks resource.')
+param virtualNetworkName string
+
+@description('Name of the Microsoft.Network/virtualNetworks/subnets resource.')
+param virtualNetworkSubnetName string
 
 /* variables */
 
-var roleIdDictionary = union(
-	StandardRoleDictionary,
-	{
-		'Application Insights Component Contributor': 'ae349356-3a1b-4a5e-921d-050484c6347e'
-		'Application Insights Snapshot Debugger': '08954f03-6346-4c2e-81c0-ec3a5cfae23b'
-		'Monitoring Metrics Publisher': '3913510d-42f4-4e42-8a64-420c390055eb'
-	}
-)
+var roleIdDictionary = {
+	'Network Contributor': '4d97b98b-1d4f-4787-a291-c67834d212e7'
+}
 
 /* existing resources */
 
-resource Insights_components_ 'Microsoft.Insights/components@2020-02-02' existing = {
-	name: name
+resource Network_virtualNetworks_ 'Microsoft.Network/virtualNetworks@2024-07-01' existing = {
+	name: virtualNetworkName
+	resource subnets_ 'subnets' existing = {
+		name: virtualNetworkSubnetName
+	}
 }
 
 /* resources */
@@ -48,11 +48,11 @@ resource Authorization_roleAssignments_ 'Microsoft.Authorization/roleAssignments
 		roleIdDictionary
 	): {
 		name: guid(
-			Insights_components_.id,
+			Network_virtualNetworks_::subnets_.id,
 			authorization.principalId,
 			authorization.roleDefinitionId
 		)
 		properties: authorization
-		scope: Insights_components_
+		scope: Network_virtualNetworks_::subnets_
 	}
 ]
